@@ -29,17 +29,7 @@ class Profile(models.Model):
     def save_user_profile(sender, instance, **kwargs):
         instance.profile.save()
 
-class Channel(models.Model):
-    title = models.CharField(null=False, blank=False,
-                             max_length=50, default="title here")
-    location = models.IntegerField(default=95818) # TODO: change this
-    # to better location system
 
-class Post(models.Model):
-    creater = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE
-    )
 
 class Event(models.Model):
     title = models.CharField(null=False, blank=False,
