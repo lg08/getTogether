@@ -10,22 +10,19 @@
     <div class="container">
         <center><h1>GetTogether</h1></center>
         <h3>Main Feed</h3>
-        <ul>
-            <div class="card-columns">
-                {% for post in posts %}
-                    <div class="card">
-                        <!-- for images -->
-                        <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
-                        <div class="card-body">
-                            <h5 class="card-title">{{ post.title }}</h5>
-                            <p class="card-text">{{ post.message }}</p>
-                        </div>
+        <div class="card-columns">
+            {% for post in posts %}
+                <div class="card">
+                    <!-- for images -->
+                    <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        <p class="card-text">{{ post.message }}</p>
                     </div>
-                {% endfor %}
+                </div>
+            {% endfor %}
 
-            </div>
-
-        </ul>
+        </div>
         <div class="g-signin2" data-onsuccess="onSignIn"></div>
     </div>
 {% endblock %}
