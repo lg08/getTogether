@@ -27,6 +27,7 @@ urlpatterns = [
     path('users/', include('users.urls', namespace='users')),
     path('users/', include('django.contrib.auth.urls')),
     path('', views.HomePage.as_view(), name='home'),
+    path('channels/', include('channels.urls', namespace='channels')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
