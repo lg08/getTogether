@@ -26,6 +26,7 @@ def create_channel(request):
                 new_channel = Channel()
                 new_channel.title = form.cleaned_data['title']
                 new_channel.location = form.cleaned_data['location']
+                new_channel.save()  # have to keep this here to add the member
                 new_channel.members.add(request.user)
                 new_channel.save()
 
@@ -53,6 +54,18 @@ def create_channel(request):
         )
 
 
+def channel_posts(request, channel_pk):
+    this_channel = get_object_or_404(Channel, pk=channel_pk)
+    all_channel_posts = Post.objects.filter(
+        channel=this_channel
+    )
+    all_channel_users = this_channel.members.all()
+    context = {
+        'posts': all_channel_posts,
+        'channel_name': this_channel.title,
+        'channel_members': all_channel_users,
+    }
+    return render(request,  "channels/channel.html", context)
 
 
 def main_feed(request):
@@ -65,7 +78,7 @@ def main_feed(request):
     )
 
     context = {
-        'main_feed_posts': all_main_feed_posts,
+        'posts': all_main_feed_posts,
     }
 
     return render(request,  "index.html", context)

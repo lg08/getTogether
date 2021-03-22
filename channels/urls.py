@@ -16,4 +16,9 @@ urlpatterns = [
         views.list_channels,
         name='list'
     ),
+    path(
+        '<int:channel_pk>/',
+        views.channel_posts,
+        name='posts'
+    ),
 ]

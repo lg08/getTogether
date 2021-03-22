@@ -8,11 +8,17 @@
     <div class="container">
         <h1>Channels:</h1>
         <ul>
-            {% for channel in channels %}
-                <li>
-                    <h3> {{ channel.title }} </h3>
-                </li>
-        {% endfor %}
+
+            <div class="list-group list-group-flush">
+                {% for channel in channels %}
+                        <a href="{% url "channels:posts" channel.pk %}"
+                           class="list-group-item
+                                 list-group-item-action">
+                            {{ channel.title }}
+                        </a>
+                {% endfor %}
+            </div>
+
         </ul>
     </div>
 {% endblock %}
