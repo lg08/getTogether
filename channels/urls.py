@@ -10,5 +10,10 @@ urlpatterns = [
         'create/',
         views.create_channel,
         name='create',
-    )
+    ),
+    path(
+        'all/',
+        views.list_channels,
+        name='list'
+    ),
 ]

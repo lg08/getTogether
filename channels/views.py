@@ -11,11 +11,12 @@ from .forms import Channel_Create_Form
 
 # Create your views here.
 
-# class-based view for creating a channel
-# class ChannelCreate(CreateView):
-#     model = Channel
-#     fields = ['title', 'location']
-#     # renders "channel_form.html"
+def list_channels(request):
+    all_channels = Channel.objects.all()
+    context = {
+        "channels": all_channels,
+    }
+    return render(request, "channels/list_channels.html", context)
 
 def create_channel(request):
     if request.user.is_authenticated:
