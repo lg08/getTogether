@@ -1,0 +1,47 @@
+{% load static %}
+
+{% for post in posts %}
+    <div class="card clickable-card post_card"
+         onclick="show_modal('{{ post.title }}', '{{ post.message }}')"
+        <!--         onclick="show_modal(hello, there)" -->
+        <!--          onclick="window.location='#'" -->
+
+        <!-- for images -->
+        <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+        <div class="card-body" >
+            <!-- help from here: https://slickmedia.co.uk/blog/glenns-blog/trigger-bootstrap-modal-with-link/ -->
+            <!-- <a data-toggle="modal" class="stretched-link" href="#post_modal" id="modal_trigger"></a> -->
+            <h5 class="card-title">{{ post.title }}</h5>
+            <p class="card-text">{{ post.message }}</p>
+        </div>
+    </div>
+{% endfor %}
+
+<div class="modal fade bd-example-modal-lg"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="myLargeModalLabel"
+     aria-hidden="true"
+     id="post_modal"
+>
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="container">
+                <center><h1 id="modal_title">Title</h1></center>
+                <p id="modal_message">this is the message</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+ function show_modal(title, message) {
+     $("#modal_title").text(title);
+     $("#modal_message").text(message);
+     $("#post_modal").modal();
+
+ }
+
+</script>
