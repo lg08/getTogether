@@ -7,11 +7,22 @@
 
 
 {% block body %}
-    <h1>This is the homepage</h1>
-    <h3>
-        iterable list in this context called "main_feed_posts" that
-        contains all the posts in the main feed
-    </h3>
-    <h1>GetTogether</h1>
-    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    <div class="container">
+        <h1>This is the homepage</h1>
+        <h3>
+            iterable list in this context called "main_feed_posts" that
+            contains all the posts in the main feed
+        </h3>
+        <h1>GetTogether</h1>
+        <h1>Main Feed</h1>
+        <ul>
+            {% for post in main_feed_posts %}
+                <li>{{ post.title }}</li>
+                <ul>
+                    <li>{{ post.message }}</li>
+                </ul>
+            {% endfor %}
+        </ul>
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    </div>
 {% endblock %}

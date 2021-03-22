@@ -8,7 +8,7 @@ app_name = 'channels'
 urlpatterns = [
     path(
         'create/',
-        views.ChannelCreate.as_view(),
-        name='create_channel',
+        views.create_channel,
+        name='create',
     )
 ]

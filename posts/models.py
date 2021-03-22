@@ -7,7 +7,7 @@ from channels.models import Channel
 
 
 class Post(models.Model):
-    creater = models.ForeignKey(
+    creator = models.ForeignKey(
         User,
         on_delete=models.CASCADE
     )

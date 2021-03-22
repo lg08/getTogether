@@ -1,0 +1,31 @@
+<!-- login form for users -->
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+
+<div class="container">
+    <div class="card mt-5 box-blur">
+        <h1 style="margin: 20px 0px;">Log In</h1>
+        <form method ="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+
+            <input style="margin-bottom: 20px;" name="" type="submit" value="Log In" class ="btn btn-primary" />
+
+        </form>
+
+        <p>Don't have an account yet? Sign up <a href="{% url 'users:signup' %}">here!</a></p>
+
+    </div>
+</div>
+
+<style>
+    #icon {
+        border-bottom: thin solid white;
+    }
+
+
+</style>
+
+{% endblock %}

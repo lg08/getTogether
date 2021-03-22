@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
     'users',
     'channels',
     'posts',
@@ -140,5 +141,5 @@ MEDIA_URL = '/media/'
 
 
 # tells the built in user authorization where to redirect after loggin in/out
-LOGIN_REDIRECT_URL = 'bets:all'
+LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'

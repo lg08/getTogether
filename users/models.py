@@ -18,6 +18,9 @@ class Profile(models.Model):
     location = models.IntegerField(default=95818) # TODO: change this
     # to better location system
 
+    def __str__(self):
+        return "{}'s profile".format(self.user)
+
     # got this stuff from here: https://simpleisbetterthancomplex.com/tutorial/
     # 2016/07/22/how-to-extend-django-user-model.html
     @receiver(post_save, sender=User)

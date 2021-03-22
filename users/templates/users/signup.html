@@ -1,0 +1,32 @@
+<!-- signup form for users -->
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+
+<div style="margin-top: 30px;" class="container">
+    <div class="card mt-5 box-blur">
+            <div class="card-body">
+                <h1 style="margin-bottom: 20px;">Sign Up</h1>
+                <form method ="post">
+                    {% csrf_token %}
+
+                    {{ form|crispy }}
+
+                    <input name="" type="submit" value="Sign Up" class ="btn btn-primary my-3" />
+
+                </form>
+            </div>
+    </div>
+
+</div>
+
+<style>
+
+</style>
+
+<script>
+
+</script>
+
+{% endblock %}

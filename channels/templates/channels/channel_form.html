@@ -6,8 +6,18 @@
 
 
 {% block body %}
-<form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Save">
-</form>
+
+
+<div style="margin-top: 30px;" class="container">
+        <div class="card mt-5 box-blur">
+            <div class="card-body">
+                <h1>Create Channel</h1>
+                <form method="post">{% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit" value="Save">
+                </form>
+            </div>
+        </div>
+
+    </div>
 {% endblock %}

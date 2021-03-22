@@ -11,3 +11,6 @@ class Channel(models.Model):
     location = models.IntegerField(default=95818) # TODO: change this
     # to better location system
     members = models.ManyToManyField(User)
+
+    def __str__(self):
+        return self.title
