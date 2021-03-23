@@ -50,7 +50,7 @@ def create_channel(request):
             return render (request, "channels/channel_form.html", context)
     else:
         return HttpResponseRedirect(
-            reverse("home")
+            reverse("users:login")
         )
 
 
