@@ -27,7 +27,7 @@ def _confidence(ups, downs):
 
     return (left - right) / under
 
-#sort hot posts
+# Assigns score based on upvotes, downvotes, and date posted 
 def hot(ups, downs, date):
     s = __score(ups, downs)
     order = log(max(abs(s), 1), 10)
@@ -35,7 +35,7 @@ def hot(ups, downs, date):
     seconds = __epoch_seconds(date) - 1134028003
     return round(sign * order + seconds / 45000, 7)
 
-#sort controversial posts
+# Assigns 'controversy score' based on upvotes and downvotes
 def controversy(ups, downs):
     if downs <= 0 or ups <= 0:
         return 0
@@ -45,8 +45,9 @@ def controversy(ups, downs):
 
     return magnitude ** balance
 
-#'confidence sort': 
-#https://www.evanmiller.org/how-not-to-sort-by-average-rating.html
+
+# Assigns 'confidence score' based on upvotes and downvotes
+# https://www.evanmiller.org/how-not-to-sort-by-average-rating.html
 def confidence(ups, downs):
     up_range = 400
     down_range = 100 #these numbers were in the original reddit code
