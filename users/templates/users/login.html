@@ -4,13 +4,14 @@
 
 {% block body %}
 
-<div class="container">
+<div class="container" onload="setGeolocation()">
     <div class="card mt-5 box-blur">
         <h1 style="margin: 20px 0px;">Log In</h1>
         <form method ="post">
             {% csrf_token %}
             {{ form|crispy }}
 
+            <input type="hidden" id="geolocation" name="userlocation" value="" />
             <input style="margin-bottom: 20px;" name="" type="submit" value="Log In" class ="btn btn-primary" />
 
         </form>
@@ -19,6 +20,27 @@
 
     </div>
 </div>
+
+<script>
+    var options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+    };
+
+    function success(pos) {
+        var crd = pos.coords;
+        document.getElementById("geolocation").value = JSON.stringify(crd);
+    }
+
+    function error(err) {
+        console.warn(`ERROR(${err.code}): ${err.message}; Could not obtain your location.`);
+    }
+
+    function setGeolocation() {
+        navigator.geolocation.getCurrentPosition(success, error, options);
+    }
+</script>
 
 <style>
     #icon {
