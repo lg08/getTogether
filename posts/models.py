@@ -30,6 +30,11 @@ class Post(models.Model):
         Channel,
         on_delete=models.CASCADE,
     )
+    num_of_upvotes = models.IntegerField(default=0)
+    num_of_downvotes = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.title
 
 
 class Comment(models.Model):
@@ -63,3 +68,37 @@ class Comment(models.Model):
 
     def __str__(self):
         return "{} commented '{}'".format(self.user, self.message)
+
+
+class Upvote(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+    )
+    post = models.ForeignKey(
+        Post,
+        on_delete=models.CASCADE,
+    )
+    created_at = models.DateTimeField(
+        auto_now=True
+    )
+
+    def __str__(self):
+        return "{} upvoted {}".format(self.user, self.post)
+
+
+class Downvote(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+    )
+    post = models.ForeignKey(
+        Post,
+        on_delete=models.CASCADE,
+    )
+    created_at = models.DateTimeField(
+        auto_now=True
+    )
+
+    def __str__(self):
+        return "{} downvoted {}".format(self.user, self.post)

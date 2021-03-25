@@ -5,3 +5,5 @@ from . import models
 
 admin.site.register(models.Post)
 admin.site.register(models.Comment)
+admin.site.register(models.Upvote)
+admin.site.register(models.Downvote)

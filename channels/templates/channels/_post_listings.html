@@ -2,9 +2,12 @@
 
 {% for post in posts %}
     <div class="card clickable-card post_card"
-         onclick="show_modal('{{ post.title }}', '{{ post.message }}')"
+         onclick="show_modal('{{ post.title }}', '{{ post.message }}', '#card-for{{ post.id }}')"
+         id="card-for{{ post.id }}"
+         >
         <!--         onclick="show_modal(hello, there)" -->
         <!--          onclick="window.location='#'" -->
+
 
         <!-- for images -->
         <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
@@ -12,7 +15,18 @@
             <!-- help from here: https://slickmedia.co.uk/blog/glenns-blog/trigger-bootstrap-modal-with-link/ -->
             <!-- <a data-toggle="modal" class="stretched-link" href="#post_modal" id="modal_trigger"></a> -->
             <h5 class="card-title">{{ post.title }}</h5>
+
             <p class="card-text">{{ post.message }}</p>
+            <a href="{% url 'posts:up_or_downvote' up_or_downvote='upvote' postid=post.id %}">
+                upvote
+            </a>
+            <a href="{% url 'posts:up_or_downvote' up_or_downvote='downvote' postid=post.id %}">
+                downvote
+            </a>
+            <p>
+                upvotes: {{ post.num_of_upvotes }}
+                downvotes: {{ post.num_of_downvotes }}
+            </p>
         </div>
     </div>
 {% endfor %}
@@ -26,17 +40,19 @@
 >
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content p-4">
-            <center><h1 id="modal_title">Title</h1></center>
+            <!-- <center><h1 id="modal_title">Title</h1></center> -->
             <p id="modal_message">this is the message</p>
+
         </div>
     </div>
 </div>
 
 <script>
 
- function show_modal(title, message) {
-     $("#modal_title").text(title);
-     $("#modal_message").text(message);
+ function show_modal(title, message, cardid) {
+     var cardText = $(cardid).html();
+     /*      $("#modal_title").text(title); */
+     $("#modal_message").html(cardText);
      $("#post_modal").modal();
 
  }
