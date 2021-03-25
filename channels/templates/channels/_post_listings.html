@@ -2,10 +2,9 @@
 
 {% for post in posts %}
     <div class="card clickable-card post_card"
-         onclick="show_modal('{{ post.title }}', '{{ post.message }}', '#card-for{{ post.id }}')"
+         onclick="show_modal('#card-for{{ post.id }}')"
          id="card-for{{ post.id }}"
          >
-        <!--         onclick="show_modal(hello, there)" -->
         <!--          onclick="window.location='#'" -->
 
 
@@ -25,36 +24,11 @@
             </a>
             <p>
                 upvotes: {{ post.num_of_upvotes }}
+            </p>
+            <p>
                 downvotes: {{ post.num_of_downvotes }}
             </p>
+            <p>Created by <a href="">{{ post.creator }}</a> at {{ post.created_at }}</p>
         </div>
     </div>
 {% endfor %}
-
-<div class="modal fade bd-example-modal-lg"
-     tabindex="-1"
-     role="dialog"
-     aria-labelledby="myLargeModalLabel"
-     aria-hidden="true"
-     id="post_modal"
->
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content p-4">
-            <!-- <center><h1 id="modal_title">Title</h1></center> -->
-            <p id="modal_message">this is the message</p>
-
-        </div>
-    </div>
-</div>
-
-<script>
-
- function show_modal(title, message, cardid) {
-     var cardText = $(cardid).html();
-     /*      $("#modal_title").text(title); */
-     $("#modal_message").html(cardText);
-     $("#post_modal").modal();
-
- }
-
-</script>

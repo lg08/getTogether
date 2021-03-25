@@ -64,6 +64,7 @@ def channel_posts(request, channel_pk):
         'posts': all_channel_posts,
         'channel_name': this_channel.title,
         'channel_members': all_channel_users,
+        'channel': this_channel,
     }
     return render(request,  "channels/channel.html", context)
 

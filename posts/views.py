@@ -8,7 +8,7 @@ from channels.models import Channel
 
 # Create your views here.
 
-def create_post(request):
+def create_post(request, channel):
     if request.user.is_authenticated:
         if request.method == 'POST':
             form = PostForm(request.POST)
@@ -16,17 +16,16 @@ def create_post(request):
                 new_post = Post()
                 new_post.title = form.cleaned_data['title']
                 new_post.message = form.cleaned_data['message']
-                associated_channel = get_object_or_404(Channel, title=form.cleaned_data['channel'])
+                associated_channel = get_object_or_404(Channel, pk=channel)
                 new_post.channel = associated_channel
                 new_post.creator = request.user
                 new_post.save()
-                return HttpResponseRedirect(
-                    reverse("home")
-                )
+                return HttpResponseRedirect(reverse('channels:posts', kwargs={'channel_pk': channel}))
             # form not valid
             else:
                 context = {
                     "form": form,
+                    "channel": get_object_or_404(Channel, pk=channel),
                 }
                 return render (request, "posts/post_create_form.html", context)
         # it's a get request
@@ -34,6 +33,7 @@ def create_post(request):
             form = PostForm()
             context = {
                 "form": form,
+                "channel": get_object_or_404(Channel, pk=channel),
             }
             return render (request, "posts/post_create_form.html", context)
     # user not logged in

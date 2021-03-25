@@ -8,6 +8,7 @@
 
     <div class="container">
         <h1>Channel: {{ channel_name }}</h1>
+        <center><h3><a href="{% url "posts:create" channel.pk %}">Make a post!</a></center></h3>
         <h2>Posts:</h2>
 
         <div class="card-columns">
@@ -23,5 +24,35 @@
 
 
     </div>
+
+
+    <div class="modal fade bd-example-modal-lg"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true"
+         id="post_modal"
+    >
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content p-4">
+                <!-- <center><h1 id="modal_title">Title</h1></center> -->
+                <p id="modal_message">this is the message</p>
+
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+
+     function show_modal(cardid) {
+         var cardText = $(cardid).html();
+         /*      $("#modal_title").text(title); */
+         $("#modal_message").html(cardText);
+         $("#post_modal").modal();
+
+     }
+
+    </script>
 
 {% endblock %}

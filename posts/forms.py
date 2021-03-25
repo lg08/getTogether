@@ -1,4 +1,10 @@
 from django import forms
+from channels.models import Channel
+
+CHOICES = []
+for channel in Channel.objects.all():
+    CHOICES.append((channel, channel))
+
 
 class PostForm(forms.Form):
     title = forms.CharField()
@@ -7,4 +13,3 @@ class PostForm(forms.Form):
             attrs={'class': 'post_message_form'}
         )
     )
-    channel = forms.CharField()

@@ -7,7 +7,7 @@ app_name = 'posts'
 
 urlpatterns = [
     path(
-        'create/',
+        'create_post/<int:channel>/',
         views.create_post,
         name='create'
     ),
