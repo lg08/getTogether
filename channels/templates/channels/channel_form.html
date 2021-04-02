@@ -100,7 +100,7 @@
 
           // Set channel location in hidden input
           channelLocation = {
-              latitude: results[0].geometry.location.lat(), 
+              latitude: results[0].geometry.location.lat(),
               longitude: results[0].geometry.location.lng()
             }
           document.getElementById("channellocation").value = JSON.stringify(channelLocation);
@@ -129,7 +129,7 @@
                 <h1>Create Channel</h1>
                 <form method="post">{% csrf_token %}
                     {{ form.as_p }}
-                    
+
                     <!--Begin geocoding code:-->
                     <div style="display: none">
                         <input
@@ -145,14 +145,15 @@
                         <strong>Place ID</strong>: <span id="place-id"></span><br />
                         <span id="place-address"></span>
                       </div>
-                  
+
                       <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
                       <script
                         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7E0Z5BPny7CTI5mm9MfxbdBKsjy94PXU&callback=initMap&libraries=places&v=weekly"
                         async></script>
 
                       <!-- End Geocoding code;-->
-                      <input type="hidden" id="channellocation" name="channellocation" value="" />
+                      <input type="hidden" id="channellocation"
+                      name="channellocation" value="this is channel location from html" />
                     <input type="submit" value="Save">
                 </form>
             </div>
@@ -165,21 +166,21 @@
             timeout: 5000,
             maximumAge: 0
         };
-    
+
         function success(pos) {
             let crd = pos.coords;
             document.getElementById("channellocation").value = JSON.stringify(crd);
         }
-    
+
         function error(err) {
             console.warn(`ERROR(${err.code}): ${err.message}; Could not obtain your location. Default location set to Nassau Hall, Princeton NJ.`);
             let crd = {latitude: 40.34870, longitude: -74.659334}
             document.getElementById("channellocation").value = JSON.stringify(crd);
         }
-    
+
         function setGeolocation() {
             navigator.geolocation.getCurrentPosition(success, error, options);
         }
     </script>
-    
+
 {% endblock %}
