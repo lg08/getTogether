@@ -1,1 +1,1 @@
-web:gunicorn getTogether.wsgi
+web: 
