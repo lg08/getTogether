@@ -30,7 +30,7 @@ SECRET_KEY = 'u-pq8_@i5*ruc3!ox8^y-g^-yt8k-0k8pq03jl=8$1p-dredx%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -133,6 +133,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 # tells django where to store media files locally

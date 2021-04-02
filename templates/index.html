@@ -9,6 +9,7 @@
 {% block body %}
     <div class="container">
         <center><h1>GetTogether</h1></center>
+        <center><h3><a href="{% url "posts:create" 1 %}">Make a post!</a></center></h3>
         <h3>Main Feed</h3>
         <div class="card-columns">
             {% include 'channels/_post_listings.html' %}

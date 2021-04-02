@@ -1,0 +1,1 @@
+web: gunicorn GetTogether.wsgi:application --log-file -
