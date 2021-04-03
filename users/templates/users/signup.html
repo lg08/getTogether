@@ -4,7 +4,7 @@
 
 {% block body %}
 
-<div style="margin-top: 30px;" class="container" onload="setGeolocation()">
+<div style="margin-top: 30px;" class="container">
     <div class="card mt-5 box-blur">
             <div class="card-body">
                 <h1 style="margin-bottom: 20px;">Sign Up</h1>
@@ -38,12 +38,14 @@
     function error(err) {
         console.warn(`ERROR(${err.code}): ${err.message}; Could not obtain your location. Default location set to Nassau Hall, Princeton NJ.`);
         let crd = {latitude: 40.34870, longitude: -74.659334}
-            document.getElementById("channellocation").value = JSON.stringify(crd);
+            document.getElementById("geolocation").value = JSON.stringify(crd);
     }
 
     function setGeolocation() {
         navigator.geolocation.getCurrentPosition(success, error, options);
     }
+
+    setGeolocation();
 </script>
 
 <style>
