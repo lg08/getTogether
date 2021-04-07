@@ -1,3 +1,4 @@
 project_env/*
 project_env
 *.pyc
+db.sqlite3
