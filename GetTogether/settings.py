@@ -30,7 +30,7 @@ SECRET_KEY = 'u-pq8_@i5*ruc3!ox8^y-g^-yt8k-0k8pq03jl=8$1p-dredx%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -128,10 +128,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # tells django where to go to look for static files
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'staticfiles'),
+    os.path.join(BASE_DIR, 'static'),
 ]
 
 
