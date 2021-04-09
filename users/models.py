@@ -13,10 +13,10 @@ class Profile(models.Model):
         blank=True,
         on_delete=models.CASCADE
     )
-    full_name = models.CharField(null=False, blank=False,
+    full_name = models.TextField(null=False, blank=False,
                                  max_length=50, default="full name here")
     # location = models.IntegerField(default=95818) # TODO: change this
-    location = models.CharField(null=False, blank=False,
+    location = models.TextField(null=False, blank=False,
                                 max_length=50000, default="put JSON" + \
                                 "object here")
     # to better location system
@@ -38,9 +38,9 @@ class Profile(models.Model):
 
 
 class Event(models.Model):
-    title = models.CharField(null=False, blank=False,
+    title = models.TextField(null=False, blank=False,
                              max_length=50, default="title here")
-    description = models.CharField(
+    description = models.TextField(
         null=False, blank=False,
         max_length=50,
         default="description here"

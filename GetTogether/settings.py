@@ -83,13 +83,24 @@ WSGI_APPLICATION = 'GetTogether.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+#sqlite3
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'da6u0qae0l3562',
+        'USER': 'ngblterhxzaaaz',
+        'PASSWORD': '97412718c5f43033efa80110c650825f1fe2ba1d405161e20676581b1856ff79',
+        'HOST': 'ec2-52-45-73-150.compute-1.amazonaws.com',
+        'PORT': '5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

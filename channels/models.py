@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 
 class Channel(models.Model):
-    title = models.CharField(
+    title = models.TextField(
         null=False,
         blank=False,
         max_length=50,
@@ -14,7 +14,7 @@ class Channel(models.Model):
         unique=True,
     )
     # location = models.IntegerField(default=95818) # TODO: change this
-    location = models.CharField(
+    location = models.TextField(
         null=False,
         blank=False,
         max_length=50000,
