@@ -41,7 +41,7 @@
               latitude: results[0].geometry.location.lat(),
               longitude: results[0].geometry.location.lng()
             };
-          document.getElementById("autocomplete").value = JSON.stringify(channelLocation);
+          document.getElementById("channellocation").value = JSON.stringify(channelLocation);
         });
     }
   }
@@ -53,8 +53,8 @@
                 <h1>Create Channel</h1>
                 <form method="post">{% csrf_token %}
                     {{ form.as_p }}
-                      <input type="text" id="autocomplete" placeholder="Enter a place"
-                      name="channellocation" value="this is channel location from html" />
+                      <input type="text" id="autocomplete" placeholder="Enter a place"/>
+                      <input type="hidden" id="channellocation" name="channellocation" value="this is channel location from html" />
                     <input type="submit" value="Save">
                 </form>
             </div>
