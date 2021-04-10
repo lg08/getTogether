@@ -25,5 +25,10 @@ urlpatterns = [
         views.profile_page,
         name='profile_page'
     ),
+    path(
+        "change_location/",
+        views.change_location,
+        name='change_location'
+    ),
 
 ]

@@ -23,6 +23,21 @@ def profile_page(request, user_pk, columns=1):
     }
     return render(request, "users/profile_page.html", context)
 
+def change_location(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            location = request.POST.get("user_location")
+            request.user.profile.location = location
+            request.user.profile.save()
+            return redirect(request.META['HTTP_REFERER'])
+        else:
+            pass
+    else:
+        return HttpResponseRedirect(
+            reverse("users:login")
+        )
+
+
 
 def signup(request):
     if request.method == 'POST':
