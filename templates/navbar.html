@@ -20,7 +20,7 @@
             <ul class="navbar-nav mb-2 mb-lg-0">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <span class="nav-link">Welcome {{ user.username }}!</span>
+                        <a class="nav-link" href="{% url "users:profile_page" user.pk %}">Welcome {{ user.username }}!</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url "users:logout"  %}">Logout</a>

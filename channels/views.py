@@ -6,6 +6,8 @@ from posts.models import Post
 from .models import Channel
 from django.views.generic.edit import CreateView
 
+import json
+
 from .forms import Channel_Create_Form
 
 from math import radians, cos, sin, asin, sqrt
@@ -15,8 +17,15 @@ from math import radians, cos, sin, asin, sqrt
 def list_channels(request):
     if request.method == "GET":
         all_channels = Channel.objects.all()
+        nearby_channels = []
+        user_location = json.loads(request.user.location)
+        for channel in all_channels:
+            channel_location = json.loads(channel.location)
+            distance = haversine(user_location['longitude'], user_location['latitude'], channel_location['longitude'], channel_location['latitude'])
+            if distance < 50:
+                nearby_channels.append(channel)
         context = {
-            "channels": all_channels,
+            "channels": nearby_channels,
         }
         return render(request, "channels/list_channels.html", context)
 
