@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
@@ -18,6 +18,21 @@ def list_channels(request):
         "channels": all_channels,
     }
     return render(request, "channels/list_channels.html", context)
+
+def join_channel(request, channel_pk, join_or_remove):
+    if request.user.is_authenticated:
+        channel = get_object_or_404(Channel, pk=channel_pk)
+        if join_or_remove == 1:
+            channel.members.add(request.user)
+        else:
+            channel.members.remove(request.user)
+        channel.save()
+        return redirect(request.META['HTTP_REFERER'])
+    else:
+        return HttpResponseRedirect(
+            reverse("users:login")
+        )
+
 
 def create_channel(request):
     if request.user.is_authenticated:
@@ -62,11 +77,16 @@ def channel_posts(request, channel_pk):
         channel=this_channel
     )
     all_channel_users = this_channel.members.all()
+    if request.user in this_channel.members.all():
+        isin_channel = True
+    else:
+        isin_channel = False
     context = {
         'posts': all_channel_posts,
         'channel_name': this_channel.title,
         'channel_members': all_channel_users,
         'channel': this_channel,
+        'isin_channel': isin_channel,
     }
     return render(request,  "channels/channel.html", context)
 

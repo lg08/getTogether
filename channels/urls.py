@@ -21,4 +21,9 @@ urlpatterns = [
         views.channel_posts,
         name='posts'
     ),
+    path(
+        'join_channel/<int:channel_pk>/<int:join_or_remove>/',
+        views.join_channel,
+        name='join_channel'
+    ),
 ]
