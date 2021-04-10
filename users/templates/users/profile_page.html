@@ -21,6 +21,23 @@
          autocomplete.addListener('place_changed', onPlaceChanged);
      }
 
+     function displayUserMapLocation(user_location) {
+        user_map_location = {
+                     lat: user_location.latitude,
+                     lng: user_location.longitude
+                 };
+
+                 const map = new google.maps.Map(document.getElementById("map"), {
+                     zoom: 10,
+                     center: user_map_location
+                 });
+
+                 const marker = new google.maps.Marker({
+                     position: user_map_location,
+                     map: map
+                 });
+     }
+
      function onPlaceChanged() {
          var place = autocomplete.getPlace();
 
@@ -36,12 +53,14 @@
                      return;
                  }
 
-                 // Set channel location in hidden input
+                 // Set user location in hidden input
                  user_location = {
                      latitude: results[0].geometry.location.lat(),
                      longitude: results[0].geometry.location.lng()
                  };
                  document.getElementById("user_location").value = JSON.stringify(user_location);
+
+                 displayUserMapLocation(user_location);
              });
          }
      }
@@ -59,9 +78,22 @@
                 {% csrf_token %}
                 {{ form.as_p }}
                 <input type="text" id="autocomplete" placeholder="Enter a place"/>
-                <input type="hidden" id="user_location" name="user_location" value="this is channel location from html" />
+                <input type="hidden" id="user_location" name="user_location" value="{latitude: 40.34870, longitude: -74.659334}" />
                 <input type="submit" value="Save">
         </form>
+        <script>
+                 window.onload(displayUserMapLocation(JSON.parse("{latitude: 40.34870, longitude: -74.659334}")));
+        </script>
+        <style type="text/css">
+            /* Set the size of the div element that contains the map */
+            #map {
+              height: 400px;
+              /* The height is 400 pixels */
+              width: 100%;
+              /* The width is the width of the web page */
+            }
+          </style>
+        <div id="map"></div>
         {% else %}
 
         {% endif %}
