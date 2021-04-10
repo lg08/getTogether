@@ -18,7 +18,7 @@ def list_channels(request):
     if request.method == "GET":
         all_channels = Channel.objects.all()
         nearby_channels = []
-        user_location = json.loads(request.user.location)
+        user_location = json.loads(request.user.profile.location)
         for channel in all_channels:
             channel_location = json.loads(channel.location)
             distance = haversine(user_location['longitude'], user_location['latitude'], channel_location['longitude'], channel_location['latitude'])
