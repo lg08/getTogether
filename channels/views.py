@@ -22,9 +22,10 @@ def list_channels(request):
         print("---------------------------")
         print(user_location)
         range = request.GET.get("range")
-        range = int(range)
         if range == None:
             range = 150
+        else:
+            range = int(range)
         print()
         print("this the range: {}".format(range))
         print()
