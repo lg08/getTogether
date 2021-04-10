@@ -2,7 +2,6 @@
 
 {% for post in posts %}
     <div class="card clickable-card post_card"
-         onclick="show_modal('#card-for{{ post.id }}')"
          id="card-for{{ post.id }}"
          >
         <!--          onclick="window.location='#'" -->
@@ -10,27 +9,64 @@
 
         <!-- for images -->
         <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
-        <div class="card-body" >
+        <div class="card-body">
             <!-- help from here: https://slickmedia.co.uk/blog/glenns-blog/trigger-bootstrap-modal-with-link/ -->
             <!-- <a data-toggle="modal" class="stretched-link" href="#post_modal" id="modal_trigger"></a> -->
             <h5 class="card-title">{{ post.title }}</h5>
 
             <hr/>
 
-            <p class="card-text">{{ post.message }}</p>
-            <a href="{% url 'posts:up_or_downvote' up_or_downvote='upvote' postid=post.id %}">
+            <p id="test" class="card-text" onclick="show_modal('#card-for{{ post.id }}')">{{ post.message }}</p>
+            <a onclick="upvoteAJAX('{{ post.id }}')" href="#">
                 upvote
             </a>
-            <a href="{% url 'posts:up_or_downvote' up_or_downvote='downvote' postid=post.id %}">
+            <a onclick="downvoteAJAX('{{ post.id }}')" href="#">
                 downvote
             </a>
             <p>
-                upvotes: {{ post.num_of_upvotes }}
+                upvotes: <span id="upvotes-for{{ post.id }}"></span>
             </p>
             <p>
-                downvotes: {{ post.num_of_downvotes }}
+                downvotes: <span id="downvotes-for{{ post.id }}"></span>
             </p>
-            <p>Created by <a href="{% url "users:profile_page" post.creator.pk %}">{{ post.creator }}</a> at {{ post.created_at }}</p>
+            <p>Created by <a href="">{{ post.creator }}</a> at {{ post.created_at }}</p>
         </div>
     </div>
+
+    <script>
+        'use strict';
+        
+        function updateUpDown(postid, upvotes, downvotes){
+            document.getElementById("upvotes-for" + String(postid)).innerHTML = String(upvotes);
+            document.getElementById("downvotes-for" + String(postid)).innerHTML = String(downvotes);
+            
+        }
+
+        window.onload = updateUpDown("{{ post.id }}", "{{ post.num_of_upvotes }}", "{{ post.num_of_downvotes }}");
+
+        var controller = null;
+        function upvoteAJAX(postid) {
+            let url = "/posts/upvote/" + String(postid);
+            if (controller !== null)
+                controller.abort();
+            controller = new AbortController();
+            fetch(url, {signal: controller.signal})
+                .then(response => response.json())
+                .then(data => updateUpDown(data.postid, data.upvotes, data.downvotes))
+                .catch(function(err) {console.log(err);});
+        }
+
+        function downvoteAJAX(postid) {
+            let url = "/posts/downvote/" + String(postid);
+            if (controller !== null)
+                controller.abort();
+            controller = new AbortController();
+
+            fetch(url, {signal: controller.signal})
+                .then(response => response.json())
+                .then(data => updateUpDown(data.postid, data.upvotes, data.downvotes))
+                .catch(function(err) {console.log(err);});
+        }
+
+    </script>
 {% endfor %}

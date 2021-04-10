@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, redirect, render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 
 from .forms import PostForm
@@ -85,6 +85,13 @@ def upvote_downvote_post(request, postid, up_or_downvote):
                 this_post.num_of_downvotes -= 1
                 new_vote.delete()
         this_post.save()
-        return redirect(request.META['HTTP_REFERER'])
+        this_post.refresh_from_db()
+        data = {
+            "postid": this_post.id,
+            "upvotes": this_post.num_of_upvotes,
+            "downvotes": this_post.num_of_downvotes,
+        }
+        return JsonResponse(data, safe=False)
+        # return redirect(request.META['HTTP_REFERER'])
     else:
         return HttpResponseRedirect(reverse('users:login'))
