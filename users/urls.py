@@ -15,4 +15,10 @@ urlpatterns = [
     path('logout/',
          auth_views.LogoutView.as_view(),
          name='logout'),
+    path(
+        'profile_page/<int:user_pk>/',
+        views.profile_page,
+        name='profile_page'
+    ),
+
 ]

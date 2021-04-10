@@ -2,6 +2,16 @@
 
 {% block body %}
 
+    <center><h1>{{ this_user }}'s Profile Page</h1></center>
 
+    <h1>Posts</h1>
+    <div class="card-columns">
+        {% include 'channels/_post_listings.html' %}
+    </div>
+
+    <h1>Subscriptions</h1>
+    {% for channel in channel_subscriptions %}
+        <h4>{{ channel.title }}</h4>
+    {% endfor %}
 
 {% endblock %}

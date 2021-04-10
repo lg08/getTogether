@@ -30,7 +30,7 @@
             <p>
                 downvotes: {{ post.num_of_downvotes }}
             </p>
-            <p>Created by <a href="">{{ post.creator }}</a> at {{ post.created_at }}</p>
+            <p>Created by <a href="{% url "users:profile_page" post.creator.pk %}">{{ post.creator }}</a> at {{ post.created_at }}</p>
         </div>
     </div>
 {% endfor %}
