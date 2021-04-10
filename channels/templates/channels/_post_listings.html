@@ -16,7 +16,7 @@
 
             <hr/>
 
-            <p id="test" class="card-text" onclick="show_modal('#card-for{{ post.id }}')">{{ post.message }}</p>
+            <p class="card-text" onclick="show_modal('#card-for{{ post.id }}')">{{ post.message }}</p>
             <a onclick="upvoteAJAX('{{ post.id }}')" href="#">
                 upvote
             </a>
