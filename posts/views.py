@@ -6,6 +6,8 @@ from .forms import PostForm
 from .models import Post, Upvote, Downvote
 from channels.models import Channel
 
+from .redditUpDownAlg import hot
+
 # Create your views here.
 
 def create_post(request, channel):
@@ -19,6 +21,8 @@ def create_post(request, channel):
                 associated_channel = get_object_or_404(Channel, pk=channel)
                 new_post.channel = associated_channel
                 new_post.creator = request.user
+                new_post.save()
+                new_post.score = hot(0, 0, new_post.created_at)
                 new_post.save()
                 return HttpResponseRedirect(reverse('channels:posts', kwargs={'channel_pk': channel}))
             # form not valid
@@ -84,6 +88,10 @@ def upvote_downvote_post(request, postid, up_or_downvote):
             else:
                 this_post.num_of_downvotes -= 1
                 new_vote.delete()
+        this_post.save()
+        this_post.score = hot(this_post.num_of_upvotes,
+                              this_post.num_of_downvotes,
+                              this_post.created_at)
         this_post.save()
         this_post.refresh_from_db()
         data = {

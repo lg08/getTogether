@@ -20,12 +20,18 @@
             </a></center></h5>
         {% endif %}
 
+        {% if columns %}
+            <a href="{% url "channels:posts" channel.pk 0 %}">List View</a>
+        {% else %}
+            <a href="{% url "channels:posts" channel.pk 1 %}">Column View</a>
+        {% endif %}
 
         <h2>Posts:</h2>
 
-        <div class="card-columns">
+        <div class="{% if columns %}card-columns{% endif %}">
             {% include 'channels/_post_listings.html' %}
         </div>
+
 
         <h2>Members:</h2>
         <ul>
@@ -35,9 +41,6 @@
         </ul>
 
 
-        <center><h5><a href="{% url "channels:join_channel" channel.pk 0 %}">
-            Get out of this channel
-        </a></center></h5>
     </div>
 
 

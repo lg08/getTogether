@@ -20,5 +20,10 @@ urlpatterns = [
         views.profile_page,
         name='profile_page'
     ),
+    path(
+        'profile_page/<int:user_pk>/<int:columns>/',
+        views.profile_page,
+        name='profile_page'
+    ),
 
 ]

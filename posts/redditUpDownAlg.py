@@ -1,9 +1,18 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from math import log, sqrt
+import pytz
+
+
 
 # adapted from
 # https://github.com/reddit-archive/reddit/blob/master/r2/r2/lib/db/_sorts.pyx
 epoch = datetime(1970, 1, 1)
+east_coast = pytz.timezone("America/New_York")
+epoch = east_coast.localize(epoch)
+
+
+print("epocher------------")
+print(epoch.tzinfo)
 
 def __epoch_seconds(date):
     td = date - epoch
@@ -17,9 +26,9 @@ def _confidence(ups, downs):
 
     if n == 0:
         return 0
-    
+
     z = 1.281551565545 # 80% confidence
-    p = float(ups) / n 
+    p = float(ups) / n
 
     left = p + 1/(2*n)*z*z
     right = z*sqrt(p*(1-p)/n + z*z/(4*n*n))
@@ -27,7 +36,7 @@ def _confidence(ups, downs):
 
     return (left - right) / under
 
-# Assigns score based on upvotes, downvotes, and date posted 
+# Assigns score based on upvotes, downvotes, and date posted
 def hot(ups, downs, date):
     s = __score(ups, downs)
     order = log(max(abs(s), 1), 10)
@@ -39,7 +48,7 @@ def hot(ups, downs, date):
 def controversy(ups, downs):
     if downs <= 0 or ups <= 0:
         return 0
-    
+
     magnitude = ups + downs
     balance = float(downs) / ups if ups > downs else float(ups) / downs
 
@@ -53,7 +62,7 @@ def confidence(ups, downs):
     down_range = 100 #these numbers were in the original reddit code
     if ups + downs == 0:
         return 0
-    
+
     elif ups < up_range and downs < down_range:
         return _confidences[downs + ups * down_range]
     else:

@@ -13,11 +13,12 @@ from math import radians, cos, sin, asin, sqrt
 # Create your views here.
 
 def list_channels(request):
-    all_channels = Channel.objects.all()
-    context = {
-        "channels": all_channels,
-    }
-    return render(request, "channels/list_channels.html", context)
+    if request.method == "GET":
+        all_channels = Channel.objects.all()
+        context = {
+            "channels": all_channels,
+        }
+        return render(request, "channels/list_channels.html", context)
 
 def join_channel(request, channel_pk, join_or_remove):
     if request.user.is_authenticated:
@@ -71,11 +72,11 @@ def create_channel(request):
         )
 
 
-def channel_posts(request, channel_pk):
+def channel_posts(request, channel_pk, columns=1):
     this_channel = get_object_or_404(Channel, pk=channel_pk)
     all_channel_posts = Post.objects.filter(
         channel=this_channel
-    )
+    ).order_by('-score')
     all_channel_users = this_channel.members.all()
     if request.user in this_channel.members.all():
         isin_channel = True
@@ -87,6 +88,7 @@ def channel_posts(request, channel_pk):
         'channel_members': all_channel_users,
         'channel': this_channel,
         'isin_channel': isin_channel,
+        'columns': columns,
     }
     return render(request,  "channels/channel.html", context)
 

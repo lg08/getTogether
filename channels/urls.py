@@ -17,6 +17,11 @@ urlpatterns = [
         name='list'
     ),
     path(
+        '<int:channel_pk>/<int:columns>/',
+        views.channel_posts,
+        name='posts'
+    ),
+    path(
         '<int:channel_pk>/',
         views.channel_posts,
         name='posts'

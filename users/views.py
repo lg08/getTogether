@@ -6,18 +6,20 @@ from django.urls import reverse
 from . import forms
 from django.contrib.auth.models import User
 from posts.models import Post
+from channels.models import Channel
 
 # Create your views here.
 
 
-def profile_page(request, user_pk):
+def profile_page(request, user_pk, columns=1):
     user = get_object_or_404(User, pk=user_pk)
     channel_subscriptions = user.channel_set.all()
-    posts = Post.objects.filter(creator__pk=request.user.pk)
+    posts = Post.objects.filter(creator__pk=user.pk)
     context = {
         "this_user": user,
         "channel_subscriptions": channel_subscriptions,
         "posts": posts,
+        "columns": columns,
     }
     return render(request, "users/profile_page.html", context)
 

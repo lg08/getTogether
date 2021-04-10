@@ -29,17 +29,20 @@
             <p>
                 downvotes: <span id="downvotes-for{{ post.id }}"></span>
             </p>
-            <p>Created by <a href="">{{ post.creator }}</a> at {{ post.created_at }}</p>
+            <p>Created by <a href="{% url "users:profile_page" post.creator.pk %}">
+                {{ post.creator }}
+            </a> at {{post.created_at }}</p>
+            <p>score: {{ post.score }}</p>
         </div>
     </div>
 
     <script>
         'use strict';
-        
+
         function updateUpDown(postid, upvotes, downvotes){
             document.getElementById("upvotes-for" + String(postid)).innerHTML = String(upvotes);
             document.getElementById("downvotes-for" + String(postid)).innerHTML = String(downvotes);
-            
+
         }
 
         window.onload = updateUpDown("{{ post.id }}", "{{ post.num_of_upvotes }}", "{{ post.num_of_downvotes }}");

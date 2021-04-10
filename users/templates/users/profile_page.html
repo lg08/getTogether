@@ -2,16 +2,28 @@
 
 {% block body %}
 
-    <center><h1>{{ this_user }}'s Profile Page</h1></center>
+    <div class="container">
 
-    <h1>Posts</h1>
-    <div class="card-columns">
-        {% include 'channels/_post_listings.html' %}
+        <center><h1>{{ this_user }}'s Profile Page</h1></center>
+
+
+        {% if columns %}
+            <a href="{% url "users:profile_page" this_user.pk 0 %}">List View</a>
+        {% else %}
+            <a href="{% url "users:profile_page" this_user.pk 1 %}">Column View</a>
+        {% endif %}
+
+        <h1>Posts</h1>
+        <div class="{% if columns %}card-columns{% endif %}">
+            {% include 'channels/_post_listings.html' %}
+        </div>
+
+        <h1>Subscriptions</h1>
+        {% for channel in channel_subscriptions %}
+            <h4>{{ channel.title }}</h4>
+        {% endfor %}
+
     </div>
 
-    <h1>Subscriptions</h1>
-    {% for channel in channel_subscriptions %}
-        <h4>{{ channel.title }}</h4>
-    {% endfor %}
 
 {% endblock %}
