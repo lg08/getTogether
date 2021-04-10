@@ -17,10 +17,10 @@
             <hr/>
 
             <p class="card-text" onclick="show_modal('#card-for{{ post.id }}')">{{ post.message }}</p>
-            <a onclick="upvoteAJAX('{{ post.id }}')" href="#">
+            <a onclick="upvoteAJAX('{{ post.id }}')">
                 upvote
             </a>
-            <a onclick="downvoteAJAX('{{ post.id }}')" href="#">
+            <a onclick="downvoteAJAX('{{ post.id }}')">
                 downvote
             </a>
             <p>
