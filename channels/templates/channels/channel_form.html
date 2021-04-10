@@ -6,7 +6,46 @@
 
 
 {% block body %}
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7E0Z5BPny7CTI5mm9MfxbdBKsjy94PXU&libraries=places&callback=initAutocomplete" async defer></script>
 
+<script>
+  let autocomplete;
+  function initAutocomplete() {
+    autocomplete = new google.maps.places.Autocomplete(
+      document.getElementById('autocomplete'),
+      {
+        types: ['establishment'],
+        fields: ['place_id', 'geometry', 'name']
+      });
+     
+      autocomplete.addListener('place_changed', onPlaceChanged);
+  }
+
+  function onPlaceChanged() {
+    var place = autocomplete.getPlace();
+
+    if (!place.geometry) {
+      // User didnt select prediction; reset input field
+      document.getElementById('autocomplete').placeholder = 'Enter a valid place';
+    } else {
+      // convert place to coordinates w/ geocoding
+      const geocoder = new google.maps.Geocoder();
+      geocoder.geocode({ placeId: place.place_id }, (results, status) => {
+          if (status !== "OK" && results) {
+            window.alert("Geocoder failed due to: " + status);
+            return;
+          }
+
+          // Set channel location in hidden input
+          channelLocation = {
+              latitude: results[0].geometry.location.lat(),
+              longitude: results[0].geometry.location.lng()
+            };
+          document.getElementById("channellocation").value = JSON.stringify(channelLocation);
+        });
+    }
+  }
+</script>
 
 <div style="margin-top: 30px;" class="container">
         <div class="card mt-5 box-blur">
@@ -14,10 +53,12 @@
                 <h1>Create Channel</h1>
                 <form method="post">{% csrf_token %}
                     {{ form.as_p }}
+                      <input type="text" id="autocomplete" placeholder="Enter a place"/>
+                      <input type="hidden" id="channellocation" name="channellocation" value="this is channel location from html" />
                     <input type="submit" value="Save">
                 </form>
             </div>
         </div>
-
     </div>
+
 {% endblock %}

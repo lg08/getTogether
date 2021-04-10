@@ -8,6 +8,7 @@ from django.views.generic.edit import CreateView
 
 from .forms import Channel_Create_Form
 
+from math import radians, cos, sin, asin, sqrt
 
 # Create your views here.
 
@@ -25,9 +26,10 @@ def create_channel(request):
             if form.is_valid():
                 new_channel = Channel()
                 new_channel.title = form.cleaned_data['title']
-                new_channel.location = form.cleaned_data['location']
+                # new_channel.location = form.cleaned_data['location']
                 new_channel.save()  # have to keep this here to add the member
                 new_channel.members.add(request.user)
+                new_channel.location = request.POST.get("channellocation")
                 new_channel.save()
 
                 # return HttpResponseRedirect(
@@ -87,3 +89,21 @@ def main_feed(request):
         # if the user isn't loggin in, take them to the login page
         # return HttpResponseRedirect(reverse('users:login'))
         # pass
+
+
+
+def haversine(lon1, lat1, lon2, lat2):
+    """
+    Calculate the great circle distance between two points
+    on the earth (specified in decimal degrees)
+    """
+    # convert decimal degrees to radians
+    lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
+
+    # haversine formula
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+    c = 2 * asin(sqrt(a))
+    r = 6371 # Radius of earth in kilometers. Use 3956 for miles
+    return c * r

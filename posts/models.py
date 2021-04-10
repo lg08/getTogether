@@ -11,16 +11,16 @@ class Post(models.Model):
         User,
         on_delete=models.CASCADE
     )
-    title = models.CharField(
+    title = models.TextField(
         null=False,
         blank=False,
         max_length=50,
         default="title here"
     )
-    message = models.CharField(
+    message = models.TextField(
         null=False,
         blank=False,
-        max_length=50,
+        max_length=1000,
         default="message here"
     )
     created_at = models.DateTimeField(

@@ -15,7 +15,9 @@ def signup(request):
             user = form.save()
             user.refresh_from_db()  # load the profile instance created by the signal
             user.profile.full_name = form.cleaned_data.get('full_name')
+            user.profile.location = request.POST.get("userlocation")
             user.save()
+            user.profile.save()
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
             login(request, user)
