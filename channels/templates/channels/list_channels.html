@@ -8,12 +8,16 @@
     <div class="container">
         <h1>Channels:</h1>
         <ul>
-            <div class="slidecontainer">
-                <form method="post" action="channels:list_channels">
-                    <h4>Radius:</h4>
-                    <input type="range" min="1" max="100" name="channelrange" value="10" id="channelrange">
-                </form>
-            </div>
+            <!-- <div class="slidecontainer">
+                 <form method="post" action="channels:list_channels">
+                 <h4>Radius:</h4>
+                 <input type="range" min="1" max="100" name="channelrange" value="10" id="channelrange">
+                 </form>
+                 </div> -->
+            <form action="{% url "channels:list" %}" method="GET">
+                <label for="range">Enter Radius</label>
+                <input name="range" type="number" value=""/>
+            </form>
             <hr>
             <div class="list-group list-group-flush">
                 {% for channel in channels %}
@@ -31,11 +35,11 @@
         let controller = null;
 
         function reloadChannels() {
-            
+
             let radius = document.getElementById("channelrange");
             let encodedRadius = encodeURIComponent(radius);
             let url = '/loadchannels?radius=' + encodedRadius;
-            
+
 
             if (controller !== null) {
                 controller.abort();
