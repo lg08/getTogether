@@ -24,7 +24,7 @@ class Post(models.Model):
         default="message here"
     )
     created_at = models.DateTimeField(
-        auto_now=True
+        auto_now_add=True
     )
     channel = models.ForeignKey(
         Channel,
