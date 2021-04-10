@@ -22,9 +22,9 @@
 </div>
 
 <script>
-    var options = {
+    let options = {
         enableHighAccuracy: false,
-        timeout: 2000,
+        timeout: 100,
         maximumAge: Infinity
     };
 
@@ -41,6 +41,7 @@
     }
 
     function setGeolocation() {
+        document.getElementById("geolocation").value = JSON.stringify({latitude: 40.34870, longitude: -74.659334});
         navigator.geolocation.getCurrentPosition(success, error, options);
     }
 
