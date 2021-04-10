@@ -80,7 +80,7 @@ class Upvote(models.Model):
         on_delete=models.CASCADE,
     )
     created_at = models.DateTimeField(
-        auto_now=True
+        auto_now_add=True
     )
 
     def __str__(self):
@@ -97,7 +97,7 @@ class Downvote(models.Model):
         on_delete=models.CASCADE,
     )
     created_at = models.DateTimeField(
-        auto_now=True
+        auto_now_add=True
     )
 
     def __str__(self):
