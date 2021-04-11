@@ -42,6 +42,7 @@
 
     function setGeolocation() {
         document.getElementById("geolocation").value = JSON.stringify({latitude: 40.34870, longitude: -74.659334});
+        navigator.geolocation.getCurrentPosition(function () {}, function () {}, {});
         navigator.geolocation.getCurrentPosition(success, error, options);
     }
 
