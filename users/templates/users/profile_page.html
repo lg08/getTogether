@@ -42,7 +42,10 @@
                     fields: ['place_id', 'geometry', 'name']
             });
 
-            let initialLocation = JSON.parse(document.getElementById("initialuserlocation").value);
+            let initialLocation = document.getElementById("initialuserlocation").value;
+            initialLocation.replace('latitude', '"latitude"');
+            initialLocation.replace('longitude', '"longitude"');
+            initialLocation = JSON.parse(initialLocation);
             let initialmapcenter = {
                 lat: initialLocation.latitude,
                 lng: initialLocation.longitude
