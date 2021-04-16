@@ -69,6 +69,10 @@
     <div class="container">
 
         <center><h1>{{ this_user }}'s Profile Page</h1></center>
+        <input type="hidden" id="initialuserlocation" value="{{ user.profile.location }}" />
+        <script>
+            console.log(document.getElementById("initialuserlocation").value);
+        </script>
 
 
         {% if this_user.pk == user.pk %}
