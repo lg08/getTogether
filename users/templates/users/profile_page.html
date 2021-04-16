@@ -29,7 +29,11 @@
         </form>
 
         <script type="text/javascript">
+
         let autocomplete;
+        let map;
+        let marker;
+
         function initAutocomplete() {
             autocomplete = new google.maps.places.Autocomplete(
                 document.getElementById('autocomplete'),
@@ -38,24 +42,23 @@
                     fields: ['place_id', 'geometry', 'name']
             });
 
+            let initialLocation = document.getElementById("initialuserlocation").value;
+            let initialmapcenter = {
+                lat: initialLocation.latitude,
+                lng: initialLocation.longitude
+            };
+
+            map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 10,
+                center: initialmapcenter
+            });
+
+            marker = new google.maps.Marker({
+                position: initialmapcenter,
+                map: map
+            });
+
             autocomplete.addListener('place_changed', onPlaceChanged);
-        }
-
-        function displayUserMapLocation(user_location) {
-            let user_map_location = {
-                        lat: user_location.latitude,
-                        lng: user_location.longitude
-                    };
-
-                    let mapInner = new google.maps.Map(document.getElementById("map"), {
-                        zoom: 10,
-                        center: user_map_location
-                    });
-
-                    let marker = new google.maps.Marker({
-                        position: user_map_location,
-                        map: mapInner
-                    });
         }
 
         function onPlaceChanged() {
@@ -84,21 +87,16 @@
                 });
             }
         }
-        let initialLocation = document.getElementById("initialuserlocation").value;
-        let initialmapcenter = {
-            lat: initialLocation.latitude,
-            lng: initialLocation.longitude
-        };
 
-        let map = new google.maps.Map(document.getElementById("map"), {
-            zoom: 10,
-            center: initialmapcenter
-        });
+        function displayUserMapLocation(user_location) {
+            let user_map_location = {
+                        lat: user_location.latitude,
+                        lng: user_location.longitude
+                    };
 
-        let marker = new google.maps.Marker({
-            position: initialmapcenter,
-            map: map
-        });
+                    map.setCenter(user_map_location);
+                    marker.setPosition(user_map_location);
+        }
         </script>
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7E0Z5BPny7CTI5mm9MfxbdBKsjy94PXU&libraries=places&callback=initAutocomplete" async></script>
 
