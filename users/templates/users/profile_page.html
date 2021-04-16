@@ -71,7 +71,7 @@
         <center><h1>{{ this_user }}'s Profile Page</h1></center>
         <input type="hidden" id="initialuserlocation" value="{{ user.profile.location }}" />
         <script>
-            console.log(document.getElementById("initialuserlocation").value);
+            console.log("Initial location from hidden input: " + document.getElementById("initialuserlocation").value);
         </script>
 
 
@@ -86,7 +86,8 @@
                 <input type="submit" value="Save">
         </form>
         <script>
-                 window.onload(displayUserMapLocation(JSON.parse("{latitude: 40.34870, longitude: -74.659334}")));
+                 initialLocation = document.getElementById("initialuserlocation").value;
+                 window.onload(displayUserMapLocation(JSON.parse(initialLocation)));
         </script>
         <style type="text/css">
             /* Set the size of the div element that contains the map */
