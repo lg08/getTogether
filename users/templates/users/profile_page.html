@@ -43,8 +43,11 @@
             });
 
             let initialLocation = document.getElementById("initialuserlocation").value;
-            initialLocation = initialLocation.replace("latitude", "\"latitude\"");
-            initialLocation = initialLocation.replace("longitude", "\"longitude\"");
+            if (!initialLocation.includes("\"")) {
+                initialLocation = initialLocation.replace("latitude", "\"latitude\"");
+                initialLocation = initialLocation.replace("longitude", "\"longitude\"");
+            }
+
             console.log(initialLocation);
             initialLocation = JSON.parse(initialLocation);
             let initialmapcenter = {
