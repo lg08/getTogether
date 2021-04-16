@@ -45,6 +45,7 @@
             let initialLocation = document.getElementById("initialuserlocation").value;
             initialLocation.replace('latitude', '"latitude"');
             initialLocation.replace('longitude', '"longitude"');
+            console.log(initialLocation);
             initialLocation = JSON.parse(initialLocation);
             let initialmapcenter = {
                 lat: initialLocation.latitude,
