@@ -22,7 +22,7 @@
      }
 
      function displayUserMapLocation(user_location) {
-        user_map_location = {
+        let user_map_location = {
                      lat: user_location.latitude,
                      lng: user_location.longitude
                  };
@@ -54,7 +54,7 @@
                  }
 
                  // Set user location in hidden input
-                 user_location = {
+                 let user_location = {
                      latitude: results[0].geometry.location.lat(),
                      longitude: results[0].geometry.location.lng()
                  };
@@ -70,7 +70,7 @@
 
         <center><h1>{{ this_user }}'s Profile Page</h1></center>
         <input type="hidden" id="initialuserlocation" value="{{ user.profile.location }}" />
-        <script>
+        <script type="text/javascript">
             console.log("Initial location from hidden input: " + document.getElementById("initialuserlocation").value);
         </script>
 
@@ -86,9 +86,22 @@
                 <input type="hidden" id="user_location" name="user_location" value="{latitude: 40.34870, longitude: -74.659334}" />
                 <input type="submit" value="Save">
         </form>
-        <script>
-                 initialLocation = document.getElementById("initialuserlocation").value;
-                 window.onload(displayUserMapLocation(JSON.parse(initialLocation)));
+        <script type="text/javascript">
+                 let initialLocation = document.getElementById("initialuserlocation").value;
+                 let initialmapcenter = {
+                     lat: initialLocation.latitude,
+                     lng: initialLocation.longitude
+                 };
+
+                 const map = new google.maps.Map(document.getElementById("map"), {
+                     zoom: 10,
+                     center: initialmapcenter
+                 });
+
+                 const marker = new google.maps.Marker({
+                     position: initialmapcenter,
+                     map: map
+                 });
         </script>
         <style type="text/css">
             /* Set the size of the div element that contains the map */
