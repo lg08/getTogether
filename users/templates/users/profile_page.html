@@ -78,6 +78,7 @@
         {% if this_user.pk == user.pk %}
             <h1>Change Location</h1>
             <h2>Current Location = {{ user.profile.location }}</h2>
+            <div id="map"></div>
             <form method="post" action="{% url "users:change_location"  %}">
                 {% csrf_token %}
                 {{ form.as_p }}
@@ -98,7 +99,6 @@
               /* The width is the width of the web page */
             }
           </style>
-        <div id="map"></div>
         {% else %}
 
         {% endif %}
