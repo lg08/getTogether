@@ -40,9 +40,43 @@
     <script>
         'use strict';
 
-        function updateUpDown(postid, upvotes, downvotes){
+        function updateUpDown(postid, upvotes, downvotes, created, upvoteDownvote){
+            console.log(created + "\n" + upvoteDownvote);
             document.getElementById("upvotes-for" + String(postid)).innerHTML = String(upvotes);
             document.getElementById("downvotes-for" + String(postid)).innerHTML = String(downvotes);
+            
+            if(created) {
+                if(upvoteDownvote == 'upvote'){
+                    document.getElementById("upvote-button-for" + String(postid)).innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-arrow-up-circle-fill" viewBox="0 0 16 16">\
+                                                                                                 <path d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>\
+                                                                                                </svg>';
+                    document.getElementById("downvote-button-for" + String(postid)).innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-arrow-down-circle" viewBox="0 0 16 16">\
+                        <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>\
+                    </svg>';
+                }
+                if(upvoteDownvote == 'downvote') {
+                    document.getElementById("downvote-button-for" + String(postid)).innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-arrow-down-circle-fill" viewBox="0 0 16 16">\
+                                                                                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>\
+                                                                                                </svg>';
+                    document.getElementById("upvote-button-for" + String(postid)).innerHTML ='<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-arrow-up-circle" viewBox="0 0 16 16">\
+                                                                                                <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>\
+                                                                                            </svg>';
+                }
+            }
+
+            else {
+                if(upvoteDownvote == 'upvote'){
+                    document.getElementById("upvote-button-for" + String(postid)).innerHTML ='<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-arrow-up-circle" viewBox="0 0 16 16">\
+                                                                                                <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>\
+                                                                                            </svg>';
+                }
+
+                if(upvoteDownvote == 'downvote') {
+                    document.getElementById("downvote-button-for" + String(postid)).innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-arrow-down-circle" viewBox="0 0 16 16">\
+                                                                                                    <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>\
+                                                                                                </svg>';  
+                }
+            }
 
         }
 
@@ -56,9 +90,8 @@
             controller = new AbortController();
             fetch(url, {signal: controller.signal})
                 .then(response => response.json())
-                .then(data => updateUpDown(data.postid, data.upvotes, data.downvotes))
-                .catch(function(err) {console.log(err);
-                                        location.replace("/users/login/");});
+                .then(data => updateUpDown(data.postid, data.upvotes, data.downvotes, data.created, "upvote"))
+                .catch(function(err) {console.log(err);});
         }
 
         function downvoteAJAX(postid) {
@@ -69,9 +102,8 @@
 
             fetch(url, {signal: controller.signal})
                 .then(response => response.json())
-                .then(data => updateUpDown(data.postid, data.upvotes, data.downvotes))
-                .catch(function(err) {console.log(err);
-                                        location.replace("/users/login/");});
+                .then(data => updateUpDown(data.postid, data.upvotes, data.downvotes, data.created, "downvote"))
+                .catch(function(err) {console.log(err);});
         }
 
     </script>

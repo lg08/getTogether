@@ -98,6 +98,7 @@ def upvote_downvote_post(request, postid, up_or_downvote):
             "postid": this_post.id,
             "upvotes": this_post.num_of_upvotes,
             "downvotes": this_post.num_of_downvotes,
+            "created": created,
         }
         return JsonResponse(data, safe=False)
         # return redirect(request.META['HTTP_REFERER'])
