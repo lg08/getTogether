@@ -56,7 +56,10 @@
                 <form method="post">
                     {% csrf_token %}
                     {{ form.as_p }}
-                      <input type="text" id="autocomplete" placeholder="Enter a place"/>
+                      <label>
+                        Channel Base Location:
+                        <input type="text" id="autocomplete" placeholder="Enter a place"/>
+                      </label>
                       <input type="hidden" id="channellocation" name="channellocation" value="this is channel location from html" />
                     <input type="submit" value="Save">
                 </form>
