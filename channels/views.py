@@ -33,7 +33,7 @@ def list_channels(request):
                                     channel_location['longitude'],
                                     channel_location['latitude'])
                 if distance < range:
-                    nearby_channels.append((channel, distance))
+                    nearby_channels.append((channel, int(distance)))
             context = {
                 "channels": nearby_channels,
             }
