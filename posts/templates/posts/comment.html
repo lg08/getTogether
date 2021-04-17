@@ -1,0 +1,66 @@
+{% if commentstack %}
+    {% load custom_tags %}
+    {% load crispy_forms_tags %}
+
+    {% pop_item_from_stack commentstack as comment %}
+
+    <div class="media border-left border-right border-dark rounded my-3 px-3">
+        <div class="media-body">
+
+            <div class="row">
+                <div class="col-10"> <!--left column-->
+                    <div class="col-12"><p>{{ comment.message }}</p></div>
+                    <div class="col-12"><p>by: {{ comment.user }} at:
+                        {{ comment.created_at }}</p>
+                    </div>
+                </div>
+                <div class="col"> <!--right column-->
+                    {% if user.is_authenticated %} <!--toggles comment form-->
+                        <button class="btn btn-link btn-sm text-muted border-0"
+                                type="button" data-toggle="collapse"
+                                data-target=".form-collapse-{{ comment.pk }}"
+                                aria-expanded="false"
+                                aria-controls="multiCollapseExample1
+                                       multiCollapseExample2">
+                            {#% include 'bets/addons/reply-button.html' %#}
+                            reply
+                        </button>
+                    {% else %} <!--just redirects to login page-->
+                        <form action="{% url 'users:login' %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="border-0">
+                                {#% include 'bets/addons/reply-button.html' %#}
+                                reply
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>  <!--col-->
+                <div class="col-12">
+                    <p> <!--individual comment forms-->
+                        <form action="/posts/create/comment/1/on/{{ post.pk }}/{{ comment.pk }}/"
+                              method="POST"
+                              class="collapse form-collapse-{{ comment.pk }}">
+                            {{ comment_form|crispy }}
+                            {% csrf_token %}
+                            <button type="submit"
+                                    class="btn btn-secondary">Submit
+                            </button>
+                        </form>
+                    </p>
+                </div>
+            </div>      <!--row-->
+
+
+
+            <!-- adds all subcomments to stack -->
+            {% for subcomment in comment.comment_comments.all %}
+                {% push_item_onto_stack commentstack subcomment %}
+                {% include 'posts/comment.html' %}
+            {% empty %}
+            {% endfor %}
+
+        </div>          <!--media body-->
+    </div>              <!--media border-->
+
+{% else %}
+{% endif %}

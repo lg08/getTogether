@@ -2,13 +2,51 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 
-from .forms import PostForm
-from .models import Post, Upvote, Downvote
+from .forms import PostForm, CommentForm
+from .models import Post, Upvote, Downvote, Comment
 from channels.models import Channel
 
 from .redditUpDownAlg import hot
 
 # Create your views here.
+
+
+def create_comment(request, postpk, commentpk, subcomment):
+    if request.user.is_authenticated:
+        post = get_object_or_404(Post, pk=postpk)
+        if request.method == 'POST':
+            comment_form = CommentForm(data=request.POST)
+            if comment_form.is_valid():
+                new_comment = comment_form.save(commit=False)
+                if subcomment == 1:  # it's a subcomment
+                    new_comment.comment = get_object_or_404(Comment, pk=commentpk)
+                    new_comment.post = post
+                    new_comment.user = request.user
+                    new_comment.save()
+                    post.num_of_comments += 1
+                    post.save()
+                else:
+                    new_comment.post = post
+                    new_comment.user = request.user
+                    new_comment.save()
+                    post.num_of_comments += 1
+                    post.save()
+                return HttpResponseRedirect(reverse('posts:detail',
+                                                    kwargs={"postpk": post.pk}
+                                                    ))
+    else:
+        return HttpResponseRedirect(reverse('users:login'))
+
+def post_detail(request, postpk):
+    if request.user.is_authenticated:
+        post = get_object_or_404(Post, pk=postpk)
+        context = {
+            "post": post,
+            "comment_form": CommentForm,
+        }
+        return render(request, "posts/post_detail.html", context)
+    else:
+        return HttpResponseRedirect(reverse('users:login'))
 
 def create_post(request, channel):
     if request.user.is_authenticated:
