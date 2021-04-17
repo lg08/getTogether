@@ -11,27 +11,27 @@
                <a class="nav-link active" aria-current="page" href="{% url "home"  %}">Home</a>
                </li> -->
           <li class="nav-item">
-              <a class="nav-link" href="{% url "channels:create"  %}">
+              <a class="nav-link text-light" href="{% url "channels:create"  %}">
                   Create Channel
               </a> </li>
           <li class="nav-item">
-              <a class="nav-link" href="{% url "channels:list"  %}">All Channels</a>
+              <a class="nav-link text-light" href="{% url "channels:list"  %}">All Channels</a>
           </li>
     </ul>
             <ul class="navbar-nav mb-2 mb-lg-0">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url "users:profile_page" user.pk %}">Welcome {{ user.username }}!</a>
+                        <a class="nav-link text-light" href="{% url "users:profile_page" user.pk %}">Welcome {{ user.username }}!</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url "users:logout"  %}">Logout</a>
+                        <a class="nav-link text-light" href="{% url "users:logout"  %}">Logout</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url "users:login"  %}">Login</a>
+                        <a class="nav-link text-light" href="{% url "users:login"  %}">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url "users:signup"  %}">Signup</a>
+                        <a class="nav-link text-light" href="{% url "users:signup"  %}">Signup</a>
                     </li>
                 {% endif %}
             </ul>
