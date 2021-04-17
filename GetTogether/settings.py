@@ -33,6 +33,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+# force https
+SECURE_SSL_REDIRECT = False
 
 # Application definition
 

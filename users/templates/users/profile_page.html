@@ -6,62 +6,116 @@
 
     </script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7E0Z5BPny7CTI5mm9MfxbdBKsjy94PXU&libraries=places&callback=initAutocomplete" async defer></script>
-
-    <script>
-     let autocomplete;
-     function initAutocomplete() {
-         autocomplete = new google.maps.places.Autocomplete(
-             document.getElementById('autocomplete'),
-             {
-                 types: ['establishment'],
-                 fields: ['place_id', 'geometry', 'name']
-         });
-
-         autocomplete.addListener('place_changed', onPlaceChanged);
-     }
-
-     function onPlaceChanged() {
-         var place = autocomplete.getPlace();
-
-         if (!place.geometry) {
-             // User didnt select prediction; reset input field
-             document.getElementById('autocomplete').placeholder = 'Enter a valid place';
-         } else {
-             // convert place to coordinates w/ geocoding
-             const geocoder = new google.maps.Geocoder();
-             geocoder.geocode({ placeId: place.place_id }, (results, status) => {
-                 if (status !== "OK" && results) {
-                     window.alert("Geocoder failed due to: " + status);
-                     return;
-                 }
-
-                 // Set channel location in hidden input
-                 user_location = {
-                     latitude: results[0].geometry.location.lat(),
-                     longitude: results[0].geometry.location.lng()
-                 };
-                 document.getElementById("user_location").value = JSON.stringify(user_location);
-             });
-         }
-     }
-    </script>
 
     <div class="container">
 
         <center><h1>{{ this_user }}'s Profile Page</h1></center>
+        <input type="hidden" id="initialuserlocation" value="{{ user.profile.location }}" />
+        <script type="text/javascript">
+            console.log("Initial location from hidden input: " + document.getElementById("initialuserlocation").value);
+        </script>
 
 
         {% if this_user.pk == user.pk %}
             <h1>Change Location</h1>
             <h2>Current Location = {{ user.profile.location }}</h2>
+            <div id="map"></div>
             <form method="post" action="{% url "users:change_location"  %}">
                 {% csrf_token %}
                 {{ form.as_p }}
                 <input type="text" id="autocomplete" placeholder="Enter a place"/>
-                <input type="hidden" id="user_location" name="user_location" value="this is channel location from html" />
+                <input type="hidden" id="user_location" name="user_location" value="{latitude: 40.34870, longitude: -74.659334}" />
                 <input type="submit" value="Save">
         </form>
+
+        <script type="text/javascript">
+
+        let autocomplete;
+        let map;
+        let marker;
+
+        function initAutocomplete() {
+            autocomplete = new google.maps.places.Autocomplete(
+                document.getElementById('autocomplete'),
+                {
+                    types: ['establishment'],
+                    fields: ['place_id', 'geometry', 'name']
+            });
+
+            let initialLocation = document.getElementById("initialuserlocation").value;
+            if (!initialLocation.includes("\"")) {
+                initialLocation = initialLocation.replace("latitude", "\"latitude\"");
+                initialLocation = initialLocation.replace("longitude", "\"longitude\"");
+            }
+
+            console.log(initialLocation);
+            initialLocation = JSON.parse(initialLocation);
+            let initialmapcenter = {
+                lat: initialLocation.latitude,
+                lng: initialLocation.longitude
+            };
+
+            map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 10,
+                center: initialmapcenter
+            });
+
+            marker = new google.maps.Marker({
+                position: initialmapcenter,
+                map: map
+            });
+
+            autocomplete.addListener('place_changed', onPlaceChanged);
+        }
+
+        function onPlaceChanged() {
+            var place = autocomplete.getPlace();
+
+            if (!place.geometry) {
+                // User didnt select prediction; reset input field
+                document.getElementById('autocomplete').placeholder = 'Enter a valid place';
+            } else {
+                // convert place to coordinates w/ geocoding
+                const geocoder = new google.maps.Geocoder();
+                geocoder.geocode({ placeId: place.place_id }, (results, status) => {
+                    if (status !== "OK" && results) {
+                        window.alert("Geocoder failed due to: " + status);
+                        return;
+                    }
+
+                    // Set user location in hidden input
+                    let user_location = {
+                        latitude: results[0].geometry.location.lat(),
+                        longitude: results[0].geometry.location.lng()
+                    };
+                    document.getElementById("user_location").value = JSON.stringify(user_location);
+
+                    displayUserMapLocation(user_location);
+                });
+            }
+        }
+
+        function displayUserMapLocation(user_location) {
+            let user_map_location = {
+                        lat: user_location.latitude,
+                        lng: user_location.longitude
+                    };
+
+                    map.setCenter(user_map_location);
+                    marker.setPosition(user_map_location);
+        }
+        </script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7E0Z5BPny7CTI5mm9MfxbdBKsjy94PXU&libraries=places&callback=initAutocomplete" async></script>
+
+        <style type="text/css">
+            /* Set the size of the div element that contains the map */
+            #map {
+              height: 400px;
+              /* The height is 400 pixels */
+              width: 100%;
+              /* The width is the width of the web page */
+            }
+          </style>
         {% else %}
 
         {% endif %}
