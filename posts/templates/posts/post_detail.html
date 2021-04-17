@@ -5,9 +5,13 @@
 
 {% block title%}
     <title>Post Detail</title>
+
 {% endblock %}
 
 {% block body %}
+
+
+
     <div class="container">
         <center>
             <h1> {{ post.title }} </h1>
@@ -21,32 +25,20 @@
 
         <h1>Comments:</h1>
 
-        {% if user.is_authenticated %}
-            <button
-                class="border-0"
-                type="button"
-                data-toggle="collapse"
-                data-target=".multi-collapse"
-                aria-expanded="false"
-                aria-controls="multiCollapseExample1 multiCollapseExample2">
-                {% include 'posts/addons/reply-button.html' %}
-            </button>
-        {% else %}
-            <form
-                action="{% url 'users:login' %}"
-                method="POST">
-                {% csrf_token %}
-                <button
-                    type="submit"
-                    class="">
-                    {#% include 'posts/addons/reply-button.html' %#}
-                </button>
-            </form>
-        {% endif %}
+
+        <!-- recursive comment revealing -->
+        {% create_stack post.post_comments.all as commentstack %}
+        {% create_stack post.post_comments.all as commentstackcopy %}
+        {% for number in  commentstackcopy %}
+            {% include 'posts/comment.html' %}
+        {% endfor %}
+
+
         <form
             action="{% url "posts:create_comment" subcomment=0 postpk=post.pk commentpk=0 %}"
             method="POST"
-            class="collapse multi-collapse">
+            class="collapse show multi-collapse"
+            id="initial_modal" >
 
             {{ comment_form|crispy }}
             {% csrf_token %}
@@ -57,13 +49,5 @@
             </button>
         </form>
 
-        <br/>
-
-        <!-- recursive comment revealing -->
-        {% create_stack post.post_comments.all as commentstack %}
-        {% create_stack post.post_comments.all as commentstackcopy %}
-        {% for number in  commentstackcopy %}
-            {% include 'posts/comment.html' %}
-        {% endfor %}
     </div>
 {% endblock %}
