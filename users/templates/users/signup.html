@@ -24,31 +24,62 @@
 </div>
 
 <script>
-    let options = {
-        enableHighAccuracy: false,
-        timeout: 5000,
-        maximumAge: Infinity
-    };
 
-    function success(pos) {
-        let crd = pos.coords;
-        document.getElementById("geolocation").value = JSON.stringify(crd);
-        console.log("Successfully obtained location: " + JSON.stringify(crd))
-    }
-
-    function error(err) {
-        console.warn(`ERROR(${err.code}): ${err.message}; Could not obtain your location. Default location set to Nassau Hall, Princeton NJ.`);
-        let crd = {latitude: 40.34870, longitude: -74.659334}
+    function geoFindMe() {
+        function success(position) {
+            const latitude  = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            const crd = {
+                latitude: latitude,
+                longitude: longitude
+            };
             document.getElementById("geolocation").value = JSON.stringify(crd);
+            console.log("Successfully obtained location: " + JSON.stringify(crd));
+        }
+
+        function error() {
+            console.warn(`ERROR(${err.code}): ${err.message}; Could not obtain your location. Default location set to Nassau Hall, Princeton NJ.`);
+            let crd = {latitude: 40.34870, longitude: -74.659334};
+            document.getElementById("geolocation").value = JSON.stringify(crd);
+        }
+
+        if(!navigator.geolocation) {
+            alert('Geolocation is not supported by your browser, please set location manually on your profile page');
+        } else {
+            navigator.geolocation.getCurrentPosition(success, error);
+        }
+
     }
 
-    function setGeolocation() {
-        document.getElementById("geolocation").value = JSON.stringify({latitude: 40.34870, longitude: -74.659334});
-        navigator.geolocation.getCurrentPosition(function () {}, function () {}, {});
-        navigator.geolocation.getCurrentPosition(success, error, options);
-    }
+    geoFindMe();
 
-    setGeolocation();
+
+
+    // const options = {
+    //     enableHighAccuracy: false,
+    //     timeout: 5000,
+    //     maximumAge: Infinity
+    // };
+
+    // function success(pos) {
+    //     let crd = pos.coords;
+    //     document.getElementById("geolocation").value = JSON.stringify(crd);
+    //     console.log("Successfully obtained location: " + JSON.stringify(crd));
+    // }
+
+    // function error(err) {
+    //     console.warn(`ERROR(${err.code}): ${err.message}; Could not obtain your location. Default location set to Nassau Hall, Princeton NJ.`);
+    //     let crd = {latitude: 40.34870, longitude: -74.659334};
+    //     document.getElementById("geolocation").value = JSON.stringify(crd);
+    // }
+
+    // function setGeolocation() {
+    //     document.getElementById("geolocation").value = JSON.stringify({latitude: 40.34870, longitude: -74.659334});
+    //     navigator.geolocation.getCurrentPosition(function () {}, function () {}, {});
+    //     navigator.geolocation.getCurrentPosition(success, error, options);
+    // }
+
+    // setGeolocation();
 </script>
 
 <style>
