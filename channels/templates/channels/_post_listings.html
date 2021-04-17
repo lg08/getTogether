@@ -3,8 +3,7 @@
 {% for post in posts %}
     <div class="card clickable-card post_card"
          id="card-for{{ post.id }}"
-         onclick="window.location='{% url "posts:detail" post.pk %}'"
-         >
+    >
         <!--          onclick="window.location='#'" -->
 
 
@@ -13,7 +12,11 @@
         <div class="card-body">
             <!-- help from here: https://slickmedia.co.uk/blog/glenns-blog/trigger-bootstrap-modal-with-link/ -->
             <!-- <a data-toggle="modal" class="stretched-link" href="#post_modal" id="modal_trigger"></a> -->
-            <h5 class="card-title">{{ post.title }}</h5>
+            <h5 class="card-title"
+               onclick="window.location='{% url "posts:detail" post.pk %}'"
+            >
+                {{ post.title }}
+            </h5>
 
             <hr/>
 
@@ -23,6 +26,7 @@
                  {{ post.message }}
                  </p> -->
             <p class="card-text"
+               onclick="window.location='{% url "posts:detail" post.pk %}'"
             >
                 {{ post.message }}
             </p>
@@ -39,9 +43,13 @@
             </a> <span id="downvotes-for{{ post.id }}"></span>
             <br>
             <br>
-            <p>Created by <a href="{% url "users:profile_page" post.creator.pk %}">
-                {{ post.creator }}
-            </a> at {{post.created_at }}</p>
+            <div
+               onclick="window.location='{% url "posts:detail" post.pk %}'"
+            >
+                <p>Created by <a href="{% url "users:profile_page" post.creator.pk %}">
+                    {{ post.creator }}
+                </a> at {{post.created_at }}</p>
+            </div>
         </div>
     </div>
 
