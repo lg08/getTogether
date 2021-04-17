@@ -8,17 +8,18 @@
 
     <div class="container">
         <h1>Channel: {{ channel_name }}</h1>
-        <h3><a href="{% url "posts:create" channel.pk %}">Make
-            a post!</a></h3>
+        <h4><a href="{% url "posts:create" channel.pk %}">Make
+            a post!</a> |
         {% if isin_channel %}
-            <h5><a href="{% url "channels:join_channel" channel.pk 0 %}">
+            <a href="{% url "channels:join_channel" channel.pk 0 %}">
                 Leave this channel
-            </a></h5>
+            </a>
         {% else %}
-            <h5><a href="{% url "channels:join_channel" channel.pk 1 %}">
+            <a href="{% url "channels:join_channel" channel.pk 1 %}">
                 Join Channel
-            </a></h5>
+            </a>
         {% endif %}
+        </h4>
 
         {% if columns %}
             <a href="{% url "channels:posts" channel.pk 0 %}">List View</a>
