@@ -12,7 +12,7 @@
             a post!</a></center></h3>
         {% if isin_channel %}
             <center><h5><a href="{% url "channels:join_channel" channel.pk 0 %}">
-                Get out of this channel
+                Leave this channel
             </a></center></h5>
         {% else %}
             <center><h5><a href="{% url "channels:join_channel" channel.pk 1 %}">
