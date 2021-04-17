@@ -26,8 +26,7 @@
                 data-target=".multi-collapse"
                 aria-expanded="false"
                 aria-controls="multiCollapseExample1 multiCollapseExample2">
-                {#% include 'bets/addons/reply-button.html' %#}
-                Comment
+                {% include 'posts/addons/reply-button.html' %}
             </button>
         {% else %}
             <form
@@ -37,8 +36,7 @@
                 <button
                     type="submit"
                     class="">
-                    {#% include 'bets/addons/reply-button.html' %#}
-                    Comment
+                    {#% include 'posts/addons/reply-button.html' %#}
                 </button>
             </form>
         {% endif %}

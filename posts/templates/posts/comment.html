@@ -22,15 +22,13 @@
                                 aria-expanded="false"
                                 aria-controls="multiCollapseExample1
                                        multiCollapseExample2">
-                            {#% include 'bets/addons/reply-button.html' %#}
-                            reply
+                            {% include 'posts/addons/reply-button.html' %}
                         </button>
                     {% else %} <!--just redirects to login page-->
                         <form action="{% url 'users:login' %}" method="POST">
                             {% csrf_token %}
                             <button type="submit" class="border-0">
-                                {#% include 'bets/addons/reply-button.html' %#}
-                                reply
+                                {% include 'posts/addons/reply-button.html' %}
                             </button>
                         </form>
                     {% endif %}
