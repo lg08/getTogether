@@ -19,25 +19,19 @@ def list_channels(request):
         all_channels = Channel.objects.all()
         nearby_channels = []
         user_location = json.loads(request.user.profile.location)
-        print("---------------------------")
-        print(user_location)
         range = request.GET.get("range")
         if range == None:
             range = 150
         else:
             range = int(range)
-        print()
-        print("this the range: {}".format(range))
-        print()
         for channel in all_channels:
             channel_location = json.loads(channel.location)
             distance = haversine(user_location['longitude'],
                                  user_location['latitude'],
                                  channel_location['longitude'],
                                  channel_location['latitude'])
-            print("distance: {}".format(distance))
             if distance < range:
-                nearby_channels.append(channel)
+                nearby_channels.append((channel, int(distance)))
         context = {
             "channels": nearby_channels,
         }
