@@ -24,7 +24,7 @@ def list_channels(request):
             print("---------------------------")
             print(user_location)
             range = request.GET.get("range")
-            if range == None:
+            if range == None or range == '':
                 range = 150
             else:
                 range = int(range)
