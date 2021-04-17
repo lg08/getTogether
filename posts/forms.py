@@ -1,5 +1,6 @@
 from django import forms
 from channels.models import Channel
+from posts.models import Comment
 
 CHOICES = []
 for channel in Channel.objects.all():
@@ -13,3 +14,9 @@ class PostForm(forms.Form):
             attrs={'class': 'post_message_form'}
         )
     )
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('message', )

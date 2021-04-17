@@ -16,4 +16,14 @@ urlpatterns = [
         views.upvote_downvote_post,
         name='up_or_downvote'
     ),
+    path(
+        "<int:postpk>/detail/",
+        views.post_detail,
+        name='detail'
+    ),
+    path(
+        'create/comment/<int:subcomment>/on/<int:postpk>/<int:commentpk>/',
+        views.create_comment,
+        name='create_comment'
+    ),
 ]

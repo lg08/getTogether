@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% load crispy_forms_tags %}
+
+
+{% block title%}
+    <title>Post Detail</title>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>
+            {{ post.title }}
+        </h1>
+        <p>
+            {{post.message}}
+        </p>
+
+        <h1>Comments:</h1>
+
+        {% if user.is_authenticated %}
+            <button
+                class="border-0"
+                type="button"
+                data-toggle="collapse"
+                data-target=".multi-collapse"
+                aria-expanded="false"
+                aria-controls="multiCollapseExample1 multiCollapseExample2">
+                {#% include 'bets/addons/reply-button.html' %#}
+                Comment
+            </button>
+        {% else %}
+            <form
+                action="{% url 'users:login' %}"
+                method="POST">
+                {% csrf_token %}
+                <button
+                    type="submit"
+                    class="">
+                    {#% include 'bets/addons/reply-button.html' %#}
+                    Comment
+                </button>
+            </form>
+        {% endif %}
+        <form
+            action="{% url "posts:create_comment" subcomment=0 postpk=post.pk commentpk=0 %}"
+            method="POST"
+            class="collapse multi-collapse">
+
+            {{ comment_form|crispy }}
+            {% csrf_token %}
+            <button
+                type="submit"
+                class="btn btn-secondary">
+                Submit
+            </button>
+        </form>
+
+        <br/>
+
+        <!-- recursive comment revealing -->
+        {% create_stack post.post_comments.all as commentstack %}
+        {% create_stack post.post_comments.all as commentstackcopy %}
+        {% for number in  commentstackcopy %}
+            {% include 'posts/comment.html' %}
+        {% endfor %}
+    </div>
+{% endblock %}

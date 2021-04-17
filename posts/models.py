@@ -32,6 +32,7 @@ class Post(models.Model):
     )
     num_of_upvotes = models.IntegerField(default=0)
     num_of_downvotes = models.IntegerField(default=0)
+    num_of_comments = models.IntegerField(default=0)
     score = models.IntegerField(default=0)
 
     def __str__(self):
