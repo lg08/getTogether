@@ -9,11 +9,11 @@
     <div class="container">
         <h1>Channel: {{ channel_name }}</h1>
         <h4><a href="{% url "posts:create" channel.pk %}">Make
-            a post!</a>|
+            a post!</a> |
         {% if isin_channel %}
             <a href="{% url "channels:join_channel" channel.pk 0 %}">
                 Leave this channel
-            </a>|
+            </a>
         {% else %}
             <a href="{% url "channels:join_channel" channel.pk 1 %}">
                 Join Channel
