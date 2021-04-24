@@ -7,6 +7,9 @@ from . import forms
 from django.contrib.auth.models import User
 from posts.models import Post, Upvote, Downvote
 from channels.models import Channel
+from channels.views import haversine
+
+import json
 
 # Create your views here.
 
@@ -16,10 +19,19 @@ def profile_page(request, user_pk, columns=1):
     channel_subscriptions = user.channel_set.all()
     posts = Post.objects.filter(creator__pk=user.pk)
 
+    post_distance_list = []
+    user_location = json.loads(request.user.profile.location)
+    for post in posts:
+        post_location = json.loads(post.location)
+        distance = haversine(user_location['longitude'],
+                             user_location['latitude'],
+                             post_location['longitude'],
+                             post_location['latitude'])
+        post_distance_list.append((post, int(distance)))
     upvotes = []
     downvotes = []
     if (request.user.is_authenticated):
-        
+
         for i, post in enumerate(posts):
             upvotes.append(str(Upvote.objects.filter(user=request.user, post=posts[i])))
             downvotes.append(str(Downvote.objects.filter(user=request.user, post=posts[i])))
@@ -27,7 +39,7 @@ def profile_page(request, user_pk, columns=1):
     context = {
         "this_user": user,
         "channel_subscriptions": channel_subscriptions,
-        "posts": posts,
+        "posts": post_distance_list,
         "columns": columns,
         'upvotes': upvotes,
         'downvotes': downvotes,

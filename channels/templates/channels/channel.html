@@ -6,9 +6,11 @@
 
 {% block body %}
 
+
     <div class="container">
         <center><h1>{{ channel_name }}</h1></center>
-        <center><h4><a href="{% url "posts:create" channel.pk %}">Make
+        <center>
+            <h4><a href="{% url "posts:create" channel.pk %}">Make
             a post!</a> |
         {% if isin_channel %}
             <a href="{% url "channels:join_channel" channel.pk 0 %}">
@@ -19,13 +21,28 @@
                 Join Channel
             </a>
         {% endif %}
-        </h4></center>
+        </h4>
+        <input
+            type="range"
+            min="1"
+            max="100"
+            value="50"
+            class="slider"
+            id="myRange"
+            oninput="filterByRadius(this.value);"
+        >
+
+        <h5>Range: <span id="current_radius">50</span></h5>
+
+
+        </center>
 
         {% if columns %}
             <a href="{% url "channels:posts" channel.pk 0 %}">List View</a>
         {% else %}
             <a href="{% url "channels:posts" channel.pk 1 %}">Column View</a>
         {% endif %}
+
 
         <h2>Posts:</h2>
 
@@ -72,6 +89,25 @@
 
      }
 
+     function filterByRadius(radius) {
+
+         var posts = document.getElementsByClassName('myPosts');
+
+         document.getElementById('current_radius').textContent = radius;
+
+         for (var i = 0; i < posts.length; i ++){
+             distance = parseInt(posts[i].getElementsByClassName("distance")[0].textContent);
+             if (radius < distance) {
+                 posts[i].style.display = 'none';
+             }
+             else {
+                 posts[i].style.display = 'block';
+             }
+         }
+     }
+
+     /* default filtering to 50 kilometers */
+     window.onload = filterByRadius(50);
     </script>
 
 {% endblock %}

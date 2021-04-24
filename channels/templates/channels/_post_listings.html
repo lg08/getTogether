@@ -7,7 +7,7 @@
             document.getElementById("upvotes-for" + String(postid)).innerHTML = String(upvotes);
             document.getElementById("downvotes-for" + String(postid)).innerHTML = String(downvotes);
             if (created == undefined) {
-                
+
                 if ("{{upvotes}}".includes("upvoted " + upvoteDownvote)) {
                     created = true;
                     upvoteDownvote = "upvote"
@@ -53,7 +53,7 @@
 
         }
 
-        
+
 
         var controller = null;
         function upvoteAJAX(postid) {
@@ -83,8 +83,8 @@
 
     </script>
 
-{% for post in posts %}
-    <div class="card clickable-card post_card"
+{% for post, distance in posts %}
+    <div class="card clickable-card post_card myPosts"
          id="card-for{{ post.id }}"
     >
         <!--          onclick="window.location='#'" -->
@@ -133,13 +133,25 @@
                 <p>Created by <a href="{% url "users:profile_page" post.creator.pk %}">
                     {{ post.creator }}
                 </a> at {{post.created_at }}</p>
+                {% if post.num_of_comments == 1 %}
+                    <p>{{ post.num_of_comments }} comment</p>
+                {% else %}
+                    <p>{{ post.num_of_comments }} comments</p>
+                {% endif %}
+                <p>
+
+                    <span class="distance">
+                        {{ distance }}
+                    </span>
+                    kilometers away
+                </p>
             </div>
         </div>
     </div>
 
-    
+
     <script>window.onload = updateUpDown("{{ post.id }}", "{{ post.num_of_upvotes }}", "{{ post.num_of_downvotes }}",undefined,"{{ post.title }}");</script>
-    
+
 
 {% endfor %}
 
@@ -148,4 +160,3 @@
     opacity: .5;
     }
 </style>
-

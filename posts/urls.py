@@ -26,4 +26,9 @@ urlpatterns = [
         views.create_comment,
         name='create_comment'
     ),
+    path(
+        'create_event/',
+        views.create_event,
+        name='create_event'
+    ),
 ]

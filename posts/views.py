@@ -2,11 +2,13 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 
-from .forms import PostForm, CommentForm
-from .models import Post, Upvote, Downvote, Comment
+from .forms import PostForm, CommentForm, EventForm
+from .models import Post, Upvote, Downvote, Comment, Event
 from channels.models import Channel
 
 from .redditUpDownAlg import hot
+
+import json
 
 # Create your views here.
 
@@ -48,6 +50,54 @@ def post_detail(request, postpk):
     else:
         return HttpResponseRedirect(reverse('users:login'))
 
+def create_event(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            print("is inside post")
+            form = EventForm(request.POST)
+            if form.is_valid():
+                print("form is valid")
+                new_post = Post()
+                new_post.title = form.cleaned_data['title']
+                new_post.message = form.cleaned_data['message']
+                associated_channel = get_object_or_404(Channel, title="Events")
+                new_post.channel = associated_channel
+                new_post.creator = request.user
+                new_post.location = request.user.profile.location
+                new_post.save()
+                new_post.score = hot(0, 0, new_post.created_at)
+                new_post.save()
+                new_event = Event()
+                # new_event.start_time = form.cleaned_data['start_time']
+                # new_event.end_time = form.cleaned_data['end_time']
+                new_event.post = new_post
+                new_event.start_time = json.dumps(request.POST.get("start_time"))
+                new_event.end_time = json.dumps(request.POST.get("end_time"))
+                new_event.exact_location = request.POST.get("channellocation")
+                new_event.save()
+                return HttpResponseRedirect(reverse('posts:detail', kwargs={'postpk': new_post.pk}))
+            # form not valid
+            else:
+                print("form not valid")
+                print(form.errors)
+                context = {
+                    "form": form,
+                    # "channel": get_object_or_404(Channel, pk=channel),
+                }
+                return render (request, "posts/event_form.html", context)
+        # it's a get request
+        else:
+            form = EventForm()
+            context = {
+                "form": form,
+                # "channel": get_object_or_404(Channel, pk=channel),
+            }
+            return render (request, "posts/event_form.html", context)
+
+    else:
+        return HttpResponseRedirect(reverse('users:login'))
+
+
 def create_post(request, channel):
     if request.user.is_authenticated:
         if request.method == 'POST':
@@ -59,6 +109,7 @@ def create_post(request, channel):
                 associated_channel = get_object_or_404(Channel, pk=channel)
                 new_post.channel = associated_channel
                 new_post.creator = request.user
+                new_post.location = request.user.profile.location
                 new_post.save()
                 new_post.score = hot(0, 0, new_post.created_at)
                 new_post.save()

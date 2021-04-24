@@ -35,9 +35,26 @@ class Post(models.Model):
     num_of_comments = models.IntegerField(default=0)
     score = models.IntegerField(default=0)
 
+    location = models.TextField(null=False, blank=False,
+                                max_length=50000, default="put JSON" + \
+                                "object here")
+
     def __str__(self):
         return self.title
 
+
+class Event(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    # start_time = models.DateTimeField()
+    # end_time = models.DateTimeField()
+    start_time = models.TextField(max_length=500)
+    end_time = models.TextField(max_length=500)
+
+    exact_location = models.TextField(null=False, blank=False,
+                                      max_length=50000, default='{"latitude":40.344149988101236,"longitude":-74.65598258598506}')
+
+    def __str__(self):
+        return self.post.title
 
 class Comment(models.Model):
     post = models.ForeignKey(

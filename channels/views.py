@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
-from posts.models import Post, Upvote, Downvote 
+from posts.models import Post, Upvote, Downvote
 from .models import Channel
 from django.views.generic.edit import CreateView
 
@@ -14,30 +14,30 @@ from math import radians, cos, sin, asin, sqrt
 
 # Create your views here.
 
+def set_post_defaults():
+    all_posts = Post.objects.all()
+    for post in all_posts:
+        post.location = '{"latitude":40.3505454,"longitude":-74.652204}'
+        post.save()
+
+# set_post_defaults()
+
 def list_channels(request):
     if request.user.is_authenticated:
-        if request.method == "GET":
-
-            all_channels = Channel.objects.all()
-            nearby_channels = []
-            user_location = json.loads(request.user.profile.location)
-            range = request.GET.get("range")
-            if range == None or range == '':
-                range = 150
-            else:
-                range = int(range)
-            for channel in all_channels:
-                channel_location = json.loads(channel.location)
-                distance = haversine(user_location['longitude'],
-                                    user_location['latitude'],
-                                    channel_location['longitude'],
-                                    channel_location['latitude'])
-                if distance < range:
-                    nearby_channels.append((channel, int(distance)))
-            context = {
-                "channels": nearby_channels,
-            }
-            return render(request, "channels/list_channels.html", context)
+        all_channels = Channel.objects.all()
+        nearby_channels = []
+        user_location = json.loads(request.user.profile.location)
+        for channel in all_channels:
+            channel_location = json.loads(channel.location)
+            distance = haversine(user_location['longitude'],
+                                user_location['latitude'],
+                                channel_location['longitude'],
+                                channel_location['latitude'])
+            nearby_channels.append((channel, int(distance)))
+        context = {
+            "channels": nearby_channels,
+        }
+        return render(request, "channels/list_channels.html", context)
     else:
         return HttpResponseRedirect(
             reverse("users:login")
@@ -61,7 +61,6 @@ def join_channel(request, channel_pk, join_or_remove):
 def create_channel(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
-            print('--------------------klasdfsaldjflsad')
             form = Channel_Create_Form(request.POST)
             if form.is_valid():
                 new_channel = Channel()
@@ -96,19 +95,31 @@ def create_channel(request):
         )
 
 
-def channel_posts(request, channel_pk, columns=1):
+def channel_posts(request, channel_pk=1, columns=0):
     this_channel = get_object_or_404(Channel, pk=channel_pk)
     all_channel_posts = Post.objects.filter(
         channel=this_channel
     ).order_by('-score')
-    
 
     upvotes = []
     downvotes = []
-    for i, post in enumerate(all_channel_posts):
-        upvotes.append(str(Upvote.objects.filter(user=request.user, post=all_channel_posts[i])))
-        downvotes.append(str(Downvote.objects.filter(user=request.user, post=all_channel_posts[i])))
+    post_distance_list = []
+    if request.user.is_authenticated:
+        user_location = json.loads(request.user.profile.location)
 
+    for i, post in enumerate(all_channel_posts):
+        if request.user.is_authenticated:
+            upvotes.append(str(Upvote.objects.filter(user=request.user, post=all_channel_posts[i])))
+            downvotes.append(str(Downvote.objects.filter(user=request.user, post=all_channel_posts[i])))
+
+            post_location = json.loads(post.location)
+            distance = int(haversine(user_location['longitude'],
+                                user_location['latitude'],
+                                post_location['longitude'],
+                                post_location['latitude']))
+        else:
+            distance = "Unknown"
+        post_distance_list.append((post, distance))
 
     all_channel_users = this_channel.members.all()
     if request.user in this_channel.members.all():
@@ -116,7 +127,7 @@ def channel_posts(request, channel_pk, columns=1):
     else:
         isin_channel = False
     context = {
-        'posts': all_channel_posts,
+        'posts': post_distance_list,
         'channel_name': this_channel.title,
         'channel_members': all_channel_users,
         'channel': this_channel,
@@ -132,7 +143,7 @@ def main_feed(request):
     # if request.user.is_authenticated:
     # grabs the main channel
     main_channel = get_object_or_404(Channel, title='Main')
-    
+
     # grabs all the bets associated with the main channel
     all_main_feed_posts = Post.objects.filter(
         channel=main_channel
@@ -141,7 +152,7 @@ def main_feed(request):
     upvotes = []
     downvotes = []
     if (request.user.is_authenticated):
-        
+
         for i, post in enumerate(all_main_feed_posts):
             upvotes.append(str(Upvote.objects.filter(user=request.user, post=all_main_feed_posts[i])))
             downvotes.append(str(Downvote.objects.filter(user=request.user, post=all_main_feed_posts[i])))
