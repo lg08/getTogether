@@ -44,9 +44,33 @@ class Post(models.Model):
 
 
 class Event(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    creator = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+    title = models.TextField(
+        null=False,
+        blank=False,
+        max_length=50,
+        default="title here"
+    )
+    message = models.TextField(
+        null=False,
+        blank=False,
+        max_length=1000,
+        default="message here"
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+    num_of_upvotes = models.IntegerField(default=0)
+    num_of_downvotes = models.IntegerField(default=0)
+    num_of_comments = models.IntegerField(default=0)
+    score = models.IntegerField(default=0)
     # start_time = models.DateTimeField()
     # end_time = models.DateTimeField()
+
+
     start_time = models.TextField(max_length=500)
     end_time = models.TextField(max_length=500)
 

@@ -31,4 +31,9 @@ urlpatterns = [
         views.create_event,
         name='create_event'
     ),
+    path(
+        'view_events/',
+        views.view_events,
+        name='events'
+    ),
 ]

@@ -23,6 +23,9 @@
           <li class="nav-item">
               <a class="nav-link text-light" href="{% url "posts:create_event"  %}">Create Event</a>
           </li>
+          <li class="nav-item">
+              <a class="nav-link text-light" href="{% url "posts:events"  %}">View Events</a>
+          </li>
     </ul>
             <ul class="navbar-nav mb-2 mb-lg-0">
                 {% if user.is_authenticated %}

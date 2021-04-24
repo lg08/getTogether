@@ -2,6 +2,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 
+from channels.views import haversine
+
 from .forms import PostForm, CommentForm, EventForm
 from .models import Post, Upvote, Downvote, Comment, Event
 from channels.models import Channel
@@ -50,6 +52,28 @@ def post_detail(request, postpk):
     else:
         return HttpResponseRedirect(reverse('users:login'))
 
+def view_events(request):
+    if request.user.is_authenticated:
+        all_events = Event.objects.all()
+
+        user_location = json.loads(request.user.profile.location)
+        nearby_posts = []
+        for event in all_events:
+            event_location = json.loads(event.exact_location)
+            distance = haversine(user_location['longitude'],
+                                user_location['latitude'],
+                                event_location['longitude'],
+                                event_location['latitude'])
+            nearby_posts.append((event.post, int(distance)))
+
+        context = {
+            "posts": nearby_posts,
+        }
+        return render (request, "posts/all_events.html", context)
+    else:
+        return HttpResponseRedirect(reverse('users:login'))
+
+
 def create_event(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
@@ -57,20 +81,13 @@ def create_event(request):
             form = EventForm(request.POST)
             if form.is_valid():
                 print("form is valid")
-                new_post = Post()
-                new_post.title = form.cleaned_data['title']
-                new_post.message = form.cleaned_data['message']
-                associated_channel = get_object_or_404(Channel, title="Events")
-                new_post.channel = associated_channel
-                new_post.creator = request.user
-                new_post.location = request.user.profile.location
-                new_post.save()
-                new_post.score = hot(0, 0, new_post.created_at)
-                new_post.save()
                 new_event = Event()
-                # new_event.start_time = form.cleaned_data['start_time']
-                # new_event.end_time = form.cleaned_data['end_time']
-                new_event.post = new_post
+                new_event.title = form.cleaned_data['title']
+                new_event.message = form.cleaned_data['message']
+                new_event.creator = request.user
+                new_event.save()
+                new_event.score = hot(0, 0, new_event.created_at)
+                new_event.save()
                 new_event.start_time = json.dumps(request.POST.get("start_time"))
                 new_event.end_time = json.dumps(request.POST.get("end_time"))
                 new_event.exact_location = request.POST.get("channellocation")

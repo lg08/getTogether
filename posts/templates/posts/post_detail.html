@@ -22,9 +22,17 @@
             {{post.message}}
         </p>
 
+        {% if post.event %}
+            <h1>Start Time: {{ post.event.start_time }}</h1>
+            <h1>End Time: {{ post.event.end_time }}</h1>
+            {{ post.event }}
+        {% else %}
+        {% endif %}
+
         <hr/>
 
         <h1>Comments:</h1>
+
 
 
         <!-- recursive comment revealing -->

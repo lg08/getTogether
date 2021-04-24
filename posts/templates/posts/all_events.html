@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+
+{% block page_title%}
+    <title>Events</title>
+{% endblock %}
+
+
+{% block body %}
+
+
+    <div class="container">
+        <center>Events</center>
+
+        <h2>Events:</h2>
+
+        <div class="{% if columns %}card-columns{% endif %}">
+            {% include 'channels/_post_listings.html' %}
+        </div>
+
+
+        <h2>Members:</h2>
+        <ul>
+            {% for member in channel_members %}
+                <li>{{ member }}</li>
+            {% endfor %}
+        </ul>
+
+
+    </div>
+
+{% endblock %}
