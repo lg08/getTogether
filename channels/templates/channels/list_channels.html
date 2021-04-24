@@ -8,22 +8,34 @@
     <div class="container">
         <h1>Channels:</h1>
         <ul>
+        <input
+            type="range"
+            min="1"
+            max="300"
+            value="150"
+            class="slider"
+            id="myRange"
+            oninput="filterByRadius(this.value);"
+        >
+        <h5>Range: <span id="current_radius">150</span></h5>
             <!-- <div class="slidecontainer">
                  <form method="post" action="channels:list_channels">
                  <h4>Radius:</h4>
                  <input type="range" min="1" max="100" name="channelrange" value="10" id="channelrange">
                  </form>
                  </div> -->
-            <form action="{% url "channels:list" %}" method="GET">
-                <label for="range">Enter Radius</label>
-                <input name="range" type="number" value=""/>
-            </form>
+            <!-- <form action="{% url "channels:list" %}" method="GET">
+                 <label for="range">Enter Radius</label>
+                 <input name="range" type="number" value=""/>
+                 </form> -->
             <hr>
             <div class="list-group list-group-flush">
                 {% for channel, distance in channels %}
                         <a href="{% url "channels:posts" channel.pk %}"
                            class="list-group-item
-                                 list-group-item-action">
+                                 list-group-item-action myChannels"
+                        >
+                            <span style="display:none;" class="distance">{{ distance }}</span>
                             {{ channel.title }}  ({{ distance }} kilometers away)
                         </a>
                 {% endfor %}
@@ -44,16 +56,38 @@
             if (controller !== null) {
                 controller.abort();
             }
-            let controller = new AbortController();
+         let controller = new AbortController();
 
-            fetch(url, {signal: controller.signal})
-                .then(function(resp){return resp.json;})
-                .then(function(json){
-                    //create innerhtml string using json.channels and js to recreate templating functionality
-                    json.channels;
-                    })
-                .catch(function(err){console.log(err);});
-        }
-        document.getElementById.addEventListener("change", reloadChannels);
-    </script> -->
+         fetch(url, {signal: controller.signal})
+         .then(function(resp){return resp.json;})
+         .then(function(json){
+         //create innerhtml string using json.channels and js to recreate templating functionality
+         json.channels;
+         })
+         .catch(function(err){console.log(err);});
+         }
+         document.getElementById.addEventListener("change", reloadChannels);
+         </script> -->
+    <script>
+
+     function filterByRadius(radius) {
+
+         var posts = document.getElementsByClassName('myChannels');
+
+         document.getElementById('current_radius').textContent = radius;
+
+         for (var i = 0; i < posts.length; i ++){
+             distance = parseInt(posts[i].getElementsByClassName("distance")[0].textContent);
+             if (radius < distance) {
+                 posts[i].style.display = 'none';
+             }
+             else {
+                 posts[i].style.display = 'block';
+             }
+         }
+     }
+
+     /* default filtering to 50 kilometers */
+     window.onload = filterByRadius(150);
+    </script>
 {% endblock %}

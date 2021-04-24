@@ -24,28 +24,20 @@ def set_post_defaults():
 
 def list_channels(request):
     if request.user.is_authenticated:
-        if request.method == "GET":
-
-            all_channels = Channel.objects.all()
-            nearby_channels = []
-            user_location = json.loads(request.user.profile.location)
-            range = request.GET.get("range")
-            if range == None or range == '':
-                range = 150
-            else:
-                range = int(range)
-            for channel in all_channels:
-                channel_location = json.loads(channel.location)
-                distance = haversine(user_location['longitude'],
-                                    user_location['latitude'],
-                                    channel_location['longitude'],
-                                    channel_location['latitude'])
-                if distance < range:
-                    nearby_channels.append((channel, int(distance)))
-            context = {
-                "channels": nearby_channels,
-            }
-            return render(request, "channels/list_channels.html", context)
+        all_channels = Channel.objects.all()
+        nearby_channels = []
+        user_location = json.loads(request.user.profile.location)
+        for channel in all_channels:
+            channel_location = json.loads(channel.location)
+            distance = haversine(user_location['longitude'],
+                                user_location['latitude'],
+                                channel_location['longitude'],
+                                channel_location['latitude'])
+            nearby_channels.append((channel, int(distance)))
+        context = {
+            "channels": nearby_channels,
+        }
+        return render(request, "channels/list_channels.html", context)
     else:
         return HttpResponseRedirect(
             reverse("users:login")
