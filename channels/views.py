@@ -136,23 +136,20 @@ def main_feed(request):
     all_main_feed_posts = Post.objects.filter(
         channel=main_channel
     )
+
+    upvotes = []
+    downvotes = []
     if (request.user.is_authenticated):
-        upvotes = []
-        downvotes = []
+        
         for i, post in enumerate(all_main_feed_posts):
             upvotes.append(str(Upvote.objects.filter(user=request.user, post=all_main_feed_posts[i])))
             downvotes.append(str(Downvote.objects.filter(user=request.user, post=all_main_feed_posts[i])))
 
-        context = {
-            'posts': all_main_feed_posts,
-            'upvotes': upvotes,
-            'downvotes': downvotes,
-        }
-
-    else:
-        context = {
-            'posts': all_main_feed_posts
-        }
+    context = {
+        'posts': all_main_feed_posts,
+        'upvotes': upvotes,
+        'downvotes': downvotes,
+    }
     return render(request,  "index.html", context)
     # else:
         # if the user isn't loggin in, take them to the login page
