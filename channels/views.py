@@ -139,7 +139,7 @@ def main_feed(request):
 
     upvotes = []
     downvotes = []
-    for i, post in enumerate(all_main_feed_postsf):
+    for i, post in enumerate(all_main_feed_posts):
         upvotes.append(str(Upvote.objects.filter(user=request.user, post=all_main_feed_posts[i])))
         downvotes.append(str(Downvote.objects.filter(user=request.user, post=all_main_feed_posts[i])))
 
