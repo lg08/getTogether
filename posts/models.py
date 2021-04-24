@@ -35,6 +35,10 @@ class Post(models.Model):
     num_of_comments = models.IntegerField(default=0)
     score = models.IntegerField(default=0)
 
+    location = models.TextField(null=False, blank=False,
+                                max_length=50000, default="put JSON" + \
+                                "object here")
+
     def __str__(self):
         return self.title
 

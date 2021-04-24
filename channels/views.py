@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
-from posts.models import Post, Upvote, Downvote 
+from posts.models import Post, Upvote, Downvote
 from .models import Channel
 from django.views.generic.edit import CreateView
 
@@ -13,6 +13,14 @@ from .forms import Channel_Create_Form
 from math import radians, cos, sin, asin, sqrt
 
 # Create your views here.
+
+def set_post_defaults():
+    all_posts = Post.objects.all()
+    for post in all_posts:
+        post.location = '{"latitude":40.3505454,"longitude":-74.652204}'
+        post.save()
+
+# set_post_defaults()
 
 def list_channels(request):
     if request.user.is_authenticated:
@@ -96,19 +104,26 @@ def create_channel(request):
         )
 
 
-def channel_posts(request, channel_pk, columns=1):
+def channel_posts(request, channel_pk=1, columns=1):
     this_channel = get_object_or_404(Channel, pk=channel_pk)
     all_channel_posts = Post.objects.filter(
         channel=this_channel
     ).order_by('-score')
-    
 
     upvotes = []
     downvotes = []
+    post_distance_list = []
+    user_location = json.loads(request.user.profile.location)
     for i, post in enumerate(all_channel_posts):
         upvotes.append(str(Upvote.objects.filter(user=request.user, post=all_channel_posts[i])))
         downvotes.append(str(Downvote.objects.filter(user=request.user, post=all_channel_posts[i])))
 
+        post_location = json.loads(post.location)
+        distance = haversine(user_location['longitude'],
+                             user_location['latitude'],
+                             post_location['longitude'],
+                             post_location['latitude'])
+        post_distance_list.append((post, int(distance)))
 
     all_channel_users = this_channel.members.all()
     if request.user in this_channel.members.all():
@@ -116,7 +131,7 @@ def channel_posts(request, channel_pk, columns=1):
     else:
         isin_channel = False
     context = {
-        'posts': all_channel_posts,
+        'posts': post_distance_list,
         'channel_name': this_channel.title,
         'channel_members': all_channel_users,
         'channel': this_channel,
@@ -140,7 +155,7 @@ def main_feed(request):
     upvotes = []
     downvotes = []
     if (request.user.is_authenticated):
-        
+
         for i, post in enumerate(all_main_feed_posts):
             upvotes.append(str(Upvote.objects.filter(user=request.user, post=all_main_feed_posts[i])))
             downvotes.append(str(Downvote.objects.filter(user=request.user, post=all_main_feed_posts[i])))

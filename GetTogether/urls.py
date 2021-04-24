@@ -20,11 +20,12 @@ from django.conf.urls import include
 from . import views, settings
 from django.contrib.staticfiles.urls import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from channels.views import main_feed
+from channels.views import main_feed, channel_posts
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', main_feed, name='home'),
+    # path('', main_feed, name='home'),
+    path('', channel_posts, name='home'),
     path('users/', include('users.urls', namespace='users')),
     path('users/', include('django.contrib.auth.urls')),
     path('', views.HomePage.as_view(), name='home'),

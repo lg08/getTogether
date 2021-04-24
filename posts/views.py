@@ -59,6 +59,7 @@ def create_post(request, channel):
                 associated_channel = get_object_or_404(Channel, pk=channel)
                 new_post.channel = associated_channel
                 new_post.creator = request.user
+                new_post.location = request.user.profile.location
                 new_post.save()
                 new_post.score = hot(0, 0, new_post.created_at)
                 new_post.save()
