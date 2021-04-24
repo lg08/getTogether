@@ -9,8 +9,6 @@
 {% block body %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7E0Z5BPny7CTI5mm9MfxbdBKsjy94PXU&libraries=places&callback=initAutocomplete" async defer></script>
-
  <!-- Font Awesome -->
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
@@ -23,43 +21,45 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js" integrity="sha256-z0oKYg6xiLq3yJGsp/LsY9XykbweQlHl42jHv2XTBz4=" crossorigin="anonymous"></script>
 
 
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7E0Z5BPny7CTI5mm9MfxbdBKsjy94PXU&libraries=places&callback=initAutocomplete" async defer></script>
+
     <script>
-     let autocomplete;
-     function initAutocomplete() {
-         autocomplete = new google.maps.places.Autocomplete(
-             document.getElementById('autocomplete'),
-             {
-                 types: ['establishment'],
-                 fields: ['place_id', 'geometry', 'name']
-         });
+        let autocomplete;
+        function initAutocomplete() {
+            autocomplete = new google.maps.places.Autocomplete(
+            document.getElementById('autocomplete'),
+            {
+                types: ['establishment'],
+                fields: ['place_id', 'geometry', 'name']
+            });
 
-         autocomplete.addListener('place_changed', onPlaceChanged);
-     }
+            autocomplete.addListener('place_changed', onPlaceChanged);
+        }
 
-     function onPlaceChanged() {
-         var place = autocomplete.getPlace();
+        function onPlaceChanged() {
+            var place = autocomplete.getPlace();
 
-         if (!place.geometry) {
-             // User didnt select prediction; reset input field
-             document.getElementById('autocomplete').placeholder = 'Enter a valid place';
-         } else {
-             // convert place to coordinates w/ geocoding
-             const geocoder = new google.maps.Geocoder();
-             geocoder.geocode({ placeId: place.place_id }, (results, status) => {
-                 if (status !== "OK" && results) {
-                     window.alert("Geocoder failed due to: " + status);
-                     return;
-                 }
+            if (!place.geometry) {
+            // User didnt select prediction; reset input field
+            document.getElementById('autocomplete').placeholder = 'Enter a valid place';
+            } else {
+            // convert place to coordinates w/ geocoding
+            const geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ placeId: place.place_id }, (results, status) => {
+                if (status !== "OK" && results) {
+                    window.alert("Geocoder failed due to: " + status);
+                    return;
+                }
 
-                 // Set channel location in hidden input
-                 channelLocation = {
-                     latitude: results[0].geometry.location.lat(),
-                     longitude: results[0].geometry.location.lng()
-                 };
-                 document.getElementById("channellocation").value = JSON.stringify(channelLocation);
-             });
-         }
-     }
+                // Set channel location in hidden input
+                channelLocation = {
+                    latitude: results[0].geometry.location.lat(),
+                    longitude: results[0].geometry.location.lng()
+                    };
+                document.getElementById("channellocation").value = JSON.stringify(channelLocation);
+                });
+            }
+        }
     </script>
 
     <div style="margin-top: 30px;" class="container">
@@ -72,27 +72,37 @@
                     {% csrf_token %}
                     {#{ form.as_p }#}
                     {{ form.errors }}
-                    <p>Title:</p>
-                    {{ form.title }}
+                    <label>
+                        Title:
+                        {{ form.title }}
+                    </label>
                     <br/>
-                    <p>Message:</p>
-                    {{ form.message }}
+                    <label>
+                        Description:
+                        {{ form.message }}
+                    </label>
                     <br/>
-
-                    <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                        {{ form.start_time }}
-                        <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    <label>
+                        Start Date:
+                        <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                            {{ form.start_time }}
+                            <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
-                        {{ form.end_time }}
-                        <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                        </div>
-                    </div>
+                    </label>
 
-                    <script>
+                    <label>
+                        End Date:
+                        <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+                            {{ form.end_time }}
+                            <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </label>
+
+                    <!-- <script>
                      $(function () {
                          /* $("#datetimepicker1").datetimepicker({
                           *     format: 'DD/MM/YYYY HH:mm',
@@ -101,15 +111,15 @@
                           *     format: 'DD/MM/YYYY HH:mm',
                           * }); */
                      });
-                    </script>
+                    </script> -->
                     <br/>
 
 
                     <label>
                         Event Location:
                         <input type="text" id="autocomplete" placeholder="Enter a place"/>
-                    </label>
-                    <input type="hidden" id="channellocation" name="channellocation" value="this is channel location from html" />
+                      </label>
+                      <input type="hidden" id="channellocation" name="channellocation" value="this is channel location from html" />
                     <input type="submit" value="Save">
                 </form>
 
