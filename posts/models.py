@@ -6,6 +6,7 @@ from channels.models import Channel
 # Create your models here.
 
 
+
 class Post(models.Model):
     creator = models.ForeignKey(
         User,
@@ -44,10 +45,10 @@ class Post(models.Model):
 
 
 class Event(models.Model):
-    creator = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE
-    )
+    # creator = models.ForeignKey(
+    #     User,
+    #     on_delete=models.CASCADE
+    # )
     title = models.TextField(
         null=False,
         blank=False,
@@ -145,3 +146,10 @@ class Downvote(models.Model):
 
     def __str__(self):
         return "{} downvoted {}".format(self.user, self.post)
+
+# def delete_all():
+#     events = Event.objects.all()
+#     for event in events:
+#         event.delete()
+
+# delete_all()

@@ -55,7 +55,8 @@ def post_detail(request, postpk):
 def view_events(request):
     if request.user.is_authenticated:
         all_events = Event.objects.all()
-
+        # for event in all_events:
+        #     event.delete()
         user_location = json.loads(request.user.profile.location)
         nearby_posts = []
         for event in all_events:
@@ -64,7 +65,7 @@ def view_events(request):
                                 user_location['latitude'],
                                 event_location['longitude'],
                                 event_location['latitude'])
-            nearby_posts.append((event.post, int(distance)))
+            nearby_posts.append((event, int(distance)))
 
         context = {
             "posts": nearby_posts,
