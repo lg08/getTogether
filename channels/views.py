@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
-from posts.models import Post
+from posts.models import Post, Upvote, Downvote 
 from .models import Channel
 from django.views.generic.edit import CreateView
 
@@ -101,6 +101,15 @@ def channel_posts(request, channel_pk, columns=1):
     all_channel_posts = Post.objects.filter(
         channel=this_channel
     ).order_by('-score')
+    
+
+    upvotes = []
+    downvotes = []
+    for i, post in enumerate(all_channel_posts):
+        upvotes.append(str(Upvote.objects.filter(user=request.user, post=all_channel_posts[i])))
+        downvotes.append(str(Downvote.objects.filter(user=request.user, post=all_channel_posts[i])))
+
+
     all_channel_users = this_channel.members.all()
     if request.user in this_channel.members.all():
         isin_channel = True
@@ -113,8 +122,10 @@ def channel_posts(request, channel_pk, columns=1):
         'channel': this_channel,
         'isin_channel': isin_channel,
         'columns': columns,
+        'upvotes': upvotes,
+        'downvotes': downvotes,
     }
-    return render(request,  "channels/channel.html", context)
+    return render(request, "channels/channel.html", context)
 
 
 def main_feed(request):
@@ -126,8 +137,16 @@ def main_feed(request):
         channel=main_channel
     )
 
+    upvotes = []
+    downvotes = []
+    for i, post in enumerate(all_main_feed_postsf):
+        upvotes.append(str(Upvote.objects.filter(user=request.user, post=all_main_feed_posts[i])))
+        downvotes.append(str(Downvote.objects.filter(user=request.user, post=all_main_feed_posts[i])))
+
     context = {
         'posts': all_main_feed_posts,
+        'upvotes': upvotes,
+        'downvotes': downvotes,
     }
 
     return render(request,  "index.html", context)

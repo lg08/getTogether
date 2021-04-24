@@ -4,9 +4,19 @@
         'use strict';
 
         function updateUpDown(postid, upvotes, downvotes, created, upvoteDownvote){
-            console.log(created + "\n" + upvoteDownvote);
             document.getElementById("upvotes-for" + String(postid)).innerHTML = String(upvotes);
             document.getElementById("downvotes-for" + String(postid)).innerHTML = String(downvotes);
+            if (created == undefined) {
+                
+                if ("{{upvotes}}".includes("upvoted " + upvoteDownvote)) {
+                    created = true;
+                    upvoteDownvote = "upvote"
+                }
+                if ("{{downvotes}}".includes("downvoted " + upvoteDownvote)) {
+                    created = true
+                    upvoteDownvote = "downvote"
+                }
+            }
 
             if(created) {
                 if(upvoteDownvote == 'upvote'){
@@ -127,7 +137,9 @@
         </div>
     </div>
 
-    <script>window.onload = updateUpDown("{{ post.id }}", "{{ post.num_of_upvotes }}", "{{ post.num_of_downvotes }}");</script>
+    
+    <script>window.onload = updateUpDown("{{ post.id }}", "{{ post.num_of_upvotes }}", "{{ post.num_of_downvotes }}",undefined,"{{ post.title }}");</script>
+    
 
 {% endfor %}
 
