@@ -131,7 +131,9 @@ def channel_posts(request, channel_pk, columns=1):
 def main_feed(request):
     # if request.user.is_authenticated:
     # grabs the main channel
-    main_channel = get_object_or_404(Channel, title='main')
+    print('here')
+    main_channel = get_object_or_404(Channel, title='Main')
+    
     # grabs all the bets associated with the main channel
     all_main_feed_posts = Post.objects.filter(
         channel=main_channel
