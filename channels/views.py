@@ -104,17 +104,22 @@ def channel_posts(request, channel_pk=1, columns=0):
     upvotes = []
     downvotes = []
     post_distance_list = []
-    user_location = json.loads(request.user.profile.location)
-    for i, post in enumerate(all_channel_posts):
-        upvotes.append(str(Upvote.objects.filter(user=request.user, post=all_channel_posts[i])))
-        downvotes.append(str(Downvote.objects.filter(user=request.user, post=all_channel_posts[i])))
+    if request.user.is_authenticated:
+        user_location = json.loads(request.user.profile.location)
 
-        post_location = json.loads(post.location)
-        distance = haversine(user_location['longitude'],
-                             user_location['latitude'],
-                             post_location['longitude'],
-                             post_location['latitude'])
-        post_distance_list.append((post, int(distance)))
+    for i, post in enumerate(all_channel_posts):
+        if request.user.is_authenticated:
+            upvotes.append(str(Upvote.objects.filter(user=request.user, post=all_channel_posts[i])))
+            downvotes.append(str(Downvote.objects.filter(user=request.user, post=all_channel_posts[i])))
+
+            post_location = json.loads(post.location)
+            distance = int(haversine(user_location['longitude'],
+                                user_location['latitude'],
+                                post_location['longitude'],
+                                post_location['latitude']))
+        else:
+            distance = "Unknown"
+        post_distance_list.append((post, distance))
 
     all_channel_users = this_channel.members.all()
     if request.user in this_channel.members.all():
