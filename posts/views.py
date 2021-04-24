@@ -141,5 +141,4 @@ def upvote_downvote_post(request, postid, up_or_downvote):
         return JsonResponse(data, safe=False)
         # return redirect(request.META['HTTP_REFERER'])
     else:
-        print("here")
         return HttpResponseRedirect(reverse('users:login'))
