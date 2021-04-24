@@ -61,7 +61,6 @@ def join_channel(request, channel_pk, join_or_remove):
 def create_channel(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
-            print('--------------------klasdfsaldjflsad')
             form = Channel_Create_Form(request.POST)
             if form.is_valid():
                 new_channel = Channel()
@@ -96,7 +95,7 @@ def create_channel(request):
         )
 
 
-def channel_posts(request, channel_pk=1, columns=1):
+def channel_posts(request, channel_pk=1, columns=0):
     this_channel = get_object_or_404(Channel, pk=channel_pk)
     all_channel_posts = Post.objects.filter(
         channel=this_channel
@@ -138,7 +137,8 @@ def channel_posts(request, channel_pk=1, columns=1):
 def main_feed(request):
     # if request.user.is_authenticated:
     # grabs the main channel
-    main_channel = get_object_or_404(Channel, title='main')
+    main_channel = get_object_or_404(Channel, title='Main')
+
     # grabs all the bets associated with the main channel
     all_main_feed_posts = Post.objects.filter(
         channel=main_channel

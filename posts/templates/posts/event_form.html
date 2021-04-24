@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block page_title %}
+    <title>Create Event</title>
+{% endblock %}
+
+
+{% block body %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7E0Z5BPny7CTI5mm9MfxbdBKsjy94PXU&libraries=places&callback=initAutocomplete" async defer></script>
+
+ <!-- Font Awesome -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+
+ <!-- Moment.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js" integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
+
+  <!-- Tempus Dominus Bootstrap 4 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js" integrity="sha256-z0oKYg6xiLq3yJGsp/LsY9XykbweQlHl42jHv2XTBz4=" crossorigin="anonymous"></script>
+
+
+    <script>
+     let autocomplete;
+     function initAutocomplete() {
+         autocomplete = new google.maps.places.Autocomplete(
+             document.getElementById('autocomplete'),
+             {
+                 types: ['establishment'],
+                 fields: ['place_id', 'geometry', 'name']
+         });
+
+         autocomplete.addListener('place_changed', onPlaceChanged);
+     }
+
+     function onPlaceChanged() {
+         var place = autocomplete.getPlace();
+
+         if (!place.geometry) {
+             // User didnt select prediction; reset input field
+             document.getElementById('autocomplete').placeholder = 'Enter a valid place';
+         } else {
+             // convert place to coordinates w/ geocoding
+             const geocoder = new google.maps.Geocoder();
+             geocoder.geocode({ placeId: place.place_id }, (results, status) => {
+                 if (status !== "OK" && results) {
+                     window.alert("Geocoder failed due to: " + status);
+                     return;
+                 }
+
+                 // Set channel location in hidden input
+                 channelLocation = {
+                     latitude: results[0].geometry.location.lat(),
+                     longitude: results[0].geometry.location.lng()
+                 };
+                 document.getElementById("channellocation").value = JSON.stringify(channelLocation);
+             });
+         }
+     }
+    </script>
+
+    <div style="margin-top: 30px;" class="container">
+        <div class="card mt-5 box-blur">
+            <div class="card-body">
+                <h1>Create Event</h1>
+
+
+                <form method="post">
+                    {% csrf_token %}
+                    {#{ form.as_p }#}
+                    {{ form.errors }}
+                    <p>Title:</p>
+                    {{ form.title }}
+                    <br/>
+                    <p>Message:</p>
+                    {{ form.message }}
+                    <br/>
+
+                    <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                        {{ form.start_time }}
+                        <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>
+                    <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+                        {{ form.end_time }}
+                        <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>
+
+                    <script>
+                     $(function () {
+                         /* $("#datetimepicker1").datetimepicker({
+                          *     format: 'DD/MM/YYYY HH:mm',
+                          * });
+                          * $("#datetimepicker2").datetimepicker({
+                          *     format: 'DD/MM/YYYY HH:mm',
+                          * }); */
+                     });
+                    </script>
+                    <br/>
+
+
+                    <label>
+                        Event Location:
+                        <input type="text" id="autocomplete" placeholder="Enter a place"/>
+                    </label>
+                    <input type="hidden" id="channellocation" name="channellocation" value="this is channel location from html" />
+                    <input type="submit" value="Save">
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

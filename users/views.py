@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login
 from django.urls import reverse
 from . import forms
 from django.contrib.auth.models import User
-from posts.models import Post
+from posts.models import Post, Upvote, Downvote
 from channels.models import Channel
 from channels.views import haversine
 
@@ -28,12 +28,21 @@ def profile_page(request, user_pk, columns=1):
                              post_location['longitude'],
                              post_location['latitude'])
         post_distance_list.append((post, int(distance)))
+    upvotes = []
+    downvotes = []
+    if (request.user.is_authenticated):
+
+        for i, post in enumerate(posts):
+            upvotes.append(str(Upvote.objects.filter(user=request.user, post=posts[i])))
+            downvotes.append(str(Downvote.objects.filter(user=request.user, post=posts[i])))
 
     context = {
         "this_user": user,
         "channel_subscriptions": channel_subscriptions,
         "posts": post_distance_list,
         "columns": columns,
+        'upvotes': upvotes,
+        'downvotes': downvotes,
     }
     return render(request, "users/profile_page.html", context)
 
