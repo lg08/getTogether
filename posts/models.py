@@ -60,9 +60,9 @@ class Event(models.Model):
         max_length=1000,
         default="message here"
     )
-    created_at = models.DateTimeField(
-        auto_now_add=True
-    )
+    # created_at = models.DateTimeField(
+    #     auto_now_add=True
+    # )
     num_of_upvotes = models.IntegerField(default=0)
     num_of_downvotes = models.IntegerField(default=0)
     num_of_comments = models.IntegerField(default=0)
