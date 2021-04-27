@@ -21,6 +21,7 @@
 
 
         {% if this_user.pk == user.pk %}
+            <br />
             <h1>Change Location</h1>
             <div id="map"></div>
             <form method="post" action="{% url "users:change_location"  %}">
@@ -128,6 +129,7 @@
 
         {% endif %}
 
+        <br />
         <h1>Subscriptions</h1>
         <div class="list-group list-group-flush">
             {% for channel in channel_subscriptions %}
@@ -146,6 +148,7 @@
             <a href="{% url "users:profile_page" this_user.pk 1 %}">Column View</a>
         {% endif %}
 
+        <br />
         <h1>Posts</h1>
         <div class="{% if columns %}card-columns{% endif %}">
             {% include 'channels/_post_listings.html' %}
