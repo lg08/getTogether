@@ -14,6 +14,7 @@
 
 
     <div class="container">
+        <input type="hidden" id="initialuserlocation" value="{{ post.exact_location }}" />
         <center>
             <h1> {{ post.title }} </h1>
         </center>
@@ -37,7 +38,34 @@
         <h1>Comments:</h1>
 
         {% if post.start_time %}
+        <h3>Location</h3>
+        <div id="map"></div>
+        <script type="text/javascript">
 
+            let autocomplete;
+            let map;
+            let marker;
+            
+            function initMap() {
+                let initialLocation = document.getElementById("eventlocation").value;
+                if (!initialLocation.includes("\"")) {
+                    initialLocation = initialLocation.replace("latitude", "\"latitude\"");
+                    initialLocation = initialLocation.replace("longitude", "\"longitude\"");
+                }
+
+                initialLocation = JSON.parse(initialLocation);
+                let initialmapcenter = {
+                    lat: initialLocation.latitude,
+                    lng: initialLocation.longitude
+                };
+
+                map = new google.maps.Map(document.getElementById("map"), {
+                    zoom: 10,
+                    center: initialmapcenter
+                });
+            }
+        </script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7E0Z5BPny7CTI5mm9MfxbdBKsjy94PXU&libraries=places&callback=initMap" async></script>
         {% else %}
 
         {% endif %}
