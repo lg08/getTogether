@@ -96,7 +96,11 @@
             <!-- help from here: https://slickmedia.co.uk/blog/glenns-blog/trigger-bootstrap-modal-with-link/ -->
             <!-- <a data-toggle="modal" class="stretched-link" href="#post_modal" id="modal_trigger"></a> -->
             <h5 class="card-title"
-               onclick="window.location='{% url "posts:detail" post.pk %}'"
+                {% if post.start_time %}
+                onclick="window.location='{% url "posts:detail" post.pk 0 %}'"
+                {% else %}
+                onclick="window.location='{% url "posts:detail" post.pk %}'"
+                {% endif %}
             >
                 {{ post.title }}
             </h5>
@@ -108,7 +112,14 @@
                                                                     }}')">
                  {{ post.message }}
                  </p> -->
-            <div class="card-text" onclick="window.location='{% url "posts:detail" post.pk %}'">
+
+            <div class="card-text"
+              {% if post.start_time %}
+                onclick="window.location='{% url "posts:detail" post.pk 0 %}'"
+                {% else %}
+                onclick="window.location='{% url "posts:detail" post.pk %}'"
+                {% endif %}
+            >
             <p>
                 {{ post.message }}
             </p>

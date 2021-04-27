@@ -41,9 +41,13 @@ def create_comment(request, postpk, commentpk, subcomment):
     else:
         return HttpResponseRedirect(reverse('users:login'))
 
-def post_detail(request, postpk):
+def post_detail(request, postpk, is_post=1):
     if request.user.is_authenticated:
-        post = get_object_or_404(Post, pk=postpk)
+        if is_post == 1:
+            post = get_object_or_404(Post, pk=postpk)
+        else:
+            post = get_object_or_404(Event, pk=postpk)
+
         context = {
             "post": post,
             "comment_form": CommentForm,
@@ -55,7 +59,8 @@ def post_detail(request, postpk):
 def view_events(request):
     if request.user.is_authenticated:
         all_events = Event.objects.all()
-
+        # for event in all_events:
+        #     event.delete()
         user_location = json.loads(request.user.profile.location)
         nearby_posts = []
         for event in all_events:
@@ -64,7 +69,7 @@ def view_events(request):
                                 user_location['latitude'],
                                 event_location['longitude'],
                                 event_location['latitude'])
-            nearby_posts.append((event.post, int(distance)))
+            nearby_posts.append((event, int(distance)))
 
         context = {
             "posts": nearby_posts,
@@ -92,7 +97,8 @@ def create_event(request):
                 new_event.end_time = json.dumps(request.POST.get("end_time"))
                 new_event.exact_location = request.POST.get("channellocation")
                 new_event.save()
-                return HttpResponseRedirect(reverse('posts:detail', kwargs={'postpk': new_post.pk}))
+                return HttpResponseRedirect(reverse('posts:detail',
+                                                    kwargs={'postpk': new_event.pk, "is_post": 0}))
             # form not valid
             else:
                 print("form not valid")

@@ -17,6 +17,11 @@ urlpatterns = [
         name='up_or_downvote'
     ),
     path(
+        "<int:postpk>/<int:is_post>/detail/",
+        views.post_detail,
+        name='detail'
+    ),
+    path(
         "<int:postpk>/detail/",
         views.post_detail,
         name='detail'

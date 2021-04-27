@@ -14,17 +14,21 @@
 
 
     <div class="container">
+        <input type="hidden" id="initialuserlocation" value="{{ post.exact_location }}" />
         <center>
             <h1> {{ post.title }} </h1>
         </center>
         <br/>
+        <h3>Description:</h3>
         <p>
             {{post.message}}
         </p>
 
-        {% if post.event %}
-            <h1>Start Time: {{ post.event.start_time }}</h1>
-            <h1>End Time: {{ post.event.end_time }}</h1>
+        <hr/>
+
+        {% if post.start_time %}
+            <h5>Starts At: {{ post.start_time }}</h3>
+            <h5>Ends At: {{ post.end_time }}</h3>
             {{ post.event }}
         {% else %}
         {% endif %}
@@ -33,6 +37,38 @@
 
         <h1>Comments:</h1>
 
+        {% if post.start_time %}
+        <h3>Location</h3>
+        <div id="map"></div>
+        <script type="text/javascript">
+
+            let autocomplete;
+            let map;
+            let marker;
+            
+            function initMap() {
+                let initialLocation = document.getElementById("eventlocation").value;
+                if (!initialLocation.includes("\"")) {
+                    initialLocation = initialLocation.replace("latitude", "\"latitude\"");
+                    initialLocation = initialLocation.replace("longitude", "\"longitude\"");
+                }
+
+                initialLocation = JSON.parse(initialLocation);
+                let initialmapcenter = {
+                    lat: initialLocation.latitude,
+                    lng: initialLocation.longitude
+                };
+
+                map = new google.maps.Map(document.getElementById("map"), {
+                    zoom: 10,
+                    center: initialmapcenter
+                });
+            }
+        </script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7E0Z5BPny7CTI5mm9MfxbdBKsjy94PXU&libraries=places&callback=initMap" async></script>
+        {% else %}
+
+        {% endif %}
 
 
         <!-- recursive comment revealing -->

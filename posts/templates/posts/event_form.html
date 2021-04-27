@@ -72,25 +72,35 @@
                     {% csrf_token %}
                     {#{ form.as_p }#}
                     {{ form.errors }}
-                    <p>Title:</p>
-                    {{ form.title }}
+                    <label>
+                        Title:
+                        {{ form.title }}
+                    </label>
                     <br/>
-                    <p>Message:</p>
-                    {{ form.message }}
+                    <label>
+                        Description:
+                        {{ form.message }}
+                    </label>
                     <br/>
+                    <label>
+                        Start Date:
+                        <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                            {{ form.start_time }}
+                            <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </label>
 
-                    <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                        {{ form.start_time }}
-                        <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    <label>
+                        End Date:
+                        <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+                            {{ form.end_time }}
+                            <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
-                        {{ form.end_time }}
-                        <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                        </div>
-                    </div>
+                    </label>
 
                     <!-- <script>
                      $(function () {
@@ -106,7 +116,7 @@
 
 
                     <label>
-                        Channel Location:
+                        Event Location:
                         <input type="text" id="autocomplete" placeholder="Enter a place"/>
                       </label>
                       <input type="hidden" id="channellocation" name="channellocation" value="this is channel location from html" />
