@@ -1,0 +1,25 @@
+<!-- login form for users -->
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block page_title%}
+    <title>Forgot Password Sent</title>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="card mt-5 box-blur">
+
+            <form method ="post">
+                <h1 style="margin:unset ">Password Reset Complete!</h1>
+                {% csrf_token %}
+                {{ form|crispy }}
+                <p>Your password has been set. You may go ahead and log in now.</p>
+                <a href="{% url 'users:login' %}">log in</a>
+                
+            </form>
+
+    </div>
+</div>
+
+
+{% endblock %}
