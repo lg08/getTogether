@@ -142,14 +142,15 @@
 
             <hr/>
 
+        <h1>Posts</h1>
         {% if columns %}
             <a href="{% url "users:profile_page" this_user.pk 0 %}">List View</a>
         {% else %}
             <a href="{% url "users:profile_page" this_user.pk 1 %}">Column View</a>
         {% endif %}
-
+        
+        
         <br />
-        <h1>Posts</h1>
         <div class="{% if columns %}card-columns{% endif %}">
             {% include 'channels/_post_listings.html' %}
         </div>

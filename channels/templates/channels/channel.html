@@ -51,9 +51,17 @@
             </div>
 
         {% if columns %}
-            <p><a href="{% url "channels:posts" channel.pk 0 %}">List View</a></p>
+        <form action="{% url "channels:posts" channel.pk 0 %}">
+            <button type="submit" class="btn btn-light" >List View</button>
+        </form>
+        </br>
+            <!-- <p><a href="{% url "channels:posts" channel.pk 0 %}">List View</a></p> -->
         {% else %}
-            <pa><a href="{% url "channels:posts" channel.pk 1 %}">Column View</a></p>
+        <form action="{% url "channels:posts" channel.pk 1 %}">
+            <button type="submit" class="btn btn-light" >Column View</button>
+        </form>
+        </br>
+            <!-- <pa><a href="{% url "channels:posts" channel.pk 1 %}">Column View</a></p> -->
         {% endif %}
 
 
@@ -63,12 +71,6 @@
 
 
     </div>
-        <div class="float-left">
-            <h2>Members:</h2>
-            <ul>
-                
-            </ul>
-        </div>
     
 
 
