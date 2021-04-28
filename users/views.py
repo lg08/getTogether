@@ -13,6 +13,12 @@ import json
 
 # Create your views here.
 
+# posts = Post.objects.all()
+# for post in posts:
+#     if post.location == "put JSONobject here":
+#         post.location = '{"latitude":40.3447222,"longitude":-74.7163889}'
+#         post.save()
+
 
 def profile_page(request, user_pk, columns=1):
     if request.user.is_authenticated:

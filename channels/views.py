@@ -72,12 +72,14 @@ def create_channel(request):
                 new_channel.location = request.POST.get("channellocation")
                 new_channel.save()
 
-                # return HttpResponseRedirect(
-                #     reverse("bets:detail", kwargs={"pk": new_bet.pk})
-                # )
                 return HttpResponseRedirect(
-                    reverse("home")
+                    reverse("channels:posts", kwargs={
+                        "channel_pk": new_channel.pk,
+                    })
                 )
+                # return HttpResponseRedirect(
+                #     reverse("home")
+                # )
             else:
                 context = {
                     "form": form,

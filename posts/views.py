@@ -102,6 +102,7 @@ def create_event(request):
                 new_post.channel = get_object_or_404(Channel, title='Events')
                 new_post.is_event = True
                 new_post.save()
+                new_post.location = new_post.creator.profile.location
                 new_post.score = hot(0, 0, new_post.created_at)
                 new_post.save()
                 new_event = Event()
@@ -111,7 +112,7 @@ def create_event(request):
                 new_event.exact_location = request.POST.get("channellocation")
                 new_event.save()
                 return HttpResponseRedirect(reverse('posts:detail',
-                                                    kwargs={'postpk': new_event.pk, "is_post": 0}))
+                                                    kwargs={'postpk': new_post.pk, "is_post": 0}))
             # form not valid
             else:
                 context = {

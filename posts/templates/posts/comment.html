@@ -18,7 +18,7 @@
             <div class="row">
                 <div class="col-10"> <!--left column-->
                     <div class="col-12"><p>{{ comment.message }}</p></div>
-                    <div class="col-12"><p>by: {{ comment.user }} at:
+                    <div class="col-12"><p>by: <a href="{% url "users:profile_page" comment.user.pk %}">{{ comment.user }}</a> at:
                         {{ comment.created_at }}</p>
                     </div>
                 </div>
