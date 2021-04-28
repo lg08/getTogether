@@ -5,11 +5,6 @@
 {% endblock %}
 {% block body %}
 
-    <script>
-
-    </script>
-
-
     <div class="container">
 
         <center><h1>{{ this_user }}'s Profile Page</h1></center>
@@ -148,8 +143,8 @@
         {% else %}
             <a href="{% url "users:profile_page" this_user.pk 1 %}">Column View</a>
         {% endif %}
-        
-        
+
+
         <br />
         <div class="{% if columns %}card-columns{% endif %}">
             {% include 'channels/_post_listings.html' %}

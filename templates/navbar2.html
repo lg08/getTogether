@@ -34,32 +34,33 @@
     <!-- navbar links on the left side -->
     <!-- <div id="navbarNavAltMarkup"> -->
 
+    <div
+        class="collapse navbar-collapse"
+        id="navbarNavAltMarkup"
+    >
         <div
-            class="collapse navbar-collapse"
-            id="navbarNavAltMarkup">
-            <div
-                class="navbar-nav nav">
-                <a
-                    class="nav-item nav-link text-dark dope-hover-link"
-                    href="{% url "channels:create"  %}">
-                    Create Channel<span class="sr-only">(current)</span>
-                </a>
-                <a
-                    class="nav-item nav-link text-dark dope-hover-link"
-                    href="{% url "channels:list" %}">
-                    All Channels<span class="sr-only">(current)</span>
-                </a>
-                <a
-                    class="nav-item nav-link text-dark dope-hover-link"
-                    href="{% url "posts:create_event"  %}">
-                    Create Event<span class="sr-only">(current)</span>
-                </a>
-                <a
-                    class="nav-item nav-link text-dark dope-hover-link"
-                    href="{% url "posts:events"  %}">
-                    View Events<span class="sr-only">(current)</span>
-                </a>
-            </div>
+            class="navbar-nav nav">
+            <a
+                class="nav-item nav-link text-dark dope-hover-link"
+                href="{% url "channels:create"  %}">
+                Create Channel<span class="sr-only">(current)</span>
+            </a>
+            <a
+                class="nav-item nav-link text-dark dope-hover-link"
+                href="{% url "channels:list" %}">
+                All Channels<span class="sr-only">(current)</span>
+            </a>
+            <a
+                class="nav-item nav-link text-dark dope-hover-link"
+                href="{% url "posts:create_event"  %}">
+                Create Event<span class="sr-only">(current)</span>
+            </a>
+            <a
+                class="nav-item nav-link text-dark dope-hover-link"
+                href="{% url "posts:events"  %}">
+                View Events<span class="sr-only">(current)</span>
+            </a>
+        </div>
         <ul class="nav justify-content-end collapse navbar-collapse"
             id=""
         >
@@ -99,11 +100,12 @@
                 </li>
             {% endif %}
         </ul>
-        </div>
+        <hr/>
+    </div>
 
 
-        <!-- navbar links on the right side -->
-        <!-- changes to sign in or log out based on the status of the user -->
+    <!-- navbar links on the right side -->
+    <!-- changes to sign in or log out based on the status of the user -->
 </nav>
 
 
@@ -135,6 +137,10 @@
      width: 0;
 
      color: #000
+ }
+ .dope-hover-link:hover {
+     text-decoration:none;
+     color:black;
  }
  .dope-hover-link:hover:after {
      width: 100%;

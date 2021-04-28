@@ -1,10 +1,11 @@
 .clickable-card {
-    cursor: pointer;
+  cursor: pointer;
 }
 .post_card {
-    box-shadow: 2px 2px 1px #888888;
+  box-shadow: 2px 2px 1px #888888;
 }
 
- .bg-purple {
-    background-color: #a95aec;
- }
+.bg-purple {
+  background-color: #a95aec;
+}
+
