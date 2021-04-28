@@ -54,17 +54,17 @@
         <form action="{% url "channels:posts" channel.pk 0 %}">
             <button type="submit" class="btn btn-light" >List View</button>
         </form>
-        </br>
+
             <!-- <p><a href="{% url "channels:posts" channel.pk 0 %}">List View</a></p> -->
         {% else %}
         <form action="{% url "channels:posts" channel.pk 1 %}">
             <button type="submit" class="btn btn-light" >Column View</button>
         </form>
-        </br>
+        
             <!-- <pa><a href="{% url "channels:posts" channel.pk 1 %}">Column View</a></p> -->
         {% endif %}
 
-
+        </br>        
         <div class="{% if columns %}card-columns{% endif %}">
             {% include 'channels/_post_listings.html' %}
         </div>
