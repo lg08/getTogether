@@ -68,19 +68,24 @@ def create_channel(request):
                 new_channel = Channel()
                 new_channel.title = form.cleaned_data['title']
                 # new_channel.location = form.cleaned_data['location']
-                new_channel.save()  # have to keep this here to add the member
-                new_channel.members.add(request.user)
-                new_channel.location = request.POST.get("channellocation")
-                new_channel.save()
+                try:
+                    new_channel.save()  # have to keep this here to add the member
+                    new_channel.members.add(request.user)
+                    new_channel.location = request.POST.get("channellocation")
+                    new_channel.save()
+                    return HttpResponseRedirect(
+                        reverse("channels:posts", kwargs={
+                            "channel_pk": new_channel.pk,
+                        })
+                    )
+                except:
+                    context = {
+                        "form": form,
+                        "same_name": True,
+                        }
+                    return render (request, "channels/channel_form.html", context)
 
-                return HttpResponseRedirect(
-                    reverse("channels:posts", kwargs={
-                        "channel_pk": new_channel.pk,
-                    })
-                )
-                # return HttpResponseRedirect(
-                #     reverse("home")
-                # )
+
             else:
                 context = {
                     "form": form,

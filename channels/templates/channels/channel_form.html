@@ -56,6 +56,16 @@
 
                 <form method="post">
                     {% csrf_token %}
+                    <p
+                        {% if same_name %}
+                            style="display:block"
+                        {% else %}
+                            style="display:None"
+                        {% endif %}
+                    >
+                        Sry, a channel with that name already exists,
+                        please try a different name!
+                    </p>
                     {{ form|crispy }}
                       <label>
                         Channel Location:
