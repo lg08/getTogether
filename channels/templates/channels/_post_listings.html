@@ -153,7 +153,11 @@
                     <span class="distance">
                         {{ distance }}
                     </span>
-                    kilometers away. <a href="{% url "users:login" %}">Log In</a> to see distances.
+                    kilometers away.
+                    {% if user.username %}
+                    {% else %}
+                        <a href="{% url "users:login" %}">Log In</a> to see distances.
+                    {% endif %}
                 </p>
             </div>
         </div>
