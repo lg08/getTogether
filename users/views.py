@@ -20,7 +20,7 @@ import json
 #         post.save()
 
 
-def profile_page(request, user_pk, columns=1):
+def profile_page(request, user_pk, columns=1, no_location=0):
     if request.user.is_authenticated:
         user = get_object_or_404(User, pk=user_pk)
         channel_subscriptions = user.channel_set.all()
@@ -50,6 +50,7 @@ def profile_page(request, user_pk, columns=1):
             "columns": columns,
             'upvotes': upvotes,
             'downvotes': downvotes,
+            'no_location': no_location,
         }
         return render(request, "users/profile_page.html", context)
     else:
@@ -87,9 +88,26 @@ def signup(request):
             user = authenticate(username=user.username, password=raw_password)
             login(request, user)
             # return redirect('users:profile_page', pk=request.user.pk)
-            return HttpResponseRedirect(
-                reverse("home")
-            )
+            try:
+                json.loads(user.profile.location)
+                return HttpResponseRedirect(
+                    reverse("home")
+                )
+            except:
+                # default user location
+                user.profile.location = '{"latitude":40.3447222,"longitude":-74.7163889}'
+                user.profile.save()
+                user.save()
+                return HttpResponseRedirect(
+                    reverse(
+                        "users:profile_page",
+                        kwargs={
+                            'user_pk':user.pk,
+                            'no_location': 1,
+                        }
+                    )
+                )
+
     else:
         form = forms.UserCreateForm()
     return render(request, 'users/signup.html', {'form': form})
