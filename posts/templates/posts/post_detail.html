@@ -29,11 +29,14 @@
             <input type="hidden" id="eventlocation" value="{{ post.exact_location }}" />
             <input type="hidden" id="starttime" value="{{ post.start_time }}" />
             <input type="hidden" id="endtime" value="{{ post.end_time }}" />
+            <h5 id="startlabel">Starts At: {{ post.start_time }}</h5>
+            <h5 id="endlabel">Ends At: {{ post.end_time }}</h5>
             <script>
-                console.log('event location: ' + document.getElementById('eventlocation').value);
+                document.getElementById('startlabel').innerText = 
+                    "Starts At: " + document.getElementById('starttime').replace("\"", "");
+                document.getElementById('endlabel').innerText = 
+                    "Ends At: " + document.getElementById('endtime').replace("\"", "");
             </script>
-            <h5>Starts At: {{ post.start_time }}</h5>
-            <h5>Ends At: {{ post.end_time }}</h5>
             {{ post.event }}
             <h5>Location:</h5>
             <div id="map"></div>
@@ -63,6 +66,15 @@
                 }
             </script>
             <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7E0Z5BPny7CTI5mm9MfxbdBKsjy94PXU&libraries=places&callback=initMap" async></script>
+            <style type="text/css">
+                /* Set the size of the div element that contains the map */
+                #map {
+                  height: 400px;
+                  /* The height is 400 pixels */
+                  width: 100%;
+                  /* The width is the width of the web page */
+                }
+              </style>
         {% else %}
         {% endif %}
 
