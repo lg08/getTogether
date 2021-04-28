@@ -82,6 +82,7 @@ class Event(models.Model):
         return self.title
 
 class Comment(models.Model):
+    is_event = models.BooleanField(default=False)
     post = models.ForeignKey(
         Post,
         on_delete=models.CASCADE,
