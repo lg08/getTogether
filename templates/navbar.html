@@ -26,23 +26,24 @@
           <li class="nav-item">
               <a class="nav-link text-light" href="{% url "posts:events"  %}">View Events</a>
           </li>
-    </ul>
-            <ul class="navbar-nav mb-2 mb-lg-0">
-                {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link text-light" href="{% url "users:profile_page" user.pk %}">Welcome {{ user.username }}!</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" href="{% url "users:logout"  %}">Logout</a>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link text-light" href="{% url "users:login"  %}">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" href="{% url "users:signup"  %}">Signup</a>
-                    </li>
-                {% endif %}
-            </ul>
+
+
+
+          {% if user.is_authenticated %}
+              <li class="nav-item">
+                  <a class="nav-link text-light" href="{% url "users:profile_page" user.pk %}">Welcome {{ user.username }}!</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link text-light" href="{% url "users:logout"  %}">Logout</a>
+              </li>
+          {% else %}
+              <li class="nav-item">
+                  <a class="nav-link text-light" href="{% url "users:login"  %}">Login</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link text-light" href="{% url "users:signup"  %}">Signup</a>
+              </li>
+          {% endif %}
+      </ul>
   </div>
 </nav>

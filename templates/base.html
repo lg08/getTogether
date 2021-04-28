@@ -35,12 +35,21 @@
 
 
     <body>
-        {% include "navbar.html" %}
+        {% include "navbar2.html" %}
 
         {% block body %}
         {% endblock %}
 
     </body>
+
+    <!-- footer -->
+    <footer class="bg-light text-center text-lg-start mt-5">
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            Created by Lucas Gen, Yusuf Kocaman and Sean Zatz, 2021
+        </div>
+        <!-- Copyright -->
+    </footer>
 
     <!-- javascript stuff -->
     <script src="{% static 'loginController.js'%}"></script>
@@ -57,30 +66,68 @@
     <!-- style -->
     <style>
         body {
-            background: rgb(254,249,199);
-            background: linear-gradient(0deg, rgba(254,249,199,1) 0%, rgba(159,237,215,1) 100%); 
+            /*             background: rgb(254,249,199); */
+            /*             background: linear-gradient(0deg, rgba(254,249,199,1) 0%, rgba(159,237,215,1) 100%); */
+            /*             background: #CCF2F4; */
+            background-color: #f9f9f9;
             height: 100%;
             margin: 0;
             background-repeat: no-repeat;
             background-attachment: fixed;
         }
         #navbar {
-            background-color: #026670;
+            /*             background-color: #026670; */
+            background-color: #aaaaaa
         }
         .card {
             /* background-color: #fce181; */
+            /*             background-color: #F4F9F9; */
             border-radius: 25px;
-            padding: 20px;  
-            {% if columns %} 
+            padding: 20px;
+            {% if columns %}
             display: inline-block;
             {% endif %}
             break-inside: avoid;
         }
         .card-columns {
-            display: inline-block;   
+            display: inline-block;
         }
+     h1 {
+         color: #000;
+         text-transform: uppercase;
+         text-decoration: none;
+         letter-spacing: 0.15em;
+
+         display: inline-block;
+         padding: 15px 0px;
+         position: relative;
+
+     }
+     h2 {
+         color: #000;
+         text-transform: uppercase;
+         text-decoration: none;
+         letter-spacing: 0.06em;
+
+         display: inline-block;
+         padding: 15px 20px;
+         padding-left: 0px;
+         position: relative;
+
+     }
+     h3 {
+         color: #000;
+         text-transform: uppercase;
+         text-decoration: none;
+         letter-spacing: 0.06em;
+
+         display: inline-block;
+         padding: 15px 20px;
+         padding-left: 0px;
+         position: relative;
+     }
         /* #button {
-            
+
         } */
     </style>
 </html>

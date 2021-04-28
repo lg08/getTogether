@@ -84,7 +84,7 @@
     </script>
 
 
-    
+
 {% for post, distance in posts %}
     <div class="card clickable-card post_card myPosts mb-3"
         id="card-for{{ post.id }}"
@@ -103,12 +103,12 @@
             <!-- help from here: https://slickmedia.co.uk/blog/glenns-blog/trigger-bootstrap-modal-with-link/ -->
             <!-- <a data-toggle="modal" class="stretched-link" href="#post_modal" id="modal_trigger"></a> -->
             <h5 class="card-title">
-            <span 
-                
+            <span
+
             >
                 {{ post.title }}
             </span>
-            
+
             <div id="button" class="{% if not columns %}float-xl-right{% endif %}">
                 <a id = "upvote-button-for{{ post.id }}" onclick="upvoteAJAX('{{ post.id }}')">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-arrow-up-circle" viewBox="0 0 16 16">
@@ -122,7 +122,7 @@
                       </svg>
                 </a> <span id="downvotes-for{{ post.id }}"></span>
             </div>
-            
+
             </h5>
             <hr/>
 
@@ -153,7 +153,7 @@
                     <span class="distance">
                         {{ distance }}
                     </span>
-                    kilometers away
+                    kilometers away. <a href="{% url "users:login" %}">Log In</a> to see distances.
                 </p>
             </div>
         </div>

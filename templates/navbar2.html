@@ -1,0 +1,181 @@
+<!-- sets up the navbar for the whole site -->
+{% load static %}
+
+<!-- beginning of navbar -->
+<nav
+    class="navbar navbar-expand-lg navbar-color mb-1">
+
+    <!-- Navbar Brand -->
+    <a
+        class="navbar-brand nav-link text-dark dope-hover-link"
+        href="{% url 'home' %}">
+        <strong>GetTogether</strong>
+    </a>
+
+    <!-- navbar collapsible button -->
+    <button
+        class="dope-ass-text navbar-toggler p-2 dope-hover-link"
+        type="button" data-toggle="collapse"
+        data-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+        id="this-toggle-button">
+        <!-- menu icon -->
+        <img
+            src="{% static 'menu-black-18dp.svg' %}"
+            alt="navbar toggler"
+            height="100"
+            width="100"
+            style="max-width:2em;max-height:2em;"
+        />
+    </button>
+
+    <!-- navbar links on the left side -->
+    <!-- <div id="navbarNavAltMarkup"> -->
+
+        <div
+            class="collapse navbar-collapse"
+            id="navbarNavAltMarkup">
+            <div
+                class="navbar-nav nav">
+                <a
+                    class="nav-item nav-link text-dark dope-hover-link"
+                    href="{% url "channels:create"  %}">
+                    Create Channel<span class="sr-only">(current)</span>
+                </a>
+                <a
+                    class="nav-item nav-link text-dark dope-hover-link"
+                    href="{% url "channels:list" %}">
+                    All Channels<span class="sr-only">(current)</span>
+                </a>
+                <a
+                    class="nav-item nav-link text-dark dope-hover-link"
+                    href="{% url "posts:create_event"  %}">
+                    Create Event<span class="sr-only">(current)</span>
+                </a>
+                <a
+                    class="nav-item nav-link text-dark dope-hover-link"
+                    href="{% url "posts:events"  %}">
+                    View Events<span class="sr-only">(current)</span>
+                </a>
+            </div>
+        <ul class="nav justify-content-end collapse navbar-collapse"
+            id=""
+        >
+            {% if user.is_authenticated %}
+                <li
+                    class="nav-item">
+                    <a
+                        class ="nav-link text-dark dope-hover-link"
+                        href="{% url 'users:profile_page' user_pk=user.id %}">
+                        @{{ user.username }}
+                    </a>
+                </li>
+                <li
+                    class="nav-item">
+                    <a
+                        class ="nav-link text-dark dope-hover-link"
+                        href="{% url 'users:logout' %}">
+                        Log Out
+                    </a>
+                </li>
+            {% else %}
+                <li
+                    class="nav-item">
+                    <a
+                        class ="nav-link text-dark dope-hover-link"
+                        href="{% url 'users:login' %}">
+                        Log In
+                    </a>
+                </li>
+                <li
+                    class="nav-item">
+                    <a
+                        class ="nav-link text-dark dope-hover-link"
+                        href="{% url 'users:signup' %}">
+                        Sign Up
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+        </div>
+
+
+        <!-- navbar links on the right side -->
+        <!-- changes to sign in or log out based on the status of the user -->
+</nav>
+
+
+
+<!-- take from here: https://codepen.io/jstn/pen/zuDst -->
+<style>
+ .dope-hover-link {
+     /* color: #fff; */
+     color: #000;
+     text-transform: uppercase;
+     text-decoration: none;
+     letter-spacing: 0.15em;
+
+     display: inline-block;
+     padding: 15px 20px;
+     position: relative;
+ }
+ .dope-hover-link:after {
+     background: none repeat scroll 0 0 transparent;
+     bottom: 0;
+     content: "";
+     display: block;
+     height: 2px;
+     left: 50%;
+     position: absolute;
+     /* background: #fff; */
+     background: #000;
+     transition: width 0.3s ease 0s, left 0.3s ease 0s;
+     width: 0;
+
+     color: #000
+ }
+ .dope-hover-link:hover:after {
+     width: 100%;
+     left: 0;
+
+     color: #000;
+ }
+ @media screen and (max-height: 300px) {
+     ul {
+         margin-top: 40px;
+     }
+ }
+
+ .dope-ass-text {
+     color: #000;
+     text-transform: uppercase;
+     text-decoration: none;
+     letter-spacing: 0.15em;
+
+     display: inline-block;
+     padding: 15px 20px;
+     position: relative;
+ }
+
+ #this-toggle-button {
+     /* max-width:1em; */
+     font-size:1em;
+     outline:none;
+ }
+
+
+ input.this-search-bar {
+     background-color: #f9f9f9;
+     color: #000;
+     text-transform: uppercase;
+     text-decoration: none;
+     letter-spacing: 0.15em;
+
+     display: inline-block;
+     padding: 15px 20px;
+     position: relative;
+ }
+
+</style>
