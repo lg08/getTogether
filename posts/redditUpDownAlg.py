@@ -11,8 +11,9 @@ east_coast = pytz.timezone("America/New_York")
 epoch = east_coast.localize(epoch)
 
 
-print("epocher------------")
+print("timezone:")
 print(epoch.tzinfo)
+print()
 
 def __epoch_seconds(date):
     td = date - epoch

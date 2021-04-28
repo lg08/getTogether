@@ -2,21 +2,60 @@
 
 
 {% block page_title%}
-    <title>Events</title>
+<title>Events</title>
 {% endblock %}
 
 
 {% block body %}
 
 
-    <div class="container">
-        <br />
-        <h2>Events:</h2>
+<div class="container">
+  <br />
+  <center><h1>Events</h1></center>
+  <center>
+    {% if user.username %}
+    <input
+        type="range"
+        min="1"
+        max="100"
+        value="50"
+        class="slider range"
+        id="myRange"
+        onChange="filterByRadius(this.value)"
+        onmousemove="filterByRadius(this.value)"
+        >
+        <h5>Range: <span id="current_radius">50</span> kilometers</h5>
+        {% endif %}
+  </center>
 
-        <div>
-            {% include 'channels/_post_listings.html' %}
-        </div>
+  <div>
+    {% include 'channels/_post_listings.html' %}
+  </div>
 
-    </div>
+</div>
+
+
+<script>
+
+  function filterByRadius(radius) {
+
+      var posts = document.getElementsByClassName('myPosts');
+
+      document.getElementById('current_radius').textContent = radius;
+
+      for (var i = 0; i < posts.length; i ++){
+          distance = parseInt(posts[i].getElementsByClassName("distance")[0].textContent);
+          if (radius < distance) {
+              posts[i].style.display = 'none';
+            }
+          else {
+              posts[i].style.display = 'block';
+            }
+        }
+    }
+
+  /* default filtering to 50 kilometers */
+  window.onload = filterByRadius(50);
+</script>
 
 {% endblock %}
