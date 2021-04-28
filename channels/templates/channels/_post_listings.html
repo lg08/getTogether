@@ -88,10 +88,10 @@
 {% for post, distance in posts %}
     <div class="card clickable-card post_card myPosts mb-3"
         id="card-for{{ post.id }}"
-        {% if post.start_time %}
+        {% if post.is_event %}
         onclick="window.location='{% url "posts:detail" post.pk 0 %}'"
         {% else %}
-        onclick="window.location='{% url "posts:detail" post.pk %}'"
+        onclick="window.location='{% url "posts:detail" post.pk 1 %}'"
         {% endif %}
     >
         <!--          onclick="window.location='#'" -->

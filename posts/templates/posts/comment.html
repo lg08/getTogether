@@ -43,7 +43,12 @@
                 </div>  <!--col-->
                 <div class="col-12">
                     <p> <!--individual comment forms-->
-                        <form action="/posts/create/comment/1/on/{{ post.pk }}/{{ comment.pk }}/"
+                        <form
+                            {% if post.title %}
+                                action="{% url 'posts:create_comment' subcomment=1 postpk=post.pk commentpk=comment.pk %}"
+                            {% else %}
+                                action="{% url 'posts:create_comment' subcomment=1 postpk=post.post.pk commentpk=comment.pk %}"
+                            {% endif %}
                               method="POST"
                               class="collapse form-collapse-{{ comment.pk }}">
                             {{ comment_form|crispy }}

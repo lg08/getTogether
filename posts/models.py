@@ -8,6 +8,7 @@ from channels.models import Channel
 
 
 class Post(models.Model):
+    is_event = models.BooleanField(default=False)
     creator = models.ForeignKey(
         User,
         on_delete=models.CASCADE
@@ -45,31 +46,38 @@ class Post(models.Model):
 
 
 class Event(models.Model):
-    creator = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-    )
-    title = models.TextField(
-        null=False,
-        blank=False,
-        max_length=50,
-        default="title here"
-    )
-    message = models.TextField(
-        null=False,
-        blank=False,
-        max_length=1000,
-        default="message here"
-    )
-    created_at = models.DateTimeField(
-        auto_now_add=True
-    )
-    num_of_upvotes = models.IntegerField(default=0)
-    num_of_downvotes = models.IntegerField(default=0)
-    num_of_comments = models.IntegerField(default=0)
-    score = models.IntegerField(default=0)
+    # creator = models.ForeignKey(
+    #     User,
+    #     on_delete=models.CASCADE,
+    # )
+    # title = models.TextField(
+    #     null=False,
+    #     blank=False,
+    #     max_length=50,
+    #     default="title here"
+    # )
+    # message = models.TextField(
+    #     null=False,
+    #     blank=False,
+    #     max_length=1000,
+    #     default="message here"
+    # )
+    # created_at = models.DateTimeField(
+    #     auto_now_add=True
+    # )
+    # num_of_upvotes = models.IntegerField(default=0)
+    # num_of_downvotes = models.IntegerField(default=0)
+    # num_of_comments = models.IntegerField(default=0)
+    # score = models.IntegerField(default=0)
     # start_time = models.DateTimeField()
     # end_time = models.DateTimeField()
+    post = models.ForeignKey(
+        Post,
+        on_delete=models.CASCADE,
+        related_name="event",
+        blank=True,
+        null=True,
+    )
 
 
     start_time = models.TextField(max_length=500)
@@ -79,10 +87,9 @@ class Event(models.Model):
                                       max_length=50000, default='{"latitude":40.344149988101236,"longitude":-74.65598258598506}')
 
     def __str__(self):
-        return self.title
+        return self.post.title
 
 class Comment(models.Model):
-    is_event = models.BooleanField(default=False)
     post = models.ForeignKey(
         Post,
         on_delete=models.CASCADE,

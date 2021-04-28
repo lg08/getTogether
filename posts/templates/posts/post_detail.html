@@ -16,12 +16,20 @@
     <div style="margin-top: 30px;" class="container">
         <div class="card mt-5 box-blur">
             <center>
-                <h1> {{ post.title }} </h1>
+                {% if post.title %}
+                    <h1> {{ post.title }} </h1>
+                {% else %}
+                    <h1> {{ post.post.title }} </h1>
+                {% endif %}
             </center>
             <br/>
             <h3>Description:</h3>
             <p>
-                {{post.message}}
+                {% if post.message %}
+                    {{post.message}}
+                {% else %}
+                    {{ post.post.message }}
+                {% endif %}
             </p>
 
             <hr/>
@@ -33,12 +41,11 @@
                 <h5 id="startlabel">Starts At: {{ post.start_time }}</h5>
                 <h5 id="endlabel">Ends At: {{ post.end_time }}</h5>
                 <script>
-                    document.getElementById('startlabel').innerText = 
+                    document.getElementById('startlabel').innerText =
                         "Starts:" + document.getElementById('starttime').value.replace(/\"/g, " ");
-                    document.getElementById('endlabel').innerText = 
+                    document.getElementById('endlabel').innerText =
                         "Ends:" + document.getElementById('endtime').value.replace(/\"/g, " ");
                 </script>
-                {{ post.event }}
                 <h5>Location:</h5>
                 <div id="map"></div>
                 <script type="text/javascript">
@@ -46,7 +53,7 @@
                     let autocomplete;
                     let map;
                     let marker;
-                    
+
                     function initMap() {
                         let initialLocation = document.getElementById("eventlocation").value;
                         if (!initialLocation.includes("\"")) {
@@ -71,7 +78,7 @@
                         });
                     }
                 </script>
-                
+
                 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7E0Z5BPny7CTI5mm9MfxbdBKsjy94PXU&libraries=places&callback=initMap" async></script>
                 <style type="text/css">
                     /* Set the size of the div element that contains the map */
@@ -89,40 +96,42 @@
 
             <h1>Comments:</h1>
 
-            {% if post.start_time %}
-            
-            {% else %}
-
-            {% endif %}
-
-
             <!-- recursive comment revealing -->
-            {% create_stack post.post_comments.all as commentstack %}
-            {% create_stack post.post_comments.all as commentstackcopy %}
+            {% if post.title %}
+                {% create_stack post.post_comments.all as commentstack %}
+                {% create_stack post.post_comments.all as commentstackcopy %}
+            {% else %}
+                {% create_stack post.post.post_comments.all as commentstack %}
+                {% create_stack post.post.post_comments.all as commentstackcopy %}
+            {% endif %}
             {% for number in  commentstackcopy %}
                 {% include 'posts/comment.html' %}
             {% endfor %}
 
 
             <form
-                action="{% url "posts:create_comment" subcomment=0 postpk=post.pk commentpk=0 %}"
+                {% if post.title %}
+                    action="{% url 'posts:create_comment' subcomment=0 postpk=post.pk commentpk=0 %}"
+                {% else %}
+                    action="{% url 'posts:create_comment' subcomment=0 postpk=post.post.pk commentpk=0 %}"
+                {% endif %}
                 method="POST"
                 class="collapse show multi-collapse"
                 id="initial_modal" >
 
                 {{ comment_form.message }}
                 <span id="comment-box">
-                {% csrf_token %}
+                    {% csrf_token %}
                 </span>
-                </br>
-                <button
-                    type="submit"
-                    class="btn btn-secondary">
-                    Submit
-                </button>
-                <div class="float-right text-muted" id="wordCount">
-                    500
-                </div>
+                 </br>
+                 <button
+                     type="submit"
+                     class="btn btn-secondary">
+                     Submit
+                 </button>
+                 <div class="float-right text-muted" id="wordCount">
+                     500
+                 </div>
             </form>
 
         </div>
@@ -133,7 +142,7 @@
             width: 100%;
             height: 50%;
             border-radius: 10px;
-            
+
         }
     </style>
     <script>

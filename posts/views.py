@@ -46,7 +46,12 @@ def post_detail(request, postpk, is_post=1):
         if is_post == 1:
             post = get_object_or_404(Post, pk=postpk)
         else:
-            post = get_object_or_404(Event, pk=postpk)
+            post = get_object_or_404(Post, pk=postpk)
+            # post = event.post
+        if post.is_event:
+            post = post.event.first()
+            print("-------------------------------------")
+            print(post)
 
         context = {
             "post": post,
@@ -59,6 +64,9 @@ def post_detail(request, postpk, is_post=1):
 def view_events(request):
     if request.user.is_authenticated:
         all_events = Event.objects.all()
+        print("all events")
+        print(all_events)
+        print()
         # for event in all_events:
         #     event.delete()
         user_location = json.loads(request.user.profile.location)
@@ -69,8 +77,11 @@ def view_events(request):
                                 user_location['latitude'],
                                 event_location['longitude'],
                                 event_location['latitude'])
-            nearby_posts.append((event, int(distance)))
+            nearby_posts.append((event.post, int(distance)))
 
+        print("nearby posts")
+        print(nearby_posts)
+        print()
         context = {
             "posts": nearby_posts,
         }
@@ -82,17 +93,19 @@ def view_events(request):
 def create_event(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
-            print("is inside post")
             form = EventForm(request.POST)
             if form.is_valid():
-                print("form is valid")
+                new_post = Post()
+                new_post.title = form.cleaned_data['title']
+                new_post.message = form.cleaned_data['message']
+                new_post.creator = request.user
+                new_post.channel = get_object_or_404(Channel, title='Events')
+                new_post.is_event = True
+                new_post.save()
+                new_post.score = hot(0, 0, new_post.created_at)
+                new_post.save()
                 new_event = Event()
-                new_event.title = form.cleaned_data['title']
-                new_event.message = form.cleaned_data['message']
-                new_event.creator = request.user
-                new_event.save()
-                new_event.score = hot(0, 0, new_event.created_at)
-                new_event.save()
+                new_event.post = new_post
                 new_event.start_time = json.dumps(request.POST.get("start_time"))
                 new_event.end_time = json.dumps(request.POST.get("end_time"))
                 new_event.exact_location = request.POST.get("channellocation")
@@ -101,8 +114,6 @@ def create_event(request):
                                                     kwargs={'postpk': new_event.pk, "is_post": 0}))
             # form not valid
             else:
-                print("form not valid")
-                print(form.errors)
                 context = {
                     "form": form,
                     # "channel": get_object_or_404(Channel, pk=channel),
