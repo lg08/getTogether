@@ -33,9 +33,9 @@
             <h5 id="endlabel">Ends At: {{ post.end_time }}</h5>
             <script>
                 document.getElementById('startlabel').innerText = 
-                    "Starts At: " + document.getElementById('starttime').replace("\"", "");
+                    "Starts At:" + document.getElementById('starttime').replace("\"", " ");
                 document.getElementById('endlabel').innerText = 
-                    "Ends At: " + document.getElementById('endtime').replace("\"", "");
+                    "Ends At:" + document.getElementById('endtime').replace("\"", " ");
             </script>
             {{ post.event }}
             <h5>Location:</h5>
@@ -62,6 +62,11 @@
                     map = new google.maps.Map(document.getElementById("map"), {
                         zoom: 10,
                         center: initialmapcenter
+                    });
+
+                    marker = new google.maps.Marker({
+                        position: initialmapcenter,
+                        map: map
                     });
                 }
             </script>
