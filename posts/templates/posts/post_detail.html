@@ -153,6 +153,16 @@
             console.log(length);
             $('#wordCount').text(maxlength - length);
         });
-     
+
+
+     function clean_comment() {
+         var comments = document.getElementsByClassName('comment-body');
+         for (var i = 0; i < comments.length; i++) {
+             text_inner = comments[i].innerHTML;
+             text_inner = text_inner.replace("None", "");
+             comments[i].innerHTML = text_inner;
+         }
+     }
+     window.onload = clean_comment;
     </script>
 {% endblock %}
