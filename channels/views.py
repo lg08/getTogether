@@ -28,13 +28,14 @@ def list_channels(request):
         nearby_channels = []
         user_location = json.loads(request.user.profile.location)
         for channel in all_channels:
-            channel_location = json.loads(channel.location)
-            distance = haversine(user_location['longitude'],
-                                user_location['latitude'],
-                                channel_location['longitude'],
-                                channel_location['latitude'])
-            nearby_channels.append((channel, int(distance)))
-            nearby_channels = sorted(nearby_channels, key = lambda x: x[1])
+            if channel.title != "Main" and channel.title != "Events":
+                channel_location = json.loads(channel.location)
+                distance = haversine(user_location['longitude'],
+                                    user_location['latitude'],
+                                    channel_location['longitude'],
+                                    channel_location['latitude'])
+                nearby_channels.append((channel, int(distance)))
+        nearby_channels = sorted(nearby_channels, key = lambda x: x[1])
         context = {
             "channels": nearby_channels,
         }
