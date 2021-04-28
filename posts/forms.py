@@ -46,12 +46,8 @@ class DateTimeInput(forms.DateTimeInput):
 
 
 class EventForm(forms.Form):
-    title = forms.CharField()
-    message = forms.CharField(
-        widget=forms.TextInput(
-            attrs={'class': 'post_message_form'}
-        )
-    )
+    title = forms.CharField(widget=forms.Textarea(attrs={"rows":1, "style":"width:100%;"}))
+    message= forms.CharField(widget=forms.Textarea(attrs={"rows":5, "style":"width:100%;"}))
 
     start_time = forms.CharField(
         # input_formats=['%d/%m/%Y %H:%M'],

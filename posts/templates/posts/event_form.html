@@ -74,15 +74,15 @@
                     {{ form.errors }}
                     <label>
                         Title:
-                        {{ form.title }}
                     </label>
+                        {{ form.title }}
                     <br/>
                     <label>
                         Description:
-                        {{ form.message }}
                     </label>
+                        {{ form.message }}
                     <br/>
-                    <label>
+                    <label style="width:50%;">
                         Start Date:
                         <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
                             {{ form.start_time }}
@@ -91,8 +91,7 @@
                             </div>
                         </div>
                     </label>
-
-                    <label>
+                    <label style="width:49%;">
                         End Date:
                         <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
                             {{ form.end_time }}
@@ -117,9 +116,9 @@
 
                     <label>
                         Event Location:
-                        <input type="text" id="autocomplete" placeholder="Enter a place"/>
-                      </label>
-                      <input type="hidden" id="channellocation" name="channellocation" value="this is channel location from html" />
+                    </label>
+                    <input style="width:100%;" type="text" id="autocomplete" placeholder="Enter a place"/>
+                    <input type="hidden" id="channellocation" name="channellocation" value="this is channel location from html" />
                     <input type="submit" value="Save">
                 </form>
 
