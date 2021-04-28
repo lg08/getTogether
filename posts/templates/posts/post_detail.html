@@ -13,110 +13,136 @@
 
 
 
-    <div class="container">
-        <center>
-            <h1> {{ post.title }} </h1>
-        </center>
-        <br/>
-        <h3>Description:</h3>
-        <p>
-            {{post.message}}
-        </p>
+    <div style="margin-top: 30px;" class="container">
+        <div class="card mt-5 box-blur">
+            <center>
+                <h1> {{ post.title }} </h1>
+            </center>
+            <br/>
+            <h3>Description:</h3>
+            <p>
+                {{post.message}}
+            </p>
 
-        <hr/>
+            <hr/>
 
-        {% if post.start_time %}
-            <input type="hidden" id="eventlocation" value="{{ post.exact_location }}" />
-            <input type="hidden" id="starttime" value="{{ post.start_time }}" />
-            <input type="hidden" id="endtime" value="{{ post.end_time }}" />
-            <h5 id="startlabel">Starts At: {{ post.start_time }}</h5>
-            <h5 id="endlabel">Ends At: {{ post.end_time }}</h5>
-            <script>
-                document.getElementById('startlabel').innerText = 
-                    "Starts:" + document.getElementById('starttime').value.replace(/\"/g, " ");
-                document.getElementById('endlabel').innerText = 
-                    "Ends:" + document.getElementById('endtime').value.replace(/\"/g, " ");
-            </script>
-            {{ post.event }}
-            <h5>Location:</h5>
-            <div id="map"></div>
-            <script type="text/javascript">
+            {% if post.start_time %}
+                <input type="hidden" id="eventlocation" value="{{ post.exact_location }}" />
+                <input type="hidden" id="starttime" value="{{ post.start_time }}" />
+                <input type="hidden" id="endtime" value="{{ post.end_time }}" />
+                <h5 id="startlabel">Starts At: {{ post.start_time }}</h5>
+                <h5 id="endlabel">Ends At: {{ post.end_time }}</h5>
+                <script>
+                    document.getElementById('startlabel').innerText = 
+                        "Starts:" + document.getElementById('starttime').value.replace(/\"/g, " ");
+                    document.getElementById('endlabel').innerText = 
+                        "Ends:" + document.getElementById('endtime').value.replace(/\"/g, " ");
+                </script>
+                {{ post.event }}
+                <h5>Location:</h5>
+                <div id="map"></div>
+                <script type="text/javascript">
 
-                let autocomplete;
-                let map;
-                let marker;
-                
-                function initMap() {
-                    let initialLocation = document.getElementById("eventlocation").value;
-                    if (!initialLocation.includes("\"")) {
-                        initialLocation = initialLocation.replace("latitude", "\"latitude\"");
-                        initialLocation = initialLocation.replace("longitude", "\"longitude\"");
+                    let autocomplete;
+                    let map;
+                    let marker;
+                    
+                    function initMap() {
+                        let initialLocation = document.getElementById("eventlocation").value;
+                        if (!initialLocation.includes("\"")) {
+                            initialLocation = initialLocation.replace("latitude", "\"latitude\"");
+                            initialLocation = initialLocation.replace("longitude", "\"longitude\"");
+                        }
+
+                        initialLocation = JSON.parse(initialLocation);
+                        let initialmapcenter = {
+                            lat: initialLocation.latitude,
+                            lng: initialLocation.longitude
+                        };
+
+                        map = new google.maps.Map(document.getElementById("map"), {
+                            zoom: 17,
+                            center: initialmapcenter
+                        });
+
+                        marker = new google.maps.Marker({
+                            position: initialmapcenter,
+                            map: map
+                        });
                     }
+                </script>
+                
+                <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7E0Z5BPny7CTI5mm9MfxbdBKsjy94PXU&libraries=places&callback=initMap" async></script>
+                <style type="text/css">
+                    /* Set the size of the div element that contains the map */
+                    #map {
+                    height: 400px;
+                    /* The height is 400 pixels */
+                    width: 100%;
+                    /* The width is the width of the web page */
+                    }
+                </style>
+            {% else %}
+            {% endif %}
 
-                    initialLocation = JSON.parse(initialLocation);
-                    let initialmapcenter = {
-                        lat: initialLocation.latitude,
-                        lng: initialLocation.longitude
-                    };
+            <hr/>
 
-                    map = new google.maps.Map(document.getElementById("map"), {
-                        zoom: 17,
-                        center: initialmapcenter
-                    });
+            <h1>Comments:</h1>
 
-                    marker = new google.maps.Marker({
-                        position: initialmapcenter,
-                        map: map
-                    });
-                }
-            </script>
-            <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7E0Z5BPny7CTI5mm9MfxbdBKsjy94PXU&libraries=places&callback=initMap" async></script>
-            <style type="text/css">
-                /* Set the size of the div element that contains the map */
-                #map {
-                  height: 400px;
-                  /* The height is 400 pixels */
-                  width: 100%;
-                  /* The width is the width of the web page */
-                }
-              </style>
-        {% else %}
-        {% endif %}
+            {% if post.start_time %}
+            
+            {% else %}
 
-        <hr/>
-
-        <h1>Comments:</h1>
-
-        {% if post.start_time %}
-        
-        {% else %}
-
-        {% endif %}
+            {% endif %}
 
 
-        <!-- recursive comment revealing -->
-        {% create_stack post.post_comments.all as commentstack %}
-        {% create_stack post.post_comments.all as commentstackcopy %}
-        {% for number in  commentstackcopy %}
-            {% include 'posts/comment.html' %}
-        {% endfor %}
+            <!-- recursive comment revealing -->
+            {% create_stack post.post_comments.all as commentstack %}
+            {% create_stack post.post_comments.all as commentstackcopy %}
+            {% for number in  commentstackcopy %}
+                {% include 'posts/comment.html' %}
+            {% endfor %}
 
 
-        <form
-            action="{% url "posts:create_comment" subcomment=0 postpk=post.pk commentpk=0 %}"
-            method="POST"
-            class="collapse show multi-collapse"
-            id="initial_modal" >
+            <form
+                action="{% url "posts:create_comment" subcomment=0 postpk=post.pk commentpk=0 %}"
+                method="POST"
+                class="collapse show multi-collapse"
+                id="initial_modal" >
 
-            {{ comment_form|crispy }}
-            {% csrf_token %}
-            <button
-                type="submit"
-                class="btn btn-secondary">
-                Submit
-            </button>
-        </form>
+                {{ comment_form.message }}
+                <span id="comment-box">
+                {% csrf_token %}
+                </span>
+                </br>
+                <button
+                    type="submit"
+                    class="btn btn-secondary">
+                    Submit
+                </button>
+                <div class="float-right text-muted" id="wordCount">
+                    500
+                </div>
+            </form>
 
+        </div>
     </div>
 
+    <style>
+        #id_message {
+            width: 100%;
+            height: 50%;
+            border-radius: 10px;
+            
+        }
+    </style>
+    <script>
+        $("#id_message").attr("maxlength", 500);
+        var maxlength = 500;
+        $("textarea").on("keyup", function(e) {
+            var length = $(this).val().length;
+            console.log(length);
+            $('#wordCount').text(maxlength - length);
+        });
+    </script>
 {% endblock %}

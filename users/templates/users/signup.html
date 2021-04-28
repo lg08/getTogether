@@ -15,7 +15,6 @@
                     {% csrf_token %}
 
                     {{ form|crispy }}
-
                     <input type="hidden" id="geolocation"
                            name="userlocation" value="this_from_html" />
                     <input name="" type="submit" value="Sign Up" class ="btn btn-primary my-3" />

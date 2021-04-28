@@ -27,7 +27,9 @@
                                 data-target=".form-collapse-{{ comment.pk }}"
                                 aria-expanded="false"
                                 aria-controls="multiCollapseExample1
-                                       multiCollapseExample2">
+                                       multiCollapseExample2"
+                                id="comment-button"
+                                title="comment">
                             {% include 'posts/addons/reply-button.html' %}
                         </button>
                     {% else %} <!--just redirects to login page-->

@@ -7,13 +7,13 @@
 
 {% block body %}
 
-<div class="container">
+<div class="container" id="login">
     <div class="card mt-5 box-blur">
         <h1 style="margin: 20px 0px;">Log In</h1>
         <form method ="post">
             {% csrf_token %}
             {{ form|crispy }}
-
+        </br>
             <input style="margin-bottom: 20px;" name="" type="submit" value="Log In" class ="btn btn-primary" />
 
         </form>
@@ -28,6 +28,7 @@
     #icon {
         border-bottom: thin solid white;
     }
+
 
 
 </style>
