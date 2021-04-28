@@ -34,6 +34,7 @@ def list_channels(request):
                                 channel_location['longitude'],
                                 channel_location['latitude'])
             nearby_channels.append((channel, int(distance)))
+            nearby_channels = sorted(nearby_channels, key = lambda x: x[1])
         context = {
             "channels": nearby_channels,
         }
