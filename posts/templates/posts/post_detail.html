@@ -33,9 +33,9 @@
             <h5 id="endlabel">Ends At: {{ post.end_time }}</h5>
             <script>
                 document.getElementById('startlabel').innerText = 
-                    "Starts At:" + document.getElementById('starttime').replace("\"", " ");
+                    "Starts At:" + document.getElementById('starttime').value.replace("\"", " ");
                 document.getElementById('endlabel').innerText = 
-                    "Ends At:" + document.getElementById('endtime').replace("\"", " ");
+                    "Ends At:" + document.getElementById('endtime').value.replace("\"", " ");
             </script>
             {{ post.event }}
             <h5>Location:</h5>
