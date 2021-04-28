@@ -14,10 +14,6 @@
 
 
     <div class="container">
-        <input type="hidden" id="eventlocation" value="{{ post.exact_location }}" />
-        <script>
-            console.log('event location: ' + document.getElementById('eventlocation').value);
-        </script>
         <center>
             <h1> {{ post.title }} </h1>
         </center>
@@ -30,8 +26,14 @@
         <hr/>
 
         {% if post.start_time %}
-            <h5>Starts At: {{ post.start_time }}</h3>
-            <h5>Ends At: {{ post.end_time }}</h3>
+            <input type="hidden" id="eventlocation" value="{{ post.exact_location }}" />
+            <input type="hidden" id="starttime" value="{{ post.start_time }}" />
+            <input type="hidden" id="endtime" value="{{ post.end_time }}" />
+            <script>
+                console.log('event location: ' + document.getElementById('eventlocation').value);
+            </script>
+            <h5>Starts At: {{ post.start_time }}</h5>
+            <h5>Ends At: {{ post.end_time }}</h5>
             {{ post.event }}
             <h5>Location:</h5>
             <div id="map"></div>
