@@ -13,18 +13,9 @@
         <br />
         <h2>Events:</h2>
 
-        <div class="{% if columns %}card-columns{% endif %}">
+        <div>
             {% include 'channels/_post_listings.html' %}
         </div>
-
-
-        <h2>Members:</h2>
-        <ul>
-            {% for member in channel_members %}
-                <li>{{ member }}</li>
-            {% endfor %}
-        </ul>
-
 
     </div>
 
