@@ -35,11 +35,11 @@
 
 
     <body>
+        <div id="content-wrap">
         {% include "navbar2.html" %}
-
-        {% block body %}
-        {% endblock %}
-
+            {% block body %}
+            {% endblock %}
+        </div>
     </body>
 
     <!-- footer -->
@@ -65,6 +65,14 @@
 
     <!-- style -->
     <style>
+    #content-wrap {
+        min-height: 100%;
+    }
+    html {
+        height: 100%;
+        margin: 0;
+        scroll-behavior: smooth;
+    }
      body {
          /*             background: rgb(254,249,199); */
          /*             background: linear-gradient(0deg, rgba(254,249,199,1) 0%, rgba(159,237,215,1) 100%); */
@@ -105,6 +113,7 @@
          display: inline-block;
          padding: 15px 0px;
          position: relative;
+         font-size: 2.5vmax;
 
      }
      h2 {
@@ -134,8 +143,8 @@
          /*          background: linear-gradient(#f9f9f9, #bbbfca); */
          /* background: linear-gradient(0deg, white 100%, #BBBFCA 0%); */
 
-         background: linear-gradient(#f9f9f9, #bbbfca);
-         transition: background 3s linear;
+        background: linear-gradient(#f9f9f9, #bbbfca);
+        transition: background 3s linear;
      }
      .card {
          border-radius: 25px;
@@ -156,8 +165,8 @@
          padding-left: 0px;
          position: relative;
      }
-     .range {
-         width: 400px;
+     .slider-range {
+         width: 80%;
          height: 15px;
          -webkit-appearance: none;
          background: #495464;
