@@ -52,7 +52,6 @@
             autocomplete = new google.maps.places.Autocomplete(
                 document.getElementById('autocomplete'),
                 {
-                    types: ['establishment'],
                     fields: ['place_id', 'geometry', 'name']
             });
 
@@ -141,7 +140,7 @@
 
         <br />
         <h1>Subscriptions</h1>
-        <div class="list-group list-group-flush">
+        <div class="list-group list-group-flush" style=" word-break: break-word;">
             {% for channel in channel_subscriptions %}
                 <a href="{% url "channels:posts" channel.pk %}"
                    class="list-group-item
