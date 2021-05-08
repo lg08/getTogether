@@ -45,6 +45,7 @@
         });
     }
   }
+
 </script>
 
 <div style="margin-top: 30px;" class="container">
@@ -53,7 +54,7 @@
                 <h1>Create Channel</h1>
 
 
-                <form method="post">
+                <form method="post" id="location_form">
                     {% csrf_token %}
                     <p
                         {% if same_name %}
@@ -62,7 +63,7 @@
                             style="display:None"
                         {% endif %}
                     >
-                        Sry, a channel with that name already exists,
+                        Sorry, a channel with that name already exists,
                         please try a different name!
                     </p>
                     {{ form|crispy }}

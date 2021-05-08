@@ -34,7 +34,7 @@
             </div>
 
             <div id="map"></div>
-            <form method="post" action="{% url "users:change_location"  %}">
+            <form method="post" action="{% url "users:change_location"  %}" id="location_form">
                 {% csrf_token %}
                 {{ form.as_p }}
                 <input type="text" id="autocomplete" placeholder="Enter a place"/>
