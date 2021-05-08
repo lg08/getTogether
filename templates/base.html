@@ -36,19 +36,20 @@
 
     <body>
         <div id="content-wrap">
-        {% include "navbar2.html" %}
+            {% include "navbar2.html" %}
             {% block body %}
             {% endblock %}
+            <div class="push"></div>
         </div>
     </body>
 
     <!-- footer -->
-    <footer class="text-center text-lg-start mt-5 my-footer" >
+    <footer class="text-center text-lg-start mt-5 my-footer footer" >
         <!-- Copyright -->
-        <div class="text-center p-3">
-            Created by Lucas Gen, Yusuf Kocaman and Sean Zatz, 2021
+        <div class="text-center p-3 container">
+            Created by Lucas Gen, Yusuf Kocaman, and Sean Zatz, 2021
         </div>
-        <!-- Copyright -->
+    <!-- Copyright -->
     </footer>
 
     <!-- javascript stuff -->
@@ -67,6 +68,7 @@
     <style>
     #content-wrap {
         min-height: 100%;
+        margin-bottom: -50px;
     }
     html {
         height: 100%;
@@ -83,7 +85,6 @@
          background-repeat: no-repeat;
          background-attachment: fixed;
          min-height: 100vh;
-         display:flex;
          flex-direction: column;
      }
      .navbar {
@@ -139,6 +140,9 @@
      /* #navbar {
          background-color: #026670;
      } */
+     .push {
+         height: 50px;
+     }
      .my-footer {
          /*          background: linear-gradient(#f9f9f9, #bbbfca); */
          /* background: linear-gradient(0deg, white 100%, #BBBFCA 0%); */
