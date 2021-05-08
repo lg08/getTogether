@@ -67,7 +67,7 @@
                 <h1>Create Event</h1>
 
 
-                <form method="post" id="location_form">
+                <form method="post">
                     {% csrf_token %}
                     {#{ form.as_p }#}
                     {{ form.errors }}
@@ -116,7 +116,7 @@
                     <label>
                         Event Location:
                     </label>
-                    <input style="width:100%;" type="text" id="autocomplete" placeholder="Enter a place"/>
+                    <input style="width:100%;" type="text" id="autocomplete" placeholder="Enter a place" class="location_form"/>
                     <input type="hidden" id="channellocation" name="channellocation" value="this is channel location from html" />
                     <input type="submit" value="Save">
                 </form>

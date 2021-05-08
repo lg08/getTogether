@@ -34,10 +34,10 @@
             </div>
 
             <div id="map"></div>
-            <form method="post" action="{% url "users:change_location"  %}" id="location_form">
+            <form method="post" action="{% url "users:change_location"  %}">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <input type="text" id="autocomplete" placeholder="Enter a place"/>
+                <input type="text" id="autocomplete" placeholder="Enter a place" class="location_form"/>
                 <input type="hidden" id="user_location" name="user_location" value="{{ user.profile.location }}" />
                 <input type="submit" value="Save">
         </form>

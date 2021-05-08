@@ -45,7 +45,7 @@
         <!-- script for location autocomplete to ignore enter key -->
         <script>
             $(window).ready(function() {
-                $("#location_form").on("keypress", function (event) {
+                $(".location_form").on("keypress", function (event) {
                     var keyPressed = event.keyCode || event.which;
                     if (keyPressed === 13) {
                         event.preventDefault();
