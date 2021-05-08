@@ -9,7 +9,7 @@
     <div style="margin-top: 30px;" class="container">
         <div class="card mt-5 box-blur">
             <div class="card-body">
-                <center><h1>Create Post in {{ channel }}</h1></center>
+                <center style="word-break: break-word;"><h1>Create Post in {{ channel }}</h1></center>
                 <form method="POST" action="{% url "posts:create" channel.pk %}">
                     {% csrf_token %}
 

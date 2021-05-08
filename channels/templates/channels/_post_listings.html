@@ -104,7 +104,7 @@
             <!-- <a data-toggle="modal" class="stretched-link" href="#post_modal" id="modal_trigger"></a> -->
             <h5 class="card-title">
             <span
-
+                style="word-break: break-word;"
             >
                 {{ post.title }}
             </span>
@@ -163,7 +163,9 @@
         </div>
     </div>
 
-    <script>window.onload = updateUpDown("{{ post.id }}", "{{ post.num_of_upvotes }}", "{{ post.num_of_downvotes }}",undefined,"{{ post.title }}");</script>
+    <script>
+        window.onload = updateUpDown("{{ post.id }}", "{{ post.num_of_upvotes }}", "{{ post.num_of_downvotes }}",undefined,"{% filter escapejs %}{{ post.title }}{% endfilter %}");
+    </script>
 
 
 {% endfor %}
