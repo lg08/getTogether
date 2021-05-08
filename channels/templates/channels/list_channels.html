@@ -24,9 +24,9 @@
       <h5>Range: <span id="current_radius">150</span> km</h5>
       {% endif %}
   </center>
-      <ul>
+      <ul class="container">
         <hr>
-        <div class="list-group list-group-flush">
+        <div class="list-group list-group-flush" style=" word-break: break-word;">
           {% for channel, distance in channels %}
           <a href="{% url "channels:posts" channel.pk %}"
              class="list-group-item
