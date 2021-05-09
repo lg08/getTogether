@@ -17,8 +17,6 @@
         <!-- google sign in thing -->
         <meta name="google-signin-client_id" content="599489317186-op51l48ami8e6dhp0vf29hp118k2ashb.apps.googleusercontent.com">
 
-        <!-- bootstrap -->
-        <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"> -->
         <!-- bootstrap 4 -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
@@ -69,8 +67,6 @@
     <script src="{% static 'loginController.js'%}"></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
 
-    <!-- bootstrap js -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script> -->
     <!-- bootstrap v4 js -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -89,9 +85,6 @@
         scroll-behavior: smooth;
     }
      body {
-         /*             background: rgb(254,249,199); */
-         /*             background: linear-gradient(0deg, rgba(254,249,199,1) 0%, rgba(159,237,215,1) 100%); */
-         /*             background: #CCF2F4; */
          background-color: #f9f9f9;
          height: 100%;
          margin: 0;
@@ -101,13 +94,10 @@
          flex-direction: column;
      }
      .navbar {
-         /*             background-color: #026670; */
          background: linear-gradient(#bbbfca, #f9f9f9);
          transition: background 3s linear;
      }
      .card {
-         /* background-color: #fce181; */
-         /*             background-color: #F4F9F9; */
          border-radius: 25px;
          padding: 20px;
          {% if columns %}
@@ -141,25 +131,10 @@
          padding-left: 0px;
          position: relative;
      }
-     /* body {
-        background: rgb(254,249,199);
-        background: linear-gradient(0deg, rgba(254,249,199,1) 0%, rgba(159,237,215,1) 100%);
-        height: 100%;
-        margin: 0;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        padding-bottom: 50px;
-        } */
-     /* #navbar {
-         background-color: #026670;
-     } */
      .push {
          height: 50px;
      }
      .my-footer {
-         /*          background: linear-gradient(#f9f9f9, #bbbfca); */
-         /* background: linear-gradient(0deg, white 100%, #BBBFCA 0%); */
-
         background: linear-gradient(#f9f9f9, #bbbfca);
         transition: background 3s linear;
      }
@@ -197,11 +172,9 @@
          width: 15px;
          height: 15px;
          border-radius: 50%;
-         /*          background: #00fd0a; */
          background: #ffffff;
          cursor: pointer;
          border: 4px solid #333;
-         /*          box-shadow: -407px 0 0 400px #00fd0a; */
          box-shadow: -407px 0 0 400px #bbbfca;
      }
 

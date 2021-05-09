@@ -94,14 +94,11 @@
         onclick="window.location='{% url "posts:detail" post.pk 1 %}'"
         {% endif %}
     >
-        <!--          onclick="window.location='#'" -->
 
 
         <!-- for images -->
-        <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
         <div class="card-body">
             <!-- help from here: https://slickmedia.co.uk/blog/glenns-blog/trigger-bootstrap-modal-with-link/ -->
-            <!-- <a data-toggle="modal" class="stretched-link" href="#post_modal" id="modal_trigger"></a> -->
             <h5 class="card-title">
             <span
                 style="word-break: break-word;"
@@ -125,12 +122,6 @@
 
             </h5>
             <hr/>
-
-            <!-- <p class="card-text" onclick="show_modal('#card-for{{
-                                                                    post.id
-                                                                    }}')">
-                 {{ post.message }}
-                 </p> -->
 
             <div class="card-text">
             <p>

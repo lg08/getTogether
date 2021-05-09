@@ -9,18 +9,6 @@ for channel in Channel.objects.all():
 
 class PostForm(forms.Form):
     title = forms.CharField(widget=forms.Textarea(attrs={"rows":1, "style":"width:100%;"}))
-    # message = forms.CharField(
-    #     widget=forms.TextInput(
-    #         attrs={
-    #             'class': 'post_message_form',
-    #             # 'size': '20',
-    #             'style': 'width: 100%;',
-    #             'rows': 5,
-    #             'cols': 15,
-    #         }
-    #     )
-    # )
-    # message.widget.attrs.update(size='60')
     message= forms.CharField(widget=forms.Textarea(attrs={"rows":5, "style":"width:100%;"}))
 
 
@@ -50,14 +38,12 @@ class EventForm(forms.Form):
     message= forms.CharField(widget=forms.Textarea(attrs={"rows":5, "style":"width:100%;"}))
 
     start_time = forms.CharField(
-        # input_formats=['%d/%m/%Y %H:%M'],
         widget=forms.DateTimeInput(attrs={
             'class': 'form-control datetimepicker-input',
             'data-target': '#datetimepicker1'
         })
     )
     end_time = forms.CharField(
-        # input_formats=['%d/%m/%Y %H:%M'],
         widget=forms.DateTimeInput(attrs={
             'class': 'form-control datetimepicker-input',
             'data-target': '#datetimepicker2'

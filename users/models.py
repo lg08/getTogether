@@ -15,12 +15,9 @@ class Profile(models.Model):
     )
     full_name = models.TextField(null=False, blank=False,
                                  max_length=50, default="full name here")
-    # location = models.IntegerField(default=95818) # TODO: change this
     location = models.TextField(null=False, blank=False,
                                 max_length=50000, default="put JSON" + \
                                 "object here")
-    # to better location system
-
     def __str__(self):
         return "{}'s profile".format(self.user)
 

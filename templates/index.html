@@ -14,7 +14,6 @@
         <div class="card-columns">
             {% include 'channels/_post_listings.html' %}
         </div>
-        <!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
     </div>
 
 
@@ -27,7 +26,6 @@
     >
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content p-4">
-                <!-- <center><h1 id="modal_title">Title</h1></center> -->
                 <p id="modal_message">this is the message</p>
 
             </div>
@@ -39,7 +37,6 @@
 
      function show_modal(cardid) {
          var cardText = $(cardid).html();
-         /*      $("#modal_title").text(title); */
          $("#modal_message").html(cardText);
          $("#post_modal").modal();
 

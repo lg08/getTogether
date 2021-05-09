@@ -16,11 +16,6 @@ urlpatterns = [
         views.list_channels,
         name='list'
     ),
-    # path(
-    #     'all/<int:range>/',
-    #     views.list_channels,
-    #     name='list'
-    # ),
     path(
         '<int:channel_pk>/<int:columns>/',
         views.channel_posts,

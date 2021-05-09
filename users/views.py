@@ -13,13 +13,6 @@ import json
 
 # Create your views here.
 
-# posts = Post.objects.all()
-# for post in posts:
-#     if post.location == "put JSONobject here":
-#         post.location = '{"latitude":40.3447222,"longitude":-74.7163889}'
-#         post.save()
-
-
 def profile_page(request, user_pk, columns=1, no_location=0):
     if request.user.is_authenticated:
         user = get_object_or_404(User, pk=user_pk)
@@ -87,7 +80,6 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
             login(request, user)
-            # return redirect('users:profile_page', pk=request.user.pk)
             try:
                 json.loads(user.profile.location)
                 return HttpResponseRedirect(

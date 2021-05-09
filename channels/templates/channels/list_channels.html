@@ -40,31 +40,6 @@
 
       </ul>
 </div>
-<!-- <script>
-  let controller = null;
-
- function reloadChannels() {
-
- let radius = document.getElementById("channelrange");
- let encodedRadius = encodeURIComponent(radius);
- let url = '/loadchannels?radius=' + encodedRadius;
-
-
- if (controller !== null) {
- controller.abort();
- }
- let controller = new AbortController();
-
- fetch(url, {signal: controller.signal})
- .then(function(resp){return resp.json;})
- .then(function(json){
-     //create innerhtml string using json.channels and js to recreate templating functionality
- json.channels;
- })
- .catch(function(err){console.log(err);});
- }
- document.getElementById.addEventListener("change", reloadChannels);
-</script> -->
 <script>
 
   function filterByRadius(radius) {

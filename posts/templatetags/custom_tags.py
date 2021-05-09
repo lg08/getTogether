@@ -2,6 +2,7 @@
 from django import template
 register = template.Library()
 
+# custom template tags used to implement the recursive commenting functionality
 @register.simple_tag
 def create_stack(stack, takes_context=True):
     array = []

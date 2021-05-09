@@ -81,7 +81,7 @@ TEMPLATES = [
     },
 ]
 
-# DEVELOPMENT EMAIL. SWITCH TO SMTP 
+# DEVELOPMENT EMAIL. SWITCH TO SMTP
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
@@ -94,16 +94,6 @@ SERVER_EMAIL = 'gettogetherprinceton@gmail.com'
 WSGI_APPLICATION = 'GetTogether.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-#sqlite3
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
 DATABASES = {
     'default': {

@@ -20,7 +20,6 @@ def set_post_defaults():
         post.location = '{"latitude":40.3505454,"longitude":-74.652204}'
         post.save()
 
-# set_post_defaults()
 
 def list_channels(request):
     if request.user.is_authenticated:
@@ -67,7 +66,6 @@ def create_channel(request):
             if form.is_valid():
                 new_channel = Channel()
                 new_channel.title = form.cleaned_data['title']
-                # new_channel.location = form.cleaned_data['location']
                 try:
                     new_channel.save()  # have to keep this here to add the member
                     new_channel.members.add(request.user)
@@ -172,11 +170,6 @@ def main_feed(request):
         'downvotes': downvotes,
     }
     return render(request,  "index.html", context)
-    # else:
-        # if the user isn't loggin in, take them to the login page
-        # return HttpResponseRedirect(reverse('users:login'))
-        # pass
-
 
 
 def haversine(lon1, lat1, lon2, lat2):

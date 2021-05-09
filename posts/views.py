@@ -117,7 +117,6 @@ def create_event(request):
             else:
                 context = {
                     "form": form,
-                    # "channel": get_object_or_404(Channel, pk=channel),
                 }
                 return render (request, "posts/event_form.html", context)
         # it's a get request
@@ -125,7 +124,6 @@ def create_event(request):
             form = EventForm()
             context = {
                 "form": form,
-                # "channel": get_object_or_404(Channel, pk=channel),
             }
             return render (request, "posts/event_form.html", context)
 
@@ -225,6 +223,5 @@ def upvote_downvote_post(request, postid, up_or_downvote):
             "created": created,
         }
         return JsonResponse(data, safe=False)
-        # return redirect(request.META['HTTP_REFERER'])
     else:
         return HttpResponseRedirect(reverse('users:login'))
