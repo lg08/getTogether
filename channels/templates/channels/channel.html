@@ -2,128 +2,141 @@
 {% load static %}
 
 {% block page_title%}
-    <title>{{channel_name}}</title>
+<title>{{channel_name}}</title>
 {% endblock %}
 
 {% block body %}
 
 
-    <div class="container">
-        <center style="word-break: break-all;"><h1>{{ channel_name }}</h1></center>
-        <center>
-            <h4>
-                <a href="{% url "posts:create" channel.pk %}"
-                class="dope-hover-link">
-                    Make a post!
-                </a>
-        {% if isin_channel %}
-            <a href="{% url "channels:join_channel" channel.pk 0 %}"
-               class="dope-hover-link"
-            >
-                Leave this channel
-            </a>
+<div class="container">
+  <center style="word-break: break-all;"><h1>{{ channel_name }}</h1></center>
+  <center>
+    <h4>
+      <a href="{% url "posts:create" channel.pk %}"
+         class="dope-hover-link">
+        Make a post!
+      </a>
+      {% if isin_channel %}
+      <a href="{% url "channels:join_channel" channel.pk 0 %}"
+         class="dope-hover-link"
+         >
+         Leave this channel
+      </a>
         {% else %}
-            <a href="{% url "channels:join_channel" channel.pk 1 %}"
-               class="dope-hover-link"
-              >
-                Join Channel
-            </a>
-        {% endif %}
-        </h4>
+        <a href="{% url "channels:join_channel" channel.pk 1 %}"
+           class="dope-hover-link"
+           >
+           Join Channel
+        </a>
+          {% endif %}
+    </h4>
 
-        <!-- if the user is logged in -->
-        {% if user.username %}
-            <input
-                type="range"
-                min="1"
-                max="100"
-                value="50"
-                class="slider-range"
-                id="myRange"
-                onChange="filterByRadius(this.value)"
-                onmousemove="filterByRadius(this.value)"
-            >
-            <h5>Range: <span id="current_radius">50</span> kilometers</h5>
-        {% endif %}
-
-        </center>
-
-        <div class="float-right">
-            <div class="dropdown show">
-                <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Members
-                </a>
-
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                    {% for member in channel_members %}
-                        <a class="dropdown-item" href="{% url "users:profile_page" member.pk %}">{{ member }}</a>
-                    {% endfor %}
-                </div>
-              </div>
-            </div>
-
-        {% if columns %}
-        <form action="{% url "channels:posts" channel.pk 0 %}">
-            <button type="submit" class="btn btn-light" >List View</button>
-        </form>
-
-            <!-- <p><a href="{% url "channels:posts" channel.pk 0 %}">List View</a></p> -->
-        {% else %}
-        <form action="{% url "channels:posts" channel.pk 1 %}">
-            <button type="submit" class="btn btn-light" >Column View</button>
-        </form>
-
-            <!-- <pa><a href="{% url "channels:posts" channel.pk 1 %}">Column View</a></p> -->
+    <!-- if the user is logged in -->
+    {% if user.username %}
+    <input
+        type="range"
+        min="1"
+        max="100"
+        value="50"
+        class="slider-range"
+        id="myRange"
+        onChange="filterByRadius(this.value)"
+        onmousemove="filterByRadius(this.value)"
+        >
+        <h5>Range: <span id="current_radius">50</span> kilometers</h5>
         {% endif %}
 
-        </br>
-        <div class="{% if columns %}card-columns{% endif %}">
-            {% include 'channels/_post_listings.html' %}
-        </div>
+  </center>
 
+  <div class="float-right">
+    <div class="dropdown show">
+      <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Members
+      </a>
 
+      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+        {% for member in channel_members %}
+        <a class="dropdown-item" href="{% url "users:profile_page" member.pk %}">{{ member }}</a>
+        {% endfor %}
+      </div>
     </div>
+  </div>
 
+  {% if columns %}
+  <form action="{% url "channels:posts" channel.pk 0 %}">
+    <button type="submit" class="btn btn-light" >List View</button>
+  </form>
 
+  <!-- <p><a href="{% url "channels:posts" channel.pk 0 %}">List View</a></p> -->
+  {% else %}
+  <form action="{% url "channels:posts" channel.pk 1 %}">
+    <button type="submit" class="btn btn-light" >Column View</button>
+  </form>
 
-    <div class="modal fade bd-example-modal-lg"
-         tabindex="-1"
-         role="dialog"
-         aria-labelledby="myLargeModalLabel"
-         aria-hidden="true"
-         id="post_modal"
-    >
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content p-4">
-                <p id="modal_message">this is the message</p>
+  <!-- <pa><a href="{% url "channels:posts" channel.pk 1 %}">Column View</a></p> -->
+  {% endif %}
 
-            </div>
-        </div>
+  </br>
+  <div class="{% if columns %}card-columns{% endif %}">
+    {% if posts|length == 0 %}
+    No posts are within 100 kilometers of you :(
+    {% endif %}
+    <div id='bigger_range'>
     </div>
+    {% include 'channels/_post_listings.html' %}
+  </div>
 
 
-    <script>
+</div>
 
-     function filterByRadius(radius) {
 
-         var posts = document.getElementsByClassName('myPosts');
 
-         document.getElementById('current_radius').textContent = radius;
+<div class="modal fade bd-example-modal-lg"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="myLargeModalLabel"
+     aria-hidden="true"
+     id="post_modal"
+     >
+     <div class="modal-dialog modal-dialog-centered modal-lg">
+       <div class="modal-content p-4">
+         <p id="modal_message">this is the message</p>
 
-         for (var i = 0; i < posts.length; i ++){
-             distance = parseInt(posts[i].getElementsByClassName("distance")[0].textContent);
-             if (radius < distance) {
-                 posts[i].style.display = 'none';
-             }
-             else {
-                 posts[i].style.display = 'block';
-             }
-         }
-     }
+       </div>
+     </div>
+</div>
 
-     /* default filtering to 50 kilometers */
-     window.onload = filterByRadius(50);
-    </script>
+
+<script>
+
+  function filterByRadius(radius) {
+
+      var posts = document.getElementsByClassName('myPosts');
+
+      document.getElementById('current_radius').textContent = radius;
+
+      var num_of_posts = 0;
+      for (var i = 0; i < posts.length; i ++){
+          distance = parseInt(posts[i].getElementsByClassName("distance")[0].textContent);
+          if (radius < distance) {
+              posts[i].style.display = 'none';
+            }
+          else {
+              posts[i].style.display = 'block';
+              num_of_posts = num_of_posts + 1;
+            }
+        }
+      if (num_of_posts == 0) {
+          document.getElementById('bigger_range').textContent = "Please expand your range to see nearby posts!";
+        }
+      else {
+          document.getElementById('bigger_range').textContent = "";
+        }
+    }
+
+  /* default filtering to 50 kilometers */
+  window.onload = filterByRadius(50);
+</script>
 
 
 {% endblock %}

@@ -125,7 +125,11 @@ def channel_posts(request, channel_pk=1, columns=0):
                                 post_location['latitude']))
         else:
             distance = "Unknown"
-        post_distance_list.append((post, distance))
+        if this_channel.title == "Main":
+            if distance < 100:
+                post_distance_list.append((post, distance))
+        else:
+            post_distance_list.append((post, distance))
     all_channel_users = this_channel.members.all()
     if request.user in this_channel.members.all():
         isin_channel = True
@@ -147,7 +151,7 @@ def channel_posts(request, channel_pk=1, columns=0):
 def main_feed(request):
     # grabs the main channel
     main_channel = get_object_or_404(Channel, title='Main')
-    # grabs all the bets associated with the main channel
+    # grabs all the posts associated with the main channel
     all_main_feed_posts = Post.objects.filter(
         channel=main_channel
     )

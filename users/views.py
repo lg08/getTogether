@@ -65,7 +65,7 @@ def change_location(request):
                 }
             )
         )
-        return redirect(request.META['HTTP_REFERER'])
+        # return redirect(request.META['HTTP_REFERER'])
     else:
         pass
 
