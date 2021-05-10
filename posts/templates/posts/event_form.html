@@ -102,9 +102,11 @@
 
                     <br/>
 
-
                     <label>
                         Event Location:
+                    {% if no_location %}
+                    <span style="color:red;">*Please enter a valid location</span>
+                    {% endif %}
                     </label>
                     <input style="width:100%;" type="text" id="autocomplete" placeholder="Enter a place" class="location_form"/>
                     <input type="hidden" id="channellocation" name="channellocation" value="this is channel location from html" />

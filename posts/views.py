@@ -18,7 +18,9 @@ from GetTogether.views import check_login
 
 
 def create_comment(request, postpk, commentpk, subcomment):
-    check_login()
+    authed = check_login(request)
+    if authed != None:
+        return authed
     post = get_object_or_404(Post, pk=postpk)
     if request.method == 'POST':
         comment_form = CommentForm(data=request.POST)
@@ -42,7 +44,9 @@ def create_comment(request, postpk, commentpk, subcomment):
                                                 ))
 
 def post_detail(request, postpk, is_post=1):
-    check_login()
+    authed = check_login(request)
+    if authed != None:
+        return authed
     if is_post == 1:
         post = get_object_or_404(Post, pk=postpk)
     else:
@@ -50,8 +54,6 @@ def post_detail(request, postpk, is_post=1):
         # post = event.post
     if post.is_event:
         post = post.event.first()
-        print("-------------------------------------")
-        print(post)
 
     context = {
         "post": post,
@@ -60,7 +62,9 @@ def post_detail(request, postpk, is_post=1):
     return render(request, "posts/post_detail.html", context)
 
 def view_events(request):
-    check_login()
+    authed = check_login(request)
+    if authed != None:
+        return authed
     all_events = Event.objects.all()
     user_location = json.loads(request.user.profile.location)
     nearby_posts = []
@@ -79,10 +83,20 @@ def view_events(request):
 
 
 def create_event(request):
-    check_login()
+    authed = check_login(request)
+    if authed != None:
+        return authed
     if request.method == 'POST':
         form = EventForm(request.POST)
         if form.is_valid():
+            try:
+                json.loads(request.POST.get("channellocation"))
+            except:
+                context = {
+                    "form": form,
+                    "no_location": True,
+                }
+                return render (request, "posts/event_form.html", context)
             new_post = Post()
             new_post.title = form.cleaned_data['title']
             new_post.message = form.cleaned_data['message']
@@ -117,7 +131,9 @@ def create_event(request):
 
 
 def create_post(request, channel):
-    check_login()
+    authed = check_login(request)
+    if authed != None:
+        return authed
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
@@ -151,7 +167,9 @@ def create_post(request, channel):
 
 
 def upvote_downvote_post(request, postid, up_or_downvote):
-    check_login()
+    authed = check_login(request)
+    if authed != None:
+        return authed
     this_post = get_object_or_404(Post, pk=postid)
     if up_or_downvote == "upvote":
         new_vote, created = Upvote.objects.get_or_create(

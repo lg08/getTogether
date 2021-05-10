@@ -128,9 +128,3 @@ class Downvote(models.Model):
     def __str__(self):
         return "{} downvoted {}".format(self.user, self.post)
 
-# def delete_all():
-#     events = Event.objects.all()
-#     for event in events:
-#         event.delete()
-
-# delete_all()

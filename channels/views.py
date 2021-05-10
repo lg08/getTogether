@@ -24,7 +24,9 @@ def set_post_defaults():
 
 
 def list_channels(request):
-    check_login()
+    authed = check_login(request)
+    if authed != None:
+        return authed
     all_channels = Channel.objects.all()
     nearby_channels = []
     user_location = json.loads(request.user.profile.location)
@@ -43,7 +45,9 @@ def list_channels(request):
     return render(request, "channels/list_channels.html", context)
 
 def join_channel(request, channel_pk, join_or_remove):
-    check_login()
+    authed = check_login(request)
+    if authed != None:
+        return authed
     channel = get_object_or_404(Channel, pk=channel_pk)
     if join_or_remove == 1:
         channel.members.add(request.user)
@@ -54,10 +58,20 @@ def join_channel(request, channel_pk, join_or_remove):
 
 
 def create_channel(request):
-    check_login()
+    authed = check_login(request)
+    if authed != None:
+        return authed
     if request.method == 'POST':
         form = Channel_Create_Form(request.POST)
         if form.is_valid():
+            try:
+                json.loads(request.POST.get("channellocation"))
+            except:
+                context = {
+                    "form": form,
+                    "no_location": True,
+                }
+                return render (request, "channels/channel_form.html", context)
             new_channel = Channel()
             new_channel.title = form.cleaned_data['title']
             try:

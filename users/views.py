@@ -16,7 +16,9 @@ import json
 # Create your views here.
 
 def profile_page(request, user_pk, columns=1, no_location=0):
-    check_login()
+    authed = check_login(request)
+    if authed != None:
+        return authed
     user = get_object_or_404(User, pk=user_pk)
     channel_subscriptions = user.channel_set.all()
     posts = Post.objects.filter(creator__pk=user.pk)
@@ -47,7 +49,9 @@ def profile_page(request, user_pk, columns=1, no_location=0):
     return render(request, "users/profile_page.html", context)
 
 def change_location(request):
-    check_login()
+    authed = check_login(request)
+    if authed != None:
+        return authed
     if request.method == 'POST':
         location = request.POST.get("user_location")
         request.user.profile.location = location

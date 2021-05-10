@@ -69,6 +69,9 @@
                     {{ form|crispy }}
                       <label>
                         Channel Location:
+                        {% if no_location %}
+                        <span style="color:red;">*Please enter a valid location</span>
+                        {% endif %}
                       </label>
                       <br/>
                       <input style="width:100%;" type="text" id="autocomplete" placeholder="Enter a place" class="location_form"/>
