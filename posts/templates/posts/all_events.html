@@ -25,6 +25,11 @@
         onmousemove="filterByRadius(this.value)"
         >
         <h5>Range: <span id="current_radius">50</span> kilometers</h5>
+        {% if posts|length == 0 %}
+        <p style="">Sorry there are no events within 100 km of you!</p>
+        {% endif %}
+        <div id='bigger_range'>
+        </div>
         {% endif %}
   </center>
 
@@ -43,6 +48,7 @@
 
       document.getElementById('current_radius').textContent = radius;
 
+      var num_of_posts = 0;
       for (var i = 0; i < posts.length; i ++){
           distance = parseInt(posts[i].getElementsByClassName("distance")[0].textContent);
           if (radius < distance) {
@@ -50,8 +56,17 @@
             }
           else {
               posts[i].style.display = 'block';
+              num_of_posts = num_of_posts + 1;
             }
         }
+      {% if posts|length != 0 %}
+      if (num_of_posts == 0) {
+          document.getElementById('bigger_range').textContent = "Please expand your range to see nearby events!";
+        }
+      else {
+          document.getElementById('bigger_range').textContent = "";
+        }
+      {% endif %}
     }
 
   /* default filtering to 50 kilometers */

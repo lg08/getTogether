@@ -10,39 +10,41 @@
   <center><h1>Channels</h1>
   </center>
   <center>
-  {% if user.username %}
-  <input
-      type="range"
-      min="1"
-      max="300"
-      value="150"
-      class="slider-range"
-      id="myRange"
-      onChange="filterByRadius(this.value)"
-      onmousemove="filterByRadius(this.value)"
-      >
-      <h5>Range: <span id="current_radius">150</span> km</h5>
+    {% if user.username %}
+    <input
+        type="range"
+        min="1"
+        max="300"
+        value="150"
+        class="slider-range"
+        id="myRange"
+        onChange="filterByRadius(this.value)"
+        onmousemove="filterByRadius(this.value)"
+        >
+        <h5>Range: <span id="current_radius">150</span> km</h5>
+
         {% if channels|length == 0 %}
         <p style="">Sorry there are no channels within 300 km of you!</p>
         {% endif %}
-        {{ channels|length }}
-      {% endif %}
-  </center>
-      <ul class="container">
-        <hr>
-        <div class="list-group list-group-flush" style=" word-break: break-word;">
-          {% for channel, distance in channels %}
-          <a href="{% url "channels:posts" channel.pk %}"
-             class="list-group-item
-                                  list-group-item-action myChannels"
-             >
-             <span style="display:none;" class="distance">{{ distance }}</span>
-             {{ channel.title }}  ({{ distance }} kilometers away)
-          </a>
-          {% endfor %}
+        <div id='bigger_range'>
         </div>
+        {% endif %}
+  </center>
+  <ul class="container">
+    <hr>
+    <div class="list-group list-group-flush" style=" word-break: break-word;">
+      {% for channel, distance in channels %}
+      <a href="{% url "channels:posts" channel.pk %}"
+         class="list-group-item
+                               list-group-item-action myChannels"
+         >
+         <span style="display:none;" class="distance">{{ distance }}</span>
+         {{ channel.title }}  ({{ distance }} kilometers away)
+      </a>
+      {% endfor %}
+    </div>
 
-      </ul>
+  </ul>
 </div>
 <script>
 
@@ -64,8 +66,8 @@
             }
         }
       {% if channels|length != 0 %}
-      if (num_of_posts == 0) {
-          document.getElementById('bigger_range').textContent = "Please expand your range to see nearby posts!";
+      if (num_of_channels == 0) {
+          document.getElementById('bigger_range').textContent = "Please expand your range to see nearby channels!";
         }
       else {
           document.getElementById('bigger_range').textContent = "";

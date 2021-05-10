@@ -74,7 +74,8 @@ def view_events(request):
                             user_location['latitude'],
                             event_location['longitude'],
                             event_location['latitude'])
-        nearby_posts.append((event.post, int(distance)))
+        if distance < 100:
+            nearby_posts.append((event.post, int(distance)))
 
     context = {
         "posts": nearby_posts,
