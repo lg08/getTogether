@@ -79,7 +79,9 @@
   </br>
   <div class="{% if columns %}card-columns{% endif %}">
     {% if posts|length == 0 %}
-    No posts are within 100 kilometers of you :(
+    <span id="no_posts">
+      No posts are within 100 kilometers of you :(
+    </span>
     {% endif %}
     <div id='bigger_range'>
     </div>
@@ -126,12 +128,14 @@
               num_of_posts = num_of_posts + 1;
             }
         }
+      {% if posts|length != 0 %}
       if (num_of_posts == 0) {
           document.getElementById('bigger_range').textContent = "Please expand your range to see nearby posts!";
         }
       else {
           document.getElementById('bigger_range').textContent = "";
         }
+      {% endif %}
     }
 
   /* default filtering to 50 kilometers */
