@@ -123,12 +123,11 @@ def channel_posts(request, channel_pk=1, columns=0):
                                 user_location['latitude'],
                                 post_location['longitude'],
                                 post_location['latitude']))
+            if this_channel.title == "Main":
+                if distance < 100:
+                    post_distance_list.append((post, distance))
         else:
             distance = "Unknown"
-        if this_channel.title == "Main":
-            if distance < 100:
-                post_distance_list.append((post, distance))
-        else:
             post_distance_list.append((post, distance))
     all_channel_users = this_channel.members.all()
     if request.user in this_channel.members.all():

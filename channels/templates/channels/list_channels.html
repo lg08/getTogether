@@ -22,6 +22,10 @@
       onmousemove="filterByRadius(this.value)"
       >
       <h5>Range: <span id="current_radius">150</span> km</h5>
+        {% if channels|length == 0 %}
+        <p style="">Sorry there are no channels within 300 km of you!</p>
+        {% endif %}
+        {{ channels|length }}
       {% endif %}
   </center>
       <ul class="container">
@@ -48,6 +52,7 @@
 
       document.getElementById('current_radius').textContent = radius;
 
+      var num_of_channels = 0;
       for (var i = 0; i < posts.length; i ++){
           distance = parseInt(posts[i].getElementsByClassName("distance")[0].textContent);
           if (radius < distance) {
@@ -55,8 +60,17 @@
             }
           else {
               posts[i].style.display = 'block';
+              num_of_channels = num_of_channels + 1;
             }
         }
+      {% if channels|length != 0 %}
+      if (num_of_posts == 0) {
+          document.getElementById('bigger_range').textContent = "Please expand your range to see nearby posts!";
+        }
+      else {
+          document.getElementById('bigger_range').textContent = "";
+        }
+      {% endif %}
     }
 
   /* default filtering to 50 kilometers */
