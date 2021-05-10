@@ -127,6 +127,10 @@ def channel_posts(request, channel_pk=1, columns=0):
             if this_channel.title == "Main":
                 if distance < 100:
                     post_distance_list.append((post, distance))
+                else:
+                    pass
+            else:
+                post_distance_list.append((post, distance))
         else:
             distance = "Unknown"
             post_distance_list.append((post, distance))
