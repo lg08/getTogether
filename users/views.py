@@ -56,6 +56,15 @@ def change_location(request):
         location = request.POST.get("user_location")
         request.user.profile.location = location
         request.user.profile.save()
+        return HttpResponseRedirect(
+            reverse(
+                "users:profile_page",
+                kwargs={
+                    'user_pk':request.user.pk,
+                    'no_location': 0,
+                }
+            )
+        )
         return redirect(request.META['HTTP_REFERER'])
     else:
         pass
